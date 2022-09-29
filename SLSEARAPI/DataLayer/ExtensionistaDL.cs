@@ -35,10 +35,11 @@ namespace SLSEARAPI.DataLayer
                     using (SqlCommand command = new SqlCommand("[PA_ActualizarPropuestaExtensionista]", conection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-
+                        
                         command.Parameters.AddWithValue("@iCodExtensionista", entidad.iCodExtensionista);                        
-                        command.Parameters.AddWithValue("@vNombrePropuesta", entidad.vNombrePropuesta);                                     
+                        command.Parameters.AddWithValue("@vNombrePropuesta", entidad.vNombrePropuesta);
 
+                        command.CommandTimeout = 0;
                         using (SqlDataReader dr = command.ExecuteReader())
                         {
                             if (dr.HasRows)
