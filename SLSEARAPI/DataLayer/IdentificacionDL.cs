@@ -222,6 +222,8 @@ namespace SLSEARAPI.DataLayer
                                     identificacion.vRendimientoCadenaProductiva = dr.GetString(dr.GetOrdinal("vRendimientoCadenaProductiva"));
                                     identificacion.vGremios = dr.GetString(dr.GetOrdinal("vGremios"));
                                     identificacion.vObjetivoCentral = dr.GetString(dr.GetOrdinal("vObjetivoCentral"));
+                                    identificacion.vDescComponente1 = dr.GetString(dr.GetOrdinal("vDescComponente1"));
+                                    identificacion.vDescComponente2 = dr.GetString(dr.GetOrdinal("vDescComponente2"));
                                     lista.Add(identificacion);
                                 }
                             }
@@ -288,15 +290,15 @@ namespace SLSEARAPI.DataLayer
             dtcausasdirectas.Columns.Add("id");
             dtcausasdirectas.Columns.Add("vdescrcausadirecta");
 
-            foreach (CausasDirectas item in identificacion.listacausasdirectas)
-            {
-                DataRow dataRow = dtcausasdirectas.NewRow();
+            //foreach (CausasDirectas item in identificacion.listacausasdirectas)
+            //{
+            //    DataRow dataRow = dtcausasdirectas.NewRow();
 
-                dataRow["id"] = item.id;
-                dataRow["vdescrcausadirecta"] = item.vdescrcausadirecta;
+            //    dataRow["id"] = item.id;
+            //    dataRow["vdescrcausadirecta"] = item.vdescrcausadirecta;
 
-                dtcausasdirectas.Rows.Add(dataRow);
-            }
+            //    dtcausasdirectas.Rows.Add(dataRow);
+            //}
 
             datasetcausasdirectas.Tables.Add(dtcausasdirectas);
 
@@ -309,15 +311,15 @@ namespace SLSEARAPI.DataLayer
             dtcausasindirectas.Columns.Add("iCodCausaDirecta");
             dtcausasindirectas.Columns.Add("vDescrCausaInDirecta");
 
-            foreach (CausasIndirectas item in identificacion.listacausasindirectas)
-            {
-                DataRow dataRow = dtcausasindirectas.NewRow();
+            //foreach (CausasIndirectas item in identificacion.listacausasindirectas)
+            //{
+            //    DataRow dataRow = dtcausasindirectas.NewRow();
 
-                dataRow["iCodCausaDirecta"] = item.iCodCausaDirecta;
-                dataRow["vDescrCausaInDirecta"] = item.vDescrCausaInDirecta;
+            //    dataRow["iCodCausaDirecta"] = item.iCodCausaDirecta;
+            //    dataRow["vDescrCausaInDirecta"] = item.vDescrCausaInDirecta;
 
-                dtcausasindirectas.Rows.Add(dataRow);
-            }
+            //    dtcausasindirectas.Rows.Add(dataRow);
+            //}
 
             datasetcausasindirectas.Tables.Add(dtcausasindirectas);
 
