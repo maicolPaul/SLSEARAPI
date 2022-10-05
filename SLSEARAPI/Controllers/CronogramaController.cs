@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Windows.Media;
 
 namespace SLSEARAPI.Controllers
 {
@@ -112,7 +113,7 @@ namespace SLSEARAPI.Controllers
                     _genericSheet.Cells["A3:D3"].Value = "3.1 CRONOGRAMA DE EJECUCIÓN";
                     _genericSheet.Cells["A3:D3"].Merge = true;
                     _genericSheet.Cells["A3:D3"].Style.Locked = true;
-                    Color colFromHex = System.Drawing.ColorTranslator.FromHtml("#72aea5");
+                    System.Drawing.Color colFromHex = System.Drawing.ColorTranslator.FromHtml("#72aea5");
                     _genericSheet.Cells["A3:D3"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                     _genericSheet.Cells["A3:D3"].Style.Fill.BackgroundColor.SetColor(colFromHex);
                     _genericSheet.Column(1).Style.Locked = true;
@@ -130,7 +131,16 @@ namespace SLSEARAPI.Controllers
                     _texto_row(_genericSheet, rowIndexComp, colcomp++, componentes[0].vDescComponente, "#fff2cc");
                     _texto_row(_genericSheet, rowIndexComp, colcomp++, componentes[0].vUnidadMedida, "#fff2cc");
                     _texto_row(_genericSheet, rowIndexComp, colcomp++,int.Parse(componentes[0].vMeta), "#fff2cc");
-                    
+
+                    // Suma de Totales de Meta de Compromisos
+                    int totalmetas = 0;
+
+                    foreach (Componente item in componentes)
+                    {
+                        totalmetas=totalmetas+int.Parse(item.vMeta);
+                    }
+
+
                     List<Cronograma> lista = cronogramaDL.ListarConogramaFecha(cronograma);
                     Actividad actividad = new Actividad();
                     actividad.iCodExtensionista = cronograma.iCodExtensionista;
@@ -163,11 +173,11 @@ namespace SLSEARAPI.Controllers
                     int col2 = 6;
                     int col1 = 6;
 
-                    IEnumerable<String> listafechas = lista.Select(a => a.dFecha).Distinct();
+                    IEnumerable<DateTime> listafechas = lista.Select(a => a.dfechacronograma).Distinct();
                                         
                     foreach (var item in listafechas)
                     {                    
-                        _texto_row_fecha(_genericSheet, rowIndex5, col1++,DateTime.Parse(item),"d-mmm");
+                        _texto_row_fecha(_genericSheet, rowIndex5, col1++,DateTime.Parse(item.ToString("dd/MM/yyyy")),"d-mmm");
                         _texto_row_fecha(_genericSheet, rowFila, col2++, Nro1);                        
                         Nro1++;
                     }
@@ -180,14 +190,18 @@ namespace SLSEARAPI.Controllers
                 int coldata = 6;
 
                 int rownext = 0;
+
+                List<int> Cantidades = new List<int>();
+
                 foreach (var itemfecha in listafechas)
                 {
                     int rowdata = 8;
                     foreach (var item in lista)
                     {
-                        if (itemfecha == item.dFecha && item.iCodComponente == 1)
+                        if (itemfecha.ToString("dd/MM/yyyy") == item.dfechacronograma.ToString("dd/MM/yyyy") && item.iCodComponente == 1)
                         {
-                            _texto_row(_genericSheet, rowdata, coldata, item.iCantidad, "#e2efda");                               
+                                Cantidades.Add(item.iCantidad);
+                                _texto_row(_genericSheet, rowdata, coldata, item.iCantidad, "#e2efda");  
                         }
                         rowdata++;
                     }
@@ -195,8 +209,15 @@ namespace SLSEARAPI.Controllers
                     rownext = rowdata;
                 }
 
+                    // Pintar totales del componente 1
+                    coldata = 6;
+                    foreach (int item in Cantidades)
+                    {
+                        _texto_row(_genericSheet, rowIndexComp, coldata++, item, "#fff2cc");
+                    }
+
                     // pintar componentes 2
-                  
+
                   int rowcomponente2 = rowIndex;
 
                   _texto_row(_genericSheet, rowcomponente2, 1, 2, "#fff2cc");
@@ -204,10 +225,14 @@ namespace SLSEARAPI.Controllers
                   _texto_row(_genericSheet, rowcomponente2, 3, componentes[1].vDescComponente, "#fff2cc");
                   _texto_row(_genericSheet, rowcomponente2, 4, componentes[1].vUnidadMedida, "#fff2cc");
                   _texto_row(_genericSheet, rowcomponente2, 5,int.Parse(componentes[1].vMeta), "#fff2cc");
-                   
-                  //// actividades 2
 
-                 Actividad actividad1 = new Actividad();
+                    int rowcomponente21 = rowcomponente2;
+
+                    //// actividades 2
+
+
+
+                    Actividad actividad1 = new Actividad();
                  actividad1.iCodExtensionista = cronograma.iCodExtensionista;
                  actividad1.nTipoActividad = 2;
 
@@ -215,7 +240,7 @@ namespace SLSEARAPI.Controllers
 
                  Nro = 1;
                  rowIndex = rowcomponente2+1;
-
+                                     
                  foreach (var d in listaactividades2)
                  {
                      int col89 = 1;
@@ -227,14 +252,22 @@ namespace SLSEARAPI.Controllers
 
                      Nro = Nro + 1;
                      rowIndex++;
-                 }
-              
+                    }
+
+                    // Mostrar el total de metas de los componentes
+
+                    _texto_row(_genericSheet, rowIndex, 1, "");
+                    _texto_row(_genericSheet, rowIndex, 2, "");
+                    _texto_row(_genericSheet, rowIndex, 3, "");
+                    _texto_row(_genericSheet, rowIndex, 4, "");
+                    _texto_row(_genericSheet, rowIndex, 5, totalmetas);
+
                     cronograma.nTipoActividad = 2;
                     //List<Cronograma> lista1 = cronogramaDL.ListarConogramaFechaTipo(cronograma);
                     
 
                     lista = cronogramaDL.ListarConogramaFechaTipo(cronograma);
-                    IEnumerable<String> listafechas2 = lista.Select(a => a.dFecha).Distinct();
+                    IEnumerable<DateTime> listafechas2 = lista.Select(a => a.dfechacronograma).Distinct();
                     //listafechas = lista.Select(a => a.dFecha).Distinct();
 
                     listafechas.ToList().AddRange(listafechas2);
@@ -245,14 +278,17 @@ namespace SLSEARAPI.Controllers
                     int rowdata1 = rowcomponente2 + 1;
                     coldata = 6;
 
+                    int totalcomponente1 = Cantidades.Count;
+
                     foreach (Actividad itemact in listaactividades2)
                     {                        
                         foreach (var itemfecha in listafechas)
                         {
                             foreach (var item in lista)
                             {
-                                if (itemfecha == item.dFecha && item.iCodActividad == itemact.iCodActividad)
+                                if (itemfecha.ToString("dd/MM/yyyy") == item.dfechacronograma.ToString("dd/MM/yyyy") && item.iCodActividad == itemact.iCodActividad)
                                 {
+                                    Cantidades.Add(item.iCantidad);
                                     _texto_row(_genericSheet, rowdata1, coldata, item.iCantidad, "#e2efda");
                                 }                                    
                             }
@@ -260,6 +296,34 @@ namespace SLSEARAPI.Controllers
                         }
                         rowdata1++;
                         coldata = 6;
+                    }
+                    //rowIndex++;
+                    int colmetas = 6;
+
+                    //Mostrar totales
+                    List<int> CantidadesComp2 = new List<int>();
+
+                    //rowcomponente21
+                    int contador = 1;
+
+                    foreach (int item in Cantidades)
+                    {
+                        if(contador>totalcomponente1)
+                        {
+                            _texto_row(_genericSheet, rowcomponente21, colmetas++, item);
+                        }
+                        else
+                        {
+                            _texto_row(_genericSheet, rowcomponente21, colmetas++, "-");
+                        }                        
+                        contador++;
+                    }
+
+                    colmetas = 6;
+
+                    foreach (int item in Cantidades)
+                    {                        
+                        _texto_row(_genericSheet, rowIndex, colmetas++, item);
                     }
 
                     //foreach (var itemfecha in listafechas)
@@ -344,7 +408,7 @@ namespace SLSEARAPI.Controllers
             _sheet.Cells[rowIndex, col].Style.Border.Left.Style = ExcelBorderStyle.Thin;
             if(Color!="")
             {
-                Color colFromHex = System.Drawing.ColorTranslator.FromHtml(Color);
+                System.Drawing.Color colFromHex = System.Drawing.ColorTranslator.FromHtml(Color);
                 _sheet.Cells[rowIndex, col].Style.Fill.PatternType = ExcelFillStyle.Solid;
                 _sheet.Cells[rowIndex, col].Style.Fill.BackgroundColor.SetColor(colFromHex);
             }            
@@ -360,7 +424,7 @@ namespace SLSEARAPI.Controllers
             _sheet.Cells[rowIndex, col].Style.Border.Top.Style = ExcelBorderStyle.Thin;
             _sheet.Cells[rowIndex, col].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             _sheet.Cells[rowIndex, col].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-            Color colFromHex = System.Drawing.ColorTranslator.FromHtml("#b4c6e7");
+            System.Drawing.Color colFromHex = System.Drawing.ColorTranslator.FromHtml("#b4c6e7");
             _sheet.Cells[rowIndex, col].Style.Fill.PatternType = ExcelFillStyle.Solid;
 
             _sheet.Cells[rowIndex, col].Style.Fill.BackgroundColor.SetColor(colFromHex);
@@ -379,7 +443,7 @@ namespace SLSEARAPI.Controllers
                 string letra = convertNumberToLetter(finish);
                 setHeader1(_Sheet, letra + "6:" + letra + "6", x, false);
             }
-            _texto_sin_borde_Titulo1(_Sheet, convertNumberToLetter(0) + "1:" + convertNumberToLetter(finish) + "1", header, Color.White, Color.Black, "Calibri");
+            _texto_sin_borde_Titulo1(_Sheet, convertNumberToLetter(0) + "1:" + convertNumberToLetter(finish) + "1", header, System.Drawing.Color.White, System.Drawing.Color.Black, "Calibri");
             return finish;
         }
         internal void _texto_sin_borde_Titulo(ExcelWorksheet _sheet, String _range, String _text, System.Drawing.Color _Backcolor, System.Drawing.Color _fontColor, string fontName = "Calibri")
@@ -402,7 +466,7 @@ namespace SLSEARAPI.Controllers
             //_sheet.Cells[_range].Style.Fill.PatternType = ExcelFillStyle.Solid;
             //_sheet.Cells[_range].Style.Fill.BackgroundColor.SetColor(_Backcolor);
             //_sheet.Cells[_range].Style.Font.Color.SetColor(_fontColor);
-            Color colFromHex = System.Drawing.ColorTranslator.FromHtml("#72aea5");
+            System.Drawing.Color colFromHex = System.Drawing.ColorTranslator.FromHtml("#72aea5");
             _sheet.Cells[_range].Style.Fill.PatternType = ExcelFillStyle.Solid;
             _sheet.Cells[_range].Style.Fill.BackgroundColor.SetColor(colFromHex);
             _sheet.Cells[_range].Style.Font.Bold = true;
@@ -428,7 +492,7 @@ namespace SLSEARAPI.Controllers
             _sheet.Cells[celda].Style.Border.Left.Style = ExcelBorderStyle.Thin;
             _sheet.Cells[celda].Style.Border.Right.Style = ExcelBorderStyle.Thin;
             _sheet.Cells[celda].Style.Fill.PatternType = ExcelFillStyle.Solid;            
-            _sheet.Cells[celda].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(30, 144, 255));
+            _sheet.Cells[celda].Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.FromArgb(30, 144, 255));
         }
         public void setHeader1(ExcelWorksheet _sheet, string celda, string texto, Boolean mergue)
         {
@@ -445,7 +509,7 @@ namespace SLSEARAPI.Controllers
             _sheet.Cells[celda].Style.Border.Left.Style = ExcelBorderStyle.Thin;
             _sheet.Cells[celda].Style.Border.Right.Style = ExcelBorderStyle.Thin;
             _sheet.Cells[celda].Style.Fill.PatternType = ExcelFillStyle.Solid;
-            Color colFromHex = System.Drawing.ColorTranslator.FromHtml("#b4c6e7");
+            System.Drawing.Color colFromHex = System.Drawing.ColorTranslator.FromHtml("#b4c6e7");
             _sheet.Cells[celda].Style.Fill.PatternType = ExcelFillStyle.Solid;
             _sheet.Cells[celda].Style.Fill.BackgroundColor.SetColor(colFromHex);
         }

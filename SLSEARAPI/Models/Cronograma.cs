@@ -19,6 +19,8 @@ namespace SLSEARAPI.Models
 
         public string dFecha { get; set; }
 
+        public DateTime dfechacronograma { get; set; }
+
         public int iopcion { get; set; }
 
         public string vMensaje { get; set; }

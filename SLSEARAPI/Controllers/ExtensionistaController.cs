@@ -44,9 +44,9 @@ namespace SLSEARAPI.Controllers
             {
                 return extensionistaDL.ActualizarPropuestaExtensionista(entidad);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
         [HttpPost]

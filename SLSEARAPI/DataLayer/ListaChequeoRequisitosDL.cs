@@ -30,7 +30,7 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@iCodExtensionista", entidad.iCodExtensionista );
                         command.Parameters.AddWithValue("@iCodRequisito", entidad.iCodRequisito);
                         command.Parameters.AddWithValue("@bCumple", entidad.bCumple);
-               
+                        command.CommandTimeout = 0;
                         using (SqlDataReader dr = command.ExecuteReader())
                         {
                             if (dr.HasRows)

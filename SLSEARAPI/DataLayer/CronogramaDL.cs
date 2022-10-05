@@ -95,8 +95,8 @@ namespace SLSEARAPI.DataLayer
                                     cronograma.iCantidad = dr.GetInt32(dr.GetOrdinal("iCantidad"));
                                     cronograma.iCodComponente = dr.GetInt32(dr.GetOrdinal("nTipoActividad"));
                                     cronograma.vUnidadMedida = dr.GetString(dr.GetOrdinal("vUnidadMedida"));
-                                    cronograma.dFecha = dr.GetString(dr.GetOrdinal("dFecha"));
-
+                                    //cronograma.dFecha = dr.GetString(dr.GetOrdinal("dFecha"));
+                                    cronograma.dfechacronograma = dr.GetDateTime(dr.GetOrdinal("dFecha"));
                                     lista.Add(cronograma);
                                 }
                             }
@@ -145,7 +145,7 @@ namespace SLSEARAPI.DataLayer
                                     cronograma.iCantidad = dr.GetInt32(dr.GetOrdinal("iCantidad"));
                                     cronograma.iCodComponente = dr.GetInt32(dr.GetOrdinal("nTipoActividad"));
                                     cronograma.vUnidadMedida = dr.GetString(dr.GetOrdinal("vUnidadMedida"));
-                                    cronograma.dFecha = dr.GetString(dr.GetOrdinal("dFecha"));
+                                    cronograma.dfechacronograma = dr.GetDateTime(dr.GetOrdinal("dFecha"));
 
                                     lista.Add(cronograma);
                                 }
