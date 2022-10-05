@@ -181,6 +181,7 @@
     <Compile Include="Controllers\ArchibobaseExperienciaController.cs" />
     <Compile Include="Controllers\ArchivoController.cs" />
     <Compile Include="Controllers\ArchivosbaseController.cs" />
+    <Compile Include="Controllers\CostoController.cs" />
     <Compile Include="Controllers\CronogramaController.cs" />
     <Compile Include="Controllers\CurriculumVitaeController.cs" />
     <Compile Include="Controllers\DireccionGerenciaRegionalAgrariaController.cs" />
@@ -195,6 +196,7 @@
     <Compile Include="Controllers\NivelController.cs" />
     <Compile Include="Controllers\NivelDeInstruccionController.cs" />
     <Compile Include="Controllers\NombreArchivoController.cs" />
+    <Compile Include="Controllers\PlanCapacitacionController.cs" />
     <Compile Include="Controllers\ProcedenciaController.cs" />
     <Compile Include="Controllers\RegimenController.cs" />
     <Compile Include="Controllers\RequisitosController.cs" />
@@ -203,6 +205,7 @@
     <Compile Include="DataLayer\ActaAlianzaEstrategicaDL.cs" />
     <Compile Include="DataLayer\AgenciaAgrariaDL.cs" />
     <Compile Include="DataLayer\ArchivoDL.cs" />
+    <Compile Include="DataLayer\CostoDL.cs" />
     <Compile Include="DataLayer\CronogramaDL.cs" />
     <Compile Include="DataLayer\CurriculumVitaeDL.cs" />
     <Compile Include="DataLayer\DireccionGerenciaRegionalAgrariaDL.cs" />
@@ -215,6 +218,7 @@
     <Compile Include="DataLayer\NivelDeInstruccionDL.cs" />
     <Compile Include="DataLayer\NivelDL.cs" />
     <Compile Include="DataLayer\NombreArchivoDL.cs" />
+    <Compile Include="DataLayer\PlanCapacitacionDL.cs" />
     <Compile Include="DataLayer\ProcedenciaDL.cs" />
     <Compile Include="DataLayer\RegimenDL.cs" />
     <Compile Include="DataLayer\RequisitosDL.cs" />
@@ -230,6 +234,7 @@
     <Compile Include="Models\CausasIndirectas.cs" />
     <Compile Include="Models\Componente.cs" />
     <Compile Include="Models\ComponenteCronograma.cs" />
+    <Compile Include="Models\Costo.cs" />
     <Compile Include="Models\Cronograma.cs" />
     <Compile Include="Models\CurriculumVitae.cs" />
     <Compile Include="Models\DireccionGerenciaRegionalAgraria.cs" />
@@ -247,6 +252,8 @@
     <Compile Include="Models\Nivel.cs" />
     <Compile Include="Models\NivelDeInstruccion.cs" />
     <Compile Include="Models\NombreArchivo.cs" />
+    <Compile Include="Models\PlanCapacitacion.cs" />
+    <Compile Include="Models\PlanSesion.cs" />
     <Compile Include="Models\Procedencia.cs" />
     <Compile Include="Models\Productor.cs" />
     <Compile Include="Models\Regimen.cs" />
@@ -318,6 +325,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Costo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
