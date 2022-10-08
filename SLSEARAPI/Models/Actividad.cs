@@ -26,6 +26,15 @@ namespace SLSEARAPI.Models
         public int iCodExtensionista { get; set; }
 
         public int resumen { get; set; }
+
+        public int iopcion { get; set; }
+        public string vMensaje { get; set; }
+        public int piPageSize { get; set; }
+        public int piCurrentPage { get; set; }
+        public string pvSortColumn { get; set; }
+        public string pvSortOrder { get; set; }
+        public bool bActivo { get; set; }
+        public int iRecordCount { get; set; }
     }
 }
 
