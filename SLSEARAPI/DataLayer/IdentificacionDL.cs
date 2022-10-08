@@ -1,6 +1,7 @@
 ﻿using SLSEARAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -490,6 +491,59 @@ namespace SLSEARAPI.DataLayer
             {
                 throw ex;
             }
+        }
+        public List<Componente> ListarComponentesPaginadoPorUsuario(Componente componente)
+        {
+            List<Componente> componentes = new List<Componente>();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_Listar_ComponentesPaginadoPorUsuario]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@piPageSize", componente.piPageSize);
+                        command.Parameters.AddWithValue("@piCurrentPage", componente.piCurrentPage);
+                        command.Parameters.AddWithValue("@pvSortColumn", componente.pvSortColumn);
+                        command.Parameters.AddWithValue("@pvSortOrder", componente.pvSortOrder);
+                        command.Parameters.AddWithValue("@iCodIdentificacion", componente.iCodIdentificacion);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                while (dr.Read())
+                                {
+                                    componente = new Componente();
+
+                                    componente.totalRegistros = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
+                                    componente.iCodComponente = dr.GetInt32(dr.GetOrdinal("iCodComponente"));
+                                    componente.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
+                                    componente.vDescripcion = dr.GetString(dr.GetOrdinal("vDescripcion"));
+                                    componente.vIndicador = dr.GetString(dr.GetOrdinal("vIndicador"));
+                                    componente.vUnidadMedida = dr.GetString(dr.GetOrdinal("vUnidadMedida"));
+                                    componente.vMeta = dr.GetString(dr.GetOrdinal("vMeta"));
+                                    componente.vMedio = dr.GetString(dr.GetOrdinal("vMedio"));
+                                    componente.nTipoComponente = dr.GetInt32(dr.GetOrdinal("nTipoComponente"));
+                                    componentes.Add(componente);
+                                }
+                            }
+                        }
+
+
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return componentes;
         }
     }
 }
