@@ -21,7 +21,7 @@ namespace SLSEARAPI.DataLayer
                 {
                     conection.Open();
 
-                    using (SqlCommand command = new SqlCommand("[PA_ListarActividadesPorExtensionista]", conection))
+                    using (SqlCommand command = new SqlCommand("[PA_ListarActividadesPorExtensionista_Costo]", conection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@piPageSize", actividad.piPageSize);

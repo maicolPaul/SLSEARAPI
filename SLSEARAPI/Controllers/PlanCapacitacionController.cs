@@ -1,10 +1,15 @@
-﻿using SLSEARAPI.DataLayer;
+﻿using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using SLSEARAPI.DataLayer;
 using SLSEARAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace SLSEARAPI.Controllers
