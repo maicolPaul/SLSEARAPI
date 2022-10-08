@@ -532,8 +532,6 @@ namespace SLSEARAPI.DataLayer
                                 }
                             }
                         }
-
-
                     }
                     conection.Close();
                 }
@@ -544,6 +542,188 @@ namespace SLSEARAPI.DataLayer
             }
 
             return componentes;
+        }
+        public List<Actividad> ListarActividadesPorComponente(Actividad actividad)
+        {
+            List<Actividad> lista = new List<Actividad>();
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_Listar_Actividades_Por_Componente]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@piPageSize", actividad.piPageSize);
+                        command.Parameters.AddWithValue("@piCurrentPage", actividad.piCurrentPage);
+                        command.Parameters.AddWithValue("@pvSortColumn", actividad.pvSortColumn);
+                        command.Parameters.AddWithValue("@pvSortOrder", actividad.pvSortOrder);
+                        command.Parameters.AddWithValue("@iCodIdentificacion", actividad.iCodIdentificacion);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                while (dr.Read())
+                                {
+                                    actividad = new Actividad();
+
+                                    actividad.totalRegistros = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
+                                    actividad.iCodActividad = dr.GetInt32(dr.GetOrdinal("iCodActividad"));
+                                    actividad.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
+                                    actividad.vDescripcion = dr.GetString(dr.GetOrdinal("vDescripcion"));
+                                    actividad.vActividad = dr.GetString(dr.GetOrdinal("vActividad"));
+                                    actividad.vUnidadMedida = dr.GetString(dr.GetOrdinal("vUnidadMedida"));
+                                    actividad.vMeta = dr.GetString(dr.GetOrdinal("vMeta"));
+                                    actividad.vMedio = dr.GetString(dr.GetOrdinal("vMedio"));
+                                    actividad.nTipoActividad = dr.GetInt32(dr.GetOrdinal("nTipoActividad"));
+                                    lista.Add(actividad);
+                                }
+                            }
+                        }
+
+                    }
+
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return lista;
+        }
+        public Actividad EliminarActividad(Actividad actividad)
+        {
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_Eliminar_Actividad]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodActividad", actividad.iCodActividad);                      
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                if (dr.Read())
+                                {
+                                    actividad = new Actividad();
+
+                                    actividad.iCodActividad = dr.GetInt32(dr.GetOrdinal("iCodActividad"));
+                                    actividad.vMensaje = dr.GetString(dr.GetOrdinal("vMensaje"));
+
+                                }
+                            }
+                        }
+
+                    }
+
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return actividad;
+        }
+
+        public Actividad InsertarActividad(Actividad actividad)
+        {
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_Insertar_Actividad]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodIdentificacion", actividad.iCodIdentificacion);
+                        command.Parameters.AddWithValue("@vActividad", actividad.vActividad);
+                        command.Parameters.AddWithValue("@vDescripcion", actividad.vDescripcion);
+                        command.Parameters.AddWithValue("@vUnidadMedida", actividad.vUnidadMedida);
+                        command.Parameters.AddWithValue("@vMeta", actividad.vMeta);
+                        command.Parameters.AddWithValue("@vMedio", actividad.vMedio);
+                        command.Parameters.AddWithValue("@nTipoActividad", actividad.nTipoActividad);                        
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                if (dr.Read())
+                                {
+                                    actividad = new Actividad();
+                                    
+                                    actividad.iCodActividad = dr.GetInt32(dr.GetOrdinal("iCodActividad"));
+                                    actividad.vMensaje = dr.GetString(dr.GetOrdinal("vMensaje"));                                    
+                                
+                                }
+                            }
+                        }
+
+                    }
+
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return actividad;
+        }
+        public Componente InsertarComponente(Componente componente)
+        {
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_Insertar_Componente]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodIdentificacion", componente.iCodIdentificacion);
+                        command.Parameters.AddWithValue("@vDescripcion", componente.vDescripcion);
+                        command.Parameters.AddWithValue("@vIndicador", componente.vIndicador);
+                        command.Parameters.AddWithValue("@vUnidadMedida", componente.vUnidadMedida);
+                        command.Parameters.AddWithValue("@vMeta", componente.vMeta);
+                        command.Parameters.AddWithValue("@vMedio", componente.vMedio);
+                        command.Parameters.AddWithValue("@nTipoComponente", componente.nTipoComponente);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                if (dr.Read())
+                                {
+                                    componente = new Componente();
+
+                                    componente.iCodComponente = dr.GetInt32(dr.GetOrdinal("iCodComponente"));
+                                    componente.vMensaje = dr.GetString(dr.GetOrdinal("vMensaje"));
+                                }
+                            }
+                        }
+
+                    }
+
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return componente;
         }
     }
 }

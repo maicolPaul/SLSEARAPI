@@ -33,5 +33,7 @@ namespace SLSEARAPI.Models
         public string pvSortColumn { get; set; }
         public string pvSortOrder { get; set; }
         public int totalRegistros { get; set; }
+
+        public string vMensaje { get; set; }
     }
 }

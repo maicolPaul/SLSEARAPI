@@ -24,9 +24,7 @@ namespace SLSEARAPI.Models
         public int nTipoActividad { get; set; }
 
         public int iCodExtensionista { get; set; }
-
         public int resumen { get; set; }
-
         public int iopcion { get; set; }
         public string vMensaje { get; set; }
         public int piPageSize { get; set; }
@@ -35,6 +33,8 @@ namespace SLSEARAPI.Models
         public string pvSortOrder { get; set; }
         public bool bActivo { get; set; }
         public int iRecordCount { get; set; }
+        public int totalRegistros { get; set; }
+
     }
 }
 

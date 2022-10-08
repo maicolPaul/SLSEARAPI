@@ -115,5 +115,61 @@ namespace SLSEARAPI.Controllers
                 throw ex;
             }
         }
+
+        [HttpPost]
+        [ActionName("ListarActividadesPorComponente")]
+        public List<Actividad> ListarActividadesPorComponente(Actividad actividad)
+        {
+            try
+            {
+                return identificacionDL.ListarActividadesPorComponente(actividad);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ActionName("InsertarActividad")]
+        public Actividad InsertarActividad(Actividad actividad)
+        {
+            try
+            {
+                return identificacionDL.InsertarActividad(actividad);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ActionName("InsertarComponente")]
+        public Componente InsertarComponente(Componente componente)
+        {
+            try
+            {
+                return identificacionDL.InsertarComponente(componente);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ActionName("EliminarActividad")]
+        public Actividad EliminarActividad(Actividad actividad)
+        {
+            try
+            {
+                return identificacionDL.EliminarActividad(actividad);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
