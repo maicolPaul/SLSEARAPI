@@ -62,6 +62,19 @@ namespace SLSEARAPI.Controllers
         }
 
         [HttpPost]
+        [ActionName("ListarComponentesPaginadoPorUsuario")]
+        public List<Componente> ListarComponentesPaginadoPorUsuario(Componente componente)
+        {
+            try
+            {
+                return identificacionDL.ListarComponentesPaginadoPorUsuario(componente);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        [HttpPost]
         [ActionName("InsertarIdentificacion")]
         public Identificacion InsertarIdentificacion(Identificacion identificacion)
         {
