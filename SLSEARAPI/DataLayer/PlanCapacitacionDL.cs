@@ -45,7 +45,7 @@ namespace SLSEARAPI.DataLayer
                                     planCapacitacion.vObjetivo = dr.GetString(dr.GetOrdinal("vObjetivo"));
                                     planCapacitacion.iMeta = dr.GetInt32(dr.GetOrdinal("iMeta"));
                                     planCapacitacion.iBeneficiario = dr.GetInt32(dr.GetOrdinal("iBeneficiario"));
-                                    planCapacitacion.dFechaActividad = dr.GetString(dr.GetOrdinal("dFecha"));
+                                    planCapacitacion.dFechaActividad = dr.GetString(dr.GetOrdinal("dFechaActividad"));
                                     planCapacitacion.iTotalTeoria = dr.GetInt32(dr.GetOrdinal("iTotalTeoria"));
                                     planCapacitacion.iTotalPractica = dr.GetInt32(dr.GetOrdinal("iTotalPractica"));
                                     planCapacitacion.bActivo = dr.GetBoolean(dr.GetOrdinal("bActivo"));
@@ -128,7 +128,7 @@ namespace SLSEARAPI.DataLayer
                     using (SqlCommand command = new SqlCommand("[PA_InsertarPlanCapacitacion]", conection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@iCodCosto", planCapacitacion.iCodPlanCap);
+                        command.Parameters.AddWithValue("@iCodPlanCap", planCapacitacion.iCodPlanCap);
                         command.Parameters.AddWithValue("@iCodActividad", planCapacitacion.iCodActividad);
                         command.Parameters.AddWithValue("@vModuloTema", planCapacitacion.vModuloTema);
                         command.Parameters.AddWithValue("@vObjetivo", planCapacitacion.vObjetivo);
@@ -136,7 +136,7 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@iBeneficiario", planCapacitacion.iBeneficiario);
                         command.Parameters.AddWithValue("@dFechaActividad", planCapacitacion.dFechaActividad);
                         command.Parameters.AddWithValue("@iTotalTeoria", planCapacitacion.iTotalTeoria);
-                        command.Parameters.AddWithValue("@iTotalPractica", planCapacitacion.iTotalPractica); 
+                        command.Parameters.AddWithValue("@iTotalPractica", planCapacitacion.iTotalPractica);
                         command.Parameters.AddWithValue("@iopcion", planCapacitacion.iopcion);
 
                         using (SqlDataReader dr = command.ExecuteReader())
@@ -171,10 +171,10 @@ namespace SLSEARAPI.DataLayer
                 {
                     conection.Open();
 
-                    using (SqlCommand command = new SqlCommand("[PA_InsertarPlanCapacitacion]", conection))
+                    using (SqlCommand command = new SqlCommand("[PA_InsertarPlanSesion]", conection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@iCodCosto", planSesion.iCodPlanCap);
+                        command.Parameters.AddWithValue("@iCodPlanCap", planSesion.iCodPlanCap);
                         command.Parameters.AddWithValue("@iCodPlanSesion", planSesion.iCodPlanSesion);
                         command.Parameters.AddWithValue("@iDuracion", planSesion.iDuracion);
                         command.Parameters.AddWithValue("@vTematica", planSesion.vTematica);

@@ -252,6 +252,7 @@
     <Compile Include="Models\Nivel.cs" />
     <Compile Include="Models\NivelDeInstruccion.cs" />
     <Compile Include="Models\NombreArchivo.cs" />
+    <Compile Include="Models\PlanCapacitacion_.cs" />
     <Compile Include="Models\PlanCapacitacion.cs" />
     <Compile Include="Models\PlanSesion.cs" />
     <Compile Include="Models\Procedencia.cs" />
