@@ -6,7 +6,7 @@ using System.Web;
 
 namespace SLSEARAPI.Models
 {
-    public class PlanCapacitacion
+    public class PlanAsistenciaTecDet
     {
         public int iopcion { get; set; }
         public string vMensaje { get; set; }
@@ -14,15 +14,12 @@ namespace SLSEARAPI.Models
         public int piCurrentPage { get; set; }
         public string pvSortColumn { get; set; }
         public string pvSortOrder { get; set; }
-        public int iCodPlanCap { get; set; }
-        public int iCodActividad { get; set; }
-        public string vModuloTema { get; set; }
-        public string vObjetivo { get; set; }
-        public int iMeta { get; set; }
-        public int iBeneficiario { get; set; }
-        public string dFechaActividad { get; set; }
-        public decimal iTotalTeoria { get; set; }
-        public decimal iTotalPractica { get; set; }
+        public int iCodPlanAsistenciaTecDet { get; set; }
+        public int iCodPlanAsistenciaTec { get; set; }
+        public int iDuracion { get; set; }
+        //public string vTematica { get; set; }
+        public string vDescripMetodologia { get; set; }
+        public string vMateriales { get; set; }
         public bool bActivo { get; set; }
         public int iRecordCount { get; set; }
     }

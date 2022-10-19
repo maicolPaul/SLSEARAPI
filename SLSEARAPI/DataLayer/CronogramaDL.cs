@@ -6,15 +6,67 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.UI.WebControls;
 
 namespace SLSEARAPI.DataLayer
 {
     public class CronogramaDL
     {
 
-        public List<Componente> ListarComponentes(Cronograma cronograma)
+        //public List<Componente> ListarComponentes(Cronograma cronograma)
+        //{
+        //    List<Componente> lista = new List<Componente>();
+
+        //    try
+        //    {
+        //        using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+        //        {
+        //            conection.Open();
+
+        //            using (SqlCommand command = new SqlCommand("[PA_ListarComponentesCabecera]", conection))
+        //            {
+        //                command.CommandType = CommandType.StoredProcedure;
+        //                command.Parameters.AddWithValue("@iCodExtensionista", cronograma.iCodExtensionista);
+
+
+        //                using (SqlDataReader dr = command.ExecuteReader())
+        //                {
+        //                    if (dr.HasRows)
+        //                    {
+        //                        Componente componente;
+        //                        while (dr.Read())
+        //                        {
+        //                            componente = new Componente();
+
+        //                            componente.iCodComponente = dr.GetInt32(dr.GetOrdinal("iCodComponente"));
+        //                            componente.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
+        //                            componente.vDescComponente = dr.GetString(dr.GetOrdinal("vDescComponente"));
+        //                            componente.vIndicador = dr.GetString(dr.GetOrdinal("vIndicador"));
+        //                            componente.vUnidadMedida = dr.GetString(dr.GetOrdinal("vUnidadMedida"));                                    
+        //                            componente.vMeta = dr.GetString(dr.GetOrdinal("vMeta"));
+        //                            componente.vMedio = dr.GetString(dr.GetOrdinal("vMedio"));
+        //                            componente.nTipoComponente = dr.GetInt32(dr.GetOrdinal("nTipoComponente"));
+                                    
+        //                            lista.Add(componente);
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //            conection.Close();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+
+        //    return lista;
+        //}
+
+        public DataTable ListarComponentesRpt(Cronograma cronograma)
         {
-            List<Componente> lista = new List<Componente>();
+            //List<Componente> lista = new List<Componente>();
+            DataTable dataTable = new DataTable();
 
             try
             {
@@ -26,30 +78,32 @@ namespace SLSEARAPI.DataLayer
                     {
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.AddWithValue("@iCodExtensionista", cronograma.iCodExtensionista);
+                        SqlDataAdapter da = new SqlDataAdapter(command);
+                        // this will query your database and return the result to your datatable
+                        da.Fill(dataTable);
 
+                        //using (SqlDataReader dr = command.ExecuteReader())
+                        //{
+                        //    if (dr.HasRows)
+                        //    {
+                        //        Componente componente;
+                        //        while (dr.Read())
+                        //        {
+                        //            componente = new Componente();
 
-                        using (SqlDataReader dr = command.ExecuteReader())
-                        {
-                            if (dr.HasRows)
-                            {
-                                Componente componente;
-                                while (dr.Read())
-                                {
-                                    componente = new Componente();
+                        //            componente.iCodComponente = dr.GetInt32(dr.GetOrdinal("iCodComponente"));
+                        //            componente.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
+                        //            componente.vDescComponente = dr.GetString(dr.GetOrdinal("vDescComponente"));
+                        //            componente.vIndicador = dr.GetString(dr.GetOrdinal("vIndicador"));
+                        //            componente.vUnidadMedida = dr.GetString(dr.GetOrdinal("vUnidadMedida"));
+                        //            componente.vMeta = dr.GetString(dr.GetOrdinal("vMeta"));
+                        //            componente.vMedio = dr.GetString(dr.GetOrdinal("vMedio"));
+                        //            componente.nTipoComponente = dr.GetInt32(dr.GetOrdinal("nTipoComponente"));
 
-                                    componente.iCodComponente = dr.GetInt32(dr.GetOrdinal("iCodComponente"));
-                                    componente.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
-                                    componente.vDescComponente = dr.GetString(dr.GetOrdinal("vDescComponente"));
-                                    componente.vIndicador = dr.GetString(dr.GetOrdinal("vIndicador"));
-                                    componente.vUnidadMedida = dr.GetString(dr.GetOrdinal("vUnidadMedida"));                                    
-                                    componente.vMeta = dr.GetString(dr.GetOrdinal("vMeta"));
-                                    componente.vMedio = dr.GetString(dr.GetOrdinal("vMedio"));
-                                    componente.nTipoComponente = dr.GetInt32(dr.GetOrdinal("nTipoComponente"));
-                                    
-                                    lista.Add(componente);
-                                }
-                            }
-                        }
+                        //            lista.Add(componente);
+                        //        }
+                        //    }
+                        //}
                     }
                     conection.Close();
                 }
@@ -59,7 +113,7 @@ namespace SLSEARAPI.DataLayer
                 throw ex;
             }
 
-            return lista;
+            return dataTable;
         }
 
         public List<Cronograma> ListarConogramaFechaTipo(Cronograma cronograma)
@@ -388,6 +442,56 @@ namespace SLSEARAPI.DataLayer
             }
 
             return cronograma;
+        }
+
+        public DataTable ListarActividadesPorComponente(Actividad actividad)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_ListarActividadesPorComponente2]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodComponente", actividad.iCodIdentificacion);
+                        command.Parameters.AddWithValue("@iCodExtensionista", actividad.iCodExtensionista);
+                        SqlDataAdapter da = new SqlDataAdapter(command);
+                        da.Fill(dataTable);
+
+                        //using (SqlDataReader dr = command.ExecuteReader())
+                        //{
+                        //    if (dr.HasRows)
+                        //    {
+                        //        while (dr.Read())
+                        //        {
+                        //            actividad = new Actividad();
+                        //            actividad.iCodActividad = dr.GetInt32(dr.GetOrdinal("iCodActividad"));
+                        //            actividad.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
+                        //            actividad.iCodActividad = dr.GetInt32(dr.GetOrdinal("iCodActividad"));
+                        //            actividad.vActividad = dr.GetString(dr.GetOrdinal("vActividad"));
+                        //            actividad.vDescripcion = dr.GetString(dr.GetOrdinal("vDescripcion"));
+                        //            actividad.vUnidadMedida = dr.GetString(dr.GetOrdinal("vUnidadMedida"));
+                        //            actividad.vMeta = dr.GetString(dr.GetOrdinal("vMeta"));
+                        //            actividad.vMedio = dr.GetString(dr.GetOrdinal("vMedio"));
+
+                        //            lista.Add(actividad);
+                        //        }
+                        //    }
+                        //}
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return dataTable;
         }
     }
 }

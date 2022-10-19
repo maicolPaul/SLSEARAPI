@@ -4,6 +4,7 @@ using SLSEARAPI.DataLayer;
 using SLSEARAPI.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -103,12 +104,12 @@ namespace SLSEARAPI.Controllers
                     List<string> _cabecera = new List<string>();
 
                     _cabecera.Add("Nro");
-                    _cabecera.Add("Actividad");
+                    _cabecera.Add("Actividades");
                     _cabecera.Add("Descripcion");                    
                     _cabecera.Add("Unidad Medida");
                     _cabecera.Add("Meta");
 
-                    int finish = pintarcabeceras(_cabecera, _genericSheet, "Cronograma Detallado");
+                    int finish = pintarcabeceras(_cabecera, _genericSheet, "CRONOGRAMA DETALLADO");
 
                     _genericSheet.Cells["A3:D3"].Value = "3.1 CRONOGRAMA DE EJECUCIÓN";
                     _genericSheet.Cells["A3:D3"].Merge = true;
@@ -122,260 +123,326 @@ namespace SLSEARAPI.Controllers
 
                     //pintar componente 1
 
-                    List<Componente> componentes = cronogramaDL.ListarComponentes(cronograma);
-                    int rowIndexComp = 7;
+                    //List<Componente> componentes = cronogramaDL.ListarComponentes(cronograma);
+                    DataTable componentes = cronogramaDL.ListarComponentesRpt(cronograma);
+                    int rowIndexComp = 8;
                     int colcomp = 1;
-                                        
-                    _texto_row(_genericSheet, rowIndexComp, colcomp++,1, "#fff2cc");
-                    _texto_row(_genericSheet, rowIndexComp, colcomp++, "Componente 1", "#fff2cc");
-                    _texto_row(_genericSheet, rowIndexComp, colcomp++, componentes[0].vDescComponente, "#fff2cc");
-                    _texto_row(_genericSheet, rowIndexComp, colcomp++, componentes[0].vUnidadMedida, "#fff2cc");
-                    _texto_row(_genericSheet, rowIndexComp, colcomp++,int.Parse(componentes[0].vMeta), "#fff2cc");
 
-                    // Suma de Totales de Meta de Compromisos
-                    int totalmetas = 0;
-
-                    foreach (Componente item in componentes)
+                    if (componentes.Rows.Count > 0)
                     {
-                        totalmetas=totalmetas+int.Parse(item.vMeta);
-                    }
-
-
-                    List<Cronograma> lista = cronogramaDL.ListarConogramaFecha(cronograma);
-                    Actividad actividad = new Actividad();
-                    actividad.iCodExtensionista = cronograma.iCodExtensionista;
-                    actividad.nTipoActividad = 1;
-                    List<Actividad> listaactividades = cronogramaDL.ListarActividades(actividad);
-                    int rowIndex = 8;
-                    int Nro = 2;
-
-                    //// pintar las actividades
-
-                    foreach (var d in listaactividades)
-                    {
-                        int col89 = 1;
-                        _texto_row(_genericSheet, rowIndex, col89++,decimal.Parse("1."+Nro.ToString()));
-                        _texto_row(_genericSheet, rowIndex, col89++, d.vActividad);
-                        _texto_row(_genericSheet, rowIndex, col89++, d.vDescripcion);
-                        _texto_row(_genericSheet, rowIndex, col89++, d.vUnidadMedida);
-                        _texto_row(_genericSheet, rowIndex, col89++,int.Parse(d.vMeta));
-
-                        Nro = Nro + 1;
-                        rowIndex++;
-                    }
-                                    
-                    ////pintar las fechas 
-
-                    int rowIndex5 = 5;
-                    int rowFila = 6;
-                    
-                    int Nro1 = 1;                    
-                    int col2 = 6;
-                    int col1 = 6;
-
-                    IEnumerable<DateTime> listafechas = lista.Select(a => a.dfechacronograma).Distinct();
-                                        
-                    foreach (var item in listafechas)
-                    {                    
-                        _texto_row_fecha(_genericSheet, rowIndex5, col1++,DateTime.Parse(item.ToString("dd/MM/yyyy")),"d-mmm");
-                        _texto_row_fecha(_genericSheet, rowFila, col2++, Nro1);                        
-                        Nro1++;
-                    }
-
-                  
-                //// pintar cotenido
-                ///
-                cronograma.nTipoActividad = 1;
-                lista = cronogramaDL.ListarConogramaFechaTipo(cronograma);
-                int coldata = 6;
-
-                int rownext = 0;
-
-                List<int> Cantidades = new List<int>();
-
-                foreach (var itemfecha in listafechas)
-                {
-                    int rowdata = 8;
-                    foreach (var item in lista)
-                    {
-                        if (itemfecha.ToString("dd/MM/yyyy") == item.dfechacronograma.ToString("dd/MM/yyyy") && item.iCodComponente == 1)
+                        for (int i = 0; i < componentes.Rows.Count; i++)
                         {
-                                Cantidades.Add(item.iCantidad);
-                                _texto_row(_genericSheet, rowdata, coldata, item.iCantidad, "#e2efda");  
-                        }
-                        rowdata++;
-                    }
-                    coldata++;
-                    rownext = rowdata;
-                }
-
-                    // Pintar totales del componente 1
-                    coldata = 6;
-                    foreach (int item in Cantidades)
-                    {
-                        _texto_row(_genericSheet, rowIndexComp, coldata++, item, "#fff2cc");
-                    }
-
-                    // pintar componentes 2
-
-                  int rowcomponente2 = rowIndex;
-
-                  _texto_row(_genericSheet, rowcomponente2, 1, 2, "#fff2cc");
-                  _texto_row(_genericSheet, rowcomponente2, 2, "Componente 2", "#fff2cc");
-                  _texto_row(_genericSheet, rowcomponente2, 3, componentes[1].vDescComponente, "#fff2cc");
-                  _texto_row(_genericSheet, rowcomponente2, 4, componentes[1].vUnidadMedida, "#fff2cc");
-                  _texto_row(_genericSheet, rowcomponente2, 5,int.Parse(componentes[1].vMeta), "#fff2cc");
-
-                    int rowcomponente21 = rowcomponente2;
-
-                    //// actividades 2
-
-
-
-                    Actividad actividad1 = new Actividad();
-                 actividad1.iCodExtensionista = cronograma.iCodExtensionista;
-                 actividad1.nTipoActividad = 2;
-
-                 List<Actividad> listaactividades2 = cronogramaDL.ListarActividades(actividad1);
-
-                 Nro = 1;
-                 rowIndex = rowcomponente2+1;
-                                     
-                 foreach (var d in listaactividades2)
-                 {
-                     int col89 = 1;
-                     _texto_row(_genericSheet, rowIndex, col89++, decimal.Parse("2." + Nro.ToString()));
-                     _texto_row(_genericSheet, rowIndex, col89++, d.vActividad);
-                     _texto_row(_genericSheet, rowIndex, col89++, d.vDescripcion);
-                     _texto_row(_genericSheet, rowIndex, col89++, d.vUnidadMedida);
-                     _texto_row(_genericSheet, rowIndex, col89++, int.Parse(d.vMeta));
-
-                     Nro = Nro + 1;
-                     rowIndex++;
-                    }
-
-                    // Mostrar el total de metas de los componentes
-
-                    _texto_row(_genericSheet, rowIndex, 1, "");
-                    _texto_row(_genericSheet, rowIndex, 2, "");
-                    _texto_row(_genericSheet, rowIndex, 3, "");
-                    _texto_row(_genericSheet, rowIndex, 4, "");
-                    _texto_row(_genericSheet, rowIndex, 5, totalmetas);
-
-                    cronograma.nTipoActividad = 2;
-                    //List<Cronograma> lista1 = cronogramaDL.ListarConogramaFechaTipo(cronograma);
-                    
-
-                    lista = cronogramaDL.ListarConogramaFechaTipo(cronograma);
-                    IEnumerable<DateTime> listafechas2 = lista.Select(a => a.dfechacronograma).Distinct();
-                    //listafechas = lista.Select(a => a.dFecha).Distinct();
-
-                    listafechas.ToList().AddRange(listafechas2);
-                    //lista.AddRange(lista1);
-                    ////coldata = 6;
-                    //rownext = rowcomponente2+1;
-                    //int cantidad_actividades = listaactividades2.Count();
-                    int rowdata1 = rowcomponente2 + 1;
-                    coldata = 6;
-
-                    int totalcomponente1 = Cantidades.Count;
-
-                    foreach (Actividad itemact in listaactividades2)
-                    {                        
-                        foreach (var itemfecha in listafechas)
-                        {
-                            foreach (var item in lista)
+                            // Componentes
+                            _texto_row(_genericSheet, rowIndexComp, colcomp++, (i+1).ToString(), "#fff2cc");
+                            _texto_row(_genericSheet, rowIndexComp, colcomp++, componentes.Rows[i][2], "#fff2cc");
+                            _texto_row(_genericSheet, rowIndexComp, colcomp++, componentes.Rows[i][5], "#fff2cc");
+                            _texto_row(_genericSheet, rowIndexComp, colcomp++, componentes.Rows[i][3], "#fff2cc");
+                            _texto_row(_genericSheet, rowIndexComp, colcomp++, int.Parse(componentes.Rows[i][6].ToString()), "#fff2cc");
+                            
+                            for (int j = 9; j < componentes.Columns.Count; j++)
                             {
-                                if (itemfecha.ToString("dd/MM/yyyy") == item.dfechacronograma.ToString("dd/MM/yyyy") && item.iCodActividad == itemact.iCodActividad)
-                                {
-                                    Cantidades.Add(item.iCantidad);
-                                    _texto_row(_genericSheet, rowdata1, coldata, item.iCantidad, "#e2efda");
-                                }                                    
+                                _texto_row_fecha(_genericSheet, 6, colcomp, Convert.ToDateTime(componentes.Columns[j].ColumnName), "#b4c6e7");
+                                _genericSheet.Rows[6].Height = 40;
+                                _texto_row1(_genericSheet, 7, colcomp, j-8, "#b4c6e7");
+                                _texto_row1(_genericSheet, rowIndexComp, colcomp, componentes.Rows[i][j].ToString() == "" ? "-" : componentes.Rows[i][j].ToString(), "#fff2cc");
+                                colcomp++;
                             }
-                            coldata++;
+                            rowIndexComp++;
+                            colcomp = 1;
+                            //------------------------------------------------------------------------------------------------------------------------------------------------------
+                            // Actividades
+                            Actividad actividad = new Actividad();
+                            actividad.iCodIdentificacion = Convert.ToInt32(componentes.Rows[i][0].ToString());
+                            actividad.iCodExtensionista = cronograma.iCodExtensionista;
+                            DataTable listaactividades = cronogramaDL.ListarActividadesPorComponente(actividad);
+                            for (int k = 0; k < listaactividades.Rows.Count; k++)
+                            {
+                                _texto_row(_genericSheet, rowIndexComp, colcomp++, (i+1).ToString() + "." + (k+1).ToString(), "#FFFFFF");
+                                _texto_row(_genericSheet, rowIndexComp, colcomp++, listaactividades.Rows[k][3], "#FFFFFF");
+                                _texto_row(_genericSheet, rowIndexComp, colcomp++, listaactividades.Rows[k][4], "#FFFFFF");
+                                _texto_row(_genericSheet, rowIndexComp, colcomp++, listaactividades.Rows[k][5], "#FFFFFF");
+                                _texto_row(_genericSheet, rowIndexComp, colcomp++, int.Parse(listaactividades.Rows[k][6].ToString()), "#FFFFFF");
+                                for (int z = 7; z < listaactividades.Columns.Count; z++)
+                                {
+                                    //_texto_row_fecha(_genericSheet, 6, colcomp, Convert.ToDateTime(componentes.Columns[j].ColumnName), "#b4c6e7");
+                                    //_genericSheet.Rows[6].Height = 40;
+                                    //_texto_row1(_genericSheet, 7, colcomp, j - 8, "#b4c6e7");
+                                    if (listaactividades.Rows[k][z].ToString() == "")
+                                    {
+                                        _texto_row1(_genericSheet, rowIndexComp, colcomp, listaactividades.Rows[k][z].ToString(), "#E2EFDA");
+                                    }
+                                    else {
+                                        _texto_row1(_genericSheet, rowIndexComp, colcomp, listaactividades.Rows[k][z].ToString(), "#00B050");
+                                    }
+                                    
+                                    colcomp++;
+                                }
+                                rowIndexComp++;
+                                colcomp = 1;
+                            }
                         }
-                        rowdata1++;
-                        coldata = 6;
+                        
+
+                        // Suma de Totales de Meta de Compromisos
+                        int totalmetas = 0;
+
+                        //foreach (Componente item in componentes)
+                        //{
+                        //    totalmetas = totalmetas + int.Parse(item.vMeta);
+                        //}
                     }
-                    //rowIndex++;
-                    int colmetas = 6;
+                    //_genericSheet.Columns.AutoFit();
+                    //_genericSheet.Rows.AutoFit();
+                    //_texto_row(_genericSheet, rowIndexComp, colcomp++,1, "#fff2cc");
+                    //_texto_row(_genericSheet, rowIndexComp, colcomp++, "Componente 1", "#fff2cc");
+                    //_texto_row(_genericSheet, rowIndexComp, colcomp++, componentes[0].vDescComponente, "#fff2cc");
+                    //_texto_row(_genericSheet, rowIndexComp, colcomp++, componentes[0].vUnidadMedida, "#fff2cc");
+                    //_texto_row(_genericSheet, rowIndexComp, colcomp++,int.Parse(componentes[0].vMeta), "#fff2cc");
 
-                    //Mostrar totales
-                    List<int> CantidadesComp2 = new List<int>();
+                    //// Suma de Totales de Meta de Compromisos
+                    //int totalmetas = 0;
 
-                    //rowcomponente21
-                    int contador = 1;
-
-                    foreach (int item in Cantidades)
-                    {
-                        if(contador>totalcomponente1)
-                        {
-                            _texto_row(_genericSheet, rowcomponente21, colmetas++, item);
-                        }
-                        else
-                        {
-                            _texto_row(_genericSheet, rowcomponente21, colmetas++, "-");
-                        }                        
-                        contador++;
-                    }
-
-                    colmetas = 6;
-
-                    foreach (int item in Cantidades)
-                    {                        
-                        _texto_row(_genericSheet, rowIndex, colmetas++, item);
-                    }
-
-                    //foreach (var itemfecha in listafechas)
+                    //foreach (Componente item in componentes)
                     //{
-                       
-                    //    //foreach (var itemact in listaactividades2)
-                    //    //{                          
-                    //        foreach (var item in lista)
-                    //        {
-                    //            if (itemfecha == item.dFecha)
-                    //            {
-                    //                //_texto_row(_genericSheet, rowdata1, coldata, "fila:"+ rowdata1+"-columna:"+coldata, "#e2efda");
-                    //                _texto_row(_genericSheet, rowdata1, coldata, item.iCantidad, "#e2efda");
-                    //            }
-                    //            rowdata1++;
-                    //            coldata++;
-                    //        }
-                    //        rowdata1 = rowcomponente2 + 1;
-                    //        coldata = 6;
-                    //    //}                       
+                    //    totalmetas=totalmetas+int.Parse(item.vMeta);
                     //}
 
-                    // funcionaba
 
-                    //foreach (var itemfecha in listafechas)
-                    //{
-                    //    int rowdata = rowcomponente2 + 1;
-                    //    foreach (var itemact in listaactividades2)
+                    //       List<Cronograma> lista = cronogramaDL.ListarConogramaFecha(cronograma);
+                    //       Actividad actividad = new Actividad();
+                    //       actividad.iCodExtensionista = cronograma.iCodExtensionista;
+                    //       actividad.nTipoActividad = 1;
+                    //       List<Actividad> listaactividades = cronogramaDL.ListarActividades(actividad);
+                    //       int rowIndex = 8;
+                    //       int Nro = 2;
+
+                    //       //// pintar las actividades
+
+                    //       foreach (var d in listaactividades)
+                    //       {
+                    //           int col89 = 1;
+                    //           _texto_row(_genericSheet, rowIndex, col89++,decimal.Parse("1."+Nro.ToString()));
+                    //           _texto_row(_genericSheet, rowIndex, col89++, d.vActividad);
+                    //           _texto_row(_genericSheet, rowIndex, col89++, d.vDescripcion);
+                    //           _texto_row(_genericSheet, rowIndex, col89++, d.vUnidadMedida);
+                    //           _texto_row(_genericSheet, rowIndex, col89++,int.Parse(d.vMeta));
+
+                    //           Nro = Nro + 1;
+                    //           rowIndex++;
+                    //       }
+
+                    //       ////pintar las fechas 
+
+                    //       int rowIndex5 = 5;
+                    //       int rowFila = 6;
+
+                    //       int Nro1 = 1;                    
+                    //       int col2 = 6;
+                    //       int col1 = 6;
+
+                    //       IEnumerable<DateTime> listafechas = lista.Select(a => a.dfechacronograma).Distinct();
+
+                    //       foreach (var item in listafechas)
+                    //       {                    
+                    //           _texto_row_fecha(_genericSheet, rowIndex5, col1++,DateTime.Parse(item.ToString("dd/MM/yyyy")),"d-mmm");
+                    //           _texto_row_fecha(_genericSheet, rowFila, col2++, Nro1);                        
+                    //           Nro1++;
+                    //       }
+
+
+                    //   //// pintar cotenido
+                    //   ///
+                    //   cronograma.nTipoActividad = 1;
+                    //   lista = cronogramaDL.ListarConogramaFechaTipo(cronograma);
+                    //   int coldata = 6;
+
+                    //   int rownext = 0;
+
+                    //   List<int> Cantidades = new List<int>();
+
+                    //   foreach (var itemfecha in listafechas)
+                    //   {
+                    //       int rowdata = 8;
+                    //       foreach (var item in lista)
+                    //       {
+                    //           if (itemfecha.ToString("dd/MM/yyyy") == item.dfechacronograma.ToString("dd/MM/yyyy") && item.iCodComponente == 1)
+                    //           {
+                    //                   Cantidades.Add(item.iCantidad);
+                    //                   _texto_row(_genericSheet, rowdata, coldata, item.iCantidad, "#e2efda");  
+                    //           }
+                    //           rowdata++;
+                    //       }
+                    //       coldata++;
+                    //       rownext = rowdata;
+                    //   }
+
+                    //       // Pintar totales del componente 1
+                    //       coldata = 6;
+                    //       foreach (int item in Cantidades)
+                    //       {
+                    //           _texto_row(_genericSheet, rowIndexComp, coldata++, item, "#fff2cc");
+                    //       }
+
+                    //       // pintar componentes 2
+
+                    //     int rowcomponente2 = rowIndex;
+
+                    //     //_texto_row(_genericSheet, rowcomponente2, 1, 2, "#fff2cc");
+                    //     //_texto_row(_genericSheet, rowcomponente2, 2, "Componente 2", "#fff2cc");
+                    //     //_texto_row(_genericSheet, rowcomponente2, 3, componentes[1].vDescComponente, "#fff2cc");
+                    //     //_texto_row(_genericSheet, rowcomponente2, 4, componentes[1].vUnidadMedida, "#fff2cc");
+                    //     //_texto_row(_genericSheet, rowcomponente2, 5,int.Parse(componentes[1].vMeta), "#fff2cc");
+
+                    //       int rowcomponente21 = rowcomponente2;
+
+                    //       //// actividades 2
+
+
+
+                    //       Actividad actividad1 = new Actividad();
+                    //    actividad1.iCodExtensionista = cronograma.iCodExtensionista;
+                    //    actividad1.nTipoActividad = 2;
+
+                    //    List<Actividad> listaactividades2 = cronogramaDL.ListarActividades(actividad1);
+
+                    //    Nro = 1;
+                    //    rowIndex = rowcomponente2+1;
+
+                    //    foreach (var d in listaactividades2)
                     //    {
-                    //        coldata = 6;
-                    //        foreach (var item in lista)
-                    //        {
-                    //            if (itemfecha == item.dFecha && item.iCodActividad == itemact.iCodActividad)
-                    //            {
-                    //                _texto_row(_genericSheet, rowdata, coldata, item.iCantidad, "#e2efda");
-                    //            }
-                    //            coldata++;
-                    //        }
-                    //    }
-                    //    rowdata++;
-                    //}
+                    //        int col89 = 1;
+                    //        _texto_row(_genericSheet, rowIndex, col89++, decimal.Parse("2." + Nro.ToString()));
+                    //        _texto_row(_genericSheet, rowIndex, col89++, d.vActividad);
+                    //        _texto_row(_genericSheet, rowIndex, col89++, d.vDescripcion);
+                    //        _texto_row(_genericSheet, rowIndex, col89++, d.vUnidadMedida);
+                    //        _texto_row(_genericSheet, rowIndex, col89++, int.Parse(d.vMeta));
 
-                    /*
-             */
+                    //        Nro = Nro + 1;
+                    //        rowIndex++;
+                    //       }
 
-                    _genericSheet.Column(2).Width = 50d;
-                    _genericSheet.Column(3).Width = 70d;
-                    _genericSheet.Column(4).Width = 20d;
+                    //       // Mostrar el total de metas de los componentes
 
-                    _genericSheet.Row(5).Height = 45d;
+                    //       _texto_row(_genericSheet, rowIndex, 1, "");
+                    //       _texto_row(_genericSheet, rowIndex, 2, "");
+                    //       _texto_row(_genericSheet, rowIndex, 3, "");
+                    //       _texto_row(_genericSheet, rowIndex, 4, "");
+                    //       //_texto_row(_genericSheet, rowIndex, 5, totalmetas);
 
-                    //_genericSheet.Protection.SetPassword("123456");
+                    //       cronograma.nTipoActividad = 2;
+                    //       //List<Cronograma> lista1 = cronogramaDL.ListarConogramaFechaTipo(cronograma);
+
+
+                    //       lista = cronogramaDL.ListarConogramaFechaTipo(cronograma);
+                    //       IEnumerable<DateTime> listafechas2 = lista.Select(a => a.dfechacronograma).Distinct();
+                    //       //listafechas = lista.Select(a => a.dFecha).Distinct();
+
+                    //       listafechas.ToList().AddRange(listafechas2);
+                    //       //lista.AddRange(lista1);
+                    //       ////coldata = 6;
+                    //       //rownext = rowcomponente2+1;
+                    //       //int cantidad_actividades = listaactividades2.Count();
+                    //       int rowdata1 = rowcomponente2 + 1;
+                    //       coldata = 6;
+
+                    //       int totalcomponente1 = Cantidades.Count;
+
+                    //       foreach (Actividad itemact in listaactividades2)
+                    //       {                        
+                    //           foreach (var itemfecha in listafechas)
+                    //           {
+                    //               foreach (var item in lista)
+                    //               {
+                    //                   if (itemfecha.ToString("dd/MM/yyyy") == item.dfechacronograma.ToString("dd/MM/yyyy") && item.iCodActividad == itemact.iCodActividad)
+                    //                   {
+                    //                       Cantidades.Add(item.iCantidad);
+                    //                       _texto_row(_genericSheet, rowdata1, coldata, item.iCantidad, "#e2efda");
+                    //                   }                                    
+                    //               }
+                    //               coldata++;
+                    //           }
+                    //           rowdata1++;
+                    //           coldata = 6;
+                    //       }
+                    //       //rowIndex++;
+                    //       int colmetas = 6;
+
+                    //       //Mostrar totales
+                    //       List<int> CantidadesComp2 = new List<int>();
+
+                    //       //rowcomponente21
+                    //       int contador = 1;
+
+                    //       foreach (int item in Cantidades)
+                    //       {
+                    //           if(contador>totalcomponente1)
+                    //           {
+                    //               _texto_row(_genericSheet, rowcomponente21, colmetas++, item);
+                    //           }
+                    //           else
+                    //           {
+                    //               _texto_row(_genericSheet, rowcomponente21, colmetas++, "-");
+                    //           }                        
+                    //           contador++;
+                    //       }
+
+                    //       colmetas = 6;
+
+                    //       foreach (int item in Cantidades)
+                    //       {                        
+                    //           _texto_row(_genericSheet, rowIndex, colmetas++, item);
+                    //       }
+
+                    //       //foreach (var itemfecha in listafechas)
+                    //       //{
+
+                    //       //    //foreach (var itemact in listaactividades2)
+                    //       //    //{                          
+                    //       //        foreach (var item in lista)
+                    //       //        {
+                    //       //            if (itemfecha == item.dFecha)
+                    //       //            {
+                    //       //                //_texto_row(_genericSheet, rowdata1, coldata, "fila:"+ rowdata1+"-columna:"+coldata, "#e2efda");
+                    //       //                _texto_row(_genericSheet, rowdata1, coldata, item.iCantidad, "#e2efda");
+                    //       //            }
+                    //       //            rowdata1++;
+                    //       //            coldata++;
+                    //       //        }
+                    //       //        rowdata1 = rowcomponente2 + 1;
+                    //       //        coldata = 6;
+                    //       //    //}                       
+                    //       //}
+
+                    //       // funcionaba
+
+                    //       //foreach (var itemfecha in listafechas)
+                    //       //{
+                    //       //    int rowdata = rowcomponente2 + 1;
+                    //       //    foreach (var itemact in listaactividades2)
+                    //       //    {
+                    //       //        coldata = 6;
+                    //       //        foreach (var item in lista)
+                    //       //        {
+                    //       //            if (itemfecha == item.dFecha && item.iCodActividad == itemact.iCodActividad)
+                    //       //            {
+                    //       //                _texto_row(_genericSheet, rowdata, coldata, item.iCantidad, "#e2efda");
+                    //       //            }
+                    //       //            coldata++;
+                    //       //        }
+                    //       //    }
+                    //       //    rowdata++;
+                    //       //}
+
+                    //       /*
+                    //*/
+
+                    //       _genericSheet.Column(2).Width = 50d;
+                    //       _genericSheet.Column(3).Width = 70d;
+                    //       _genericSheet.Column(4).Width = 20d;
+
+                    //       _genericSheet.Row(5).Height = 45d;
+
+                    //       //_genericSheet.Protection.SetPassword("123456");
 
                     var x = excelPackage.GetAsByteArray();
                     string nombre = NombreReporte + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".xlsx";
@@ -400,26 +467,56 @@ namespace SLSEARAPI.Controllers
         {
             _sheet.Cells[rowIndex, col].Value = _text;
             _sheet.Cells[rowIndex, col].Merge = true;
+            //_sheet.Columns[col].Width = 3;
             _sheet.Cells[rowIndex, col].Style.Font.Name = fontName;
             _sheet.Cells[rowIndex, col].Style.Font.Size = 12;
             _sheet.Cells[rowIndex, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
             _sheet.Cells[rowIndex, col].Style.Border.Top.Style = ExcelBorderStyle.Thin;
             _sheet.Cells[rowIndex, col].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             _sheet.Cells[rowIndex, col].Style.Border.Left.Style = ExcelBorderStyle.Thin;
-            if(Color!="")
+            _sheet.Cells[rowIndex, col].Style.WrapText = false;
+            _sheet.Columns[col].AutoFit();
+
+            if (Color!="")
             {
                 System.Drawing.Color colFromHex = System.Drawing.ColorTranslator.FromHtml(Color);
                 _sheet.Cells[rowIndex, col].Style.Fill.PatternType = ExcelFillStyle.Solid;
                 _sheet.Cells[rowIndex, col].Style.Fill.BackgroundColor.SetColor(colFromHex);
+               
             }            
         }
 
-        internal void _texto_row_fecha(ExcelWorksheet _sheet, int rowIndex, int col, object _text,string formato="", string fontName = "Calibri")
+        internal void _texto_row1(ExcelWorksheet _sheet, int rowIndex, int col, object _text, string Color = "", string fontName = "Calibri")
         {
             _sheet.Cells[rowIndex, col].Value = _text;
             _sheet.Cells[rowIndex, col].Merge = true;
+            _sheet.Columns[col].Width = 3;
             _sheet.Cells[rowIndex, col].Style.Font.Name = fontName;
-            _sheet.Cells[rowIndex, col].Style.Font.Size = 12;            
+            _sheet.Cells[rowIndex, col].Style.Font.Size = 12;
+            _sheet.Cells[rowIndex, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+            _sheet.Cells[rowIndex, col].Style.Border.Top.Style = ExcelBorderStyle.Thin;
+            _sheet.Cells[rowIndex, col].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
+            _sheet.Cells[rowIndex, col].Style.Border.Left.Style = ExcelBorderStyle.Thin;
+            _sheet.Cells[rowIndex, col].Style.WrapText = false;
+            //_sheet.Columns[col].AutoFit();
+
+            if (Color != "")
+            {
+                System.Drawing.Color colFromHex = System.Drawing.ColorTranslator.FromHtml(Color);
+                _sheet.Cells[rowIndex, col].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                _sheet.Cells[rowIndex, col].Style.Fill.BackgroundColor.SetColor(colFromHex);
+
+            }
+        }
+
+        internal void _texto_row_fecha(ExcelWorksheet _sheet, int rowIndex, int col, object _text, string formato = "", string fontName = "Calibri")
+        {
+            _sheet.Cells[rowIndex, col].Value = _text;
+            _sheet.Cells[rowIndex, col].Merge = true;
+            _sheet.Columns[col].Width = 3;
+            _sheet.Cells[rowIndex, col].Style.WrapText = false;
+            _sheet.Cells[rowIndex, col].Style.Font.Name = fontName;
+            _sheet.Cells[rowIndex, col].Style.Font.Size = 12;
             _sheet.Cells[rowIndex, col].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
             _sheet.Cells[rowIndex, col].Style.Border.Top.Style = ExcelBorderStyle.Thin;
             _sheet.Cells[rowIndex, col].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
@@ -432,6 +529,7 @@ namespace SLSEARAPI.Controllers
             {
                 _sheet.Cells[rowIndex, col].Style.Numberformat.Format = "d-mmm";
                 _sheet.Cells[rowIndex, col].Style.TextRotation = 90;
+
             }            
         }
         protected int pintarcabeceras(List<string> _cabecera, ExcelWorksheet _Sheet, string header)
@@ -441,7 +539,7 @@ namespace SLSEARAPI.Controllers
             {
                 finish++;
                 string letra = convertNumberToLetter(finish);
-                setHeader1(_Sheet, letra + "6:" + letra + "6", x, false);
+                setHeader1(_Sheet, letra + "7:" + letra + "7", x, false);
             }
             _texto_sin_borde_Titulo1(_Sheet, convertNumberToLetter(0) + "1:" + convertNumberToLetter(finish) + "1", header, System.Drawing.Color.White, System.Drawing.Color.Black, "Calibri");
             return finish;
@@ -471,7 +569,8 @@ namespace SLSEARAPI.Controllers
             _sheet.Cells[_range].Style.Fill.BackgroundColor.SetColor(colFromHex);
             _sheet.Cells[_range].Style.Font.Bold = true;
             _sheet.Cells[_range].Merge = true;
-            _sheet.Cells[_range].Style.WrapText = true;
+            _sheet.Cells[_range].Style.WrapText = false;
+            //_sheet.Cells. = false;
             _sheet.Cells[_range].Style.Font.Size = 18;
             _sheet.Cells[_range].Style.Font.Name = fontName;
             _sheet.Cells[_range].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
@@ -486,7 +585,7 @@ namespace SLSEARAPI.Controllers
             _sheet.Cells[celda].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
             _sheet.Cells[celda].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
             _sheet.Cells[celda].Merge = mergue;
-            _sheet.Cells[celda].Style.WrapText = true;
+            _sheet.Cells[celda].Style.WrapText = false;
             _sheet.Cells[celda].Style.Border.Top.Style = ExcelBorderStyle.Thin;
             _sheet.Cells[celda].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             _sheet.Cells[celda].Style.Border.Left.Style = ExcelBorderStyle.Thin;
@@ -503,7 +602,7 @@ namespace SLSEARAPI.Controllers
             _sheet.Cells[celda].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
             _sheet.Cells[celda].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
             _sheet.Cells[celda].Merge = mergue;
-            _sheet.Cells[celda].Style.WrapText = true;
+            _sheet.Cells[celda].Style.WrapText = false;
             _sheet.Cells[celda].Style.Border.Top.Style = ExcelBorderStyle.Thin;
             _sheet.Cells[celda].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
             _sheet.Cells[celda].Style.Border.Left.Style = ExcelBorderStyle.Thin;
