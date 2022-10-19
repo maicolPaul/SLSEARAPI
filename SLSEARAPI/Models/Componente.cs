@@ -21,6 +21,10 @@ namespace SLSEARAPI.Models
 
         public int nTipoComponente { get; set; }
 
+        public string vCorrelativo { get; set; }
+
+        public string vDescripcionCorta { get; set; }
+
         public int iCodIdentificacion { get; set; }
 
         public string vDescComponente { get; set; }
