@@ -196,6 +196,7 @@
     <Compile Include="Controllers\NivelController.cs" />
     <Compile Include="Controllers\NivelDeInstruccionController.cs" />
     <Compile Include="Controllers\NombreArchivoController.cs" />
+    <Compile Include="Controllers\PlanAsistenciaTecController.cs" />
     <Compile Include="Controllers\PlanCapacitacionController.cs" />
     <Compile Include="Controllers\ProcedenciaController.cs" />
     <Compile Include="Controllers\RegimenController.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="DataLayer\NivelDeInstruccionDL.cs" />
     <Compile Include="DataLayer\NivelDL.cs" />
     <Compile Include="DataLayer\NombreArchivoDL.cs" />
+    <Compile Include="DataLayer\PlanAsistenciaTecDL.cs" />
     <Compile Include="DataLayer\PlanCapacitacionDL.cs" />
     <Compile Include="DataLayer\ProcedenciaDL.cs" />
     <Compile Include="DataLayer\RegimenDL.cs" />
@@ -252,8 +254,9 @@
     <Compile Include="Models\Nivel.cs" />
     <Compile Include="Models\NivelDeInstruccion.cs" />
     <Compile Include="Models\NombreArchivo.cs" />
-    <Compile Include="Models\PlanCapacitacion_.cs" />
+    <Compile Include="Models\PlanAsistenciaTec.cs" />
     <Compile Include="Models\PlanCapacitacion.cs" />
+    <Compile Include="Models\PlanAsistenciaTecDet.cs" />
     <Compile Include="Models\PlanSesion.cs" />
     <Compile Include="Models\Procedencia.cs" />
     <Compile Include="Models\Productor.cs" />

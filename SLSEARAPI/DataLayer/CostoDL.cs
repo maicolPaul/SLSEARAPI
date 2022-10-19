@@ -29,6 +29,7 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@pvSortColumn", actividad.pvSortColumn);
                         command.Parameters.AddWithValue("@pvSortOrder", actividad.pvSortOrder);
                         command.Parameters.AddWithValue("@iCodExtensionista", actividad.iCodExtensionista);
+                        command.Parameters.AddWithValue("@iCodcomponente", actividad.iCodIdentificacion);
 
                         using (SqlDataReader dr = command.ExecuteReader())
                         {
@@ -167,5 +168,153 @@ namespace SLSEARAPI.DataLayer
 
             return costo;
         }
+
+        public DataTable ListarComponentesRpt(Cronograma cronograma)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_ListarComponentesCabeceraCosto]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodExtensionista", cronograma.iCodExtensionista);
+                        SqlDataAdapter da = new SqlDataAdapter(command);
+                        da.Fill(dataTable);
+
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return dataTable;
+        }
+
+        public DataTable ListarActividadesPorComponente(Actividad actividad)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_ListarActividadesPorComponente2Costo]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodComponente", actividad.iCodIdentificacion);
+                        command.Parameters.AddWithValue("@iCodExtensionista", actividad.iCodExtensionista);
+                        SqlDataAdapter da = new SqlDataAdapter(command);
+                        da.Fill(dataTable);
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return dataTable;
+        }
+
+        public DataTable ListarCostosPorActividad(Actividad actividad)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_ListarCostosPorActividad_RptCosto]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodActividad", actividad.iCodActividad);
+                        command.Parameters.AddWithValue("@iCodExtensionista", actividad.iCodExtensionista);
+                        SqlDataAdapter da = new SqlDataAdapter(command);
+                        da.Fill(dataTable);
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return dataTable;
+        }
+
+        public DataTable ListarCostosResumenPorComponente(Actividad actividad)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_ListarCostosResumenPorComponente_RptCosto]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iTipoMatServ", actividad.iopcion);
+                        command.Parameters.AddWithValue("@iCodComponente", actividad.iCodIdentificacion);
+                        command.Parameters.AddWithValue("@iCodExtensionista", actividad.iCodExtensionista);
+                        SqlDataAdapter da = new SqlDataAdapter(command);
+                        da.Fill(dataTable);
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return dataTable;
+        }
+
+        public DataTable ListarCostosResumenGeneral(Actividad actividad)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_ListarCostosResumenGeneral_RptCosto]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iTipoMatServ", actividad.iopcion);
+                        //command.Parameters.AddWithValue("@iCodComponente", actividad.iCodIdentificacion);
+                        command.Parameters.AddWithValue("@iCodExtensionista", actividad.iCodExtensionista);
+                        SqlDataAdapter da = new SqlDataAdapter(command);
+                        da.Fill(dataTable);
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return dataTable;
+        }
+
     }
 }

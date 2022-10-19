@@ -134,7 +134,7 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@vObjetivo", planCapacitacion.vObjetivo);
                         command.Parameters.AddWithValue("@iMeta", planCapacitacion.iMeta);
                         command.Parameters.AddWithValue("@iBeneficiario", planCapacitacion.iBeneficiario);
-                        command.Parameters.AddWithValue("@dFechaActividad", planCapacitacion.dFechaActividad);
+                        command.Parameters.AddWithValue("@dFechaActividad", Convert.ToDateTime(planCapacitacion.dFechaActividad));
                         command.Parameters.AddWithValue("@iTotalTeoria", planCapacitacion.iTotalTeoria);
                         command.Parameters.AddWithValue("@iTotalPractica", planCapacitacion.iTotalPractica);
                         command.Parameters.AddWithValue("@iopcion", planCapacitacion.iopcion);
@@ -204,6 +204,135 @@ namespace SLSEARAPI.DataLayer
             }
 
             return planSesion;
+        }
+
+        public List<Componente> PA_Listar_ComponentesPorExtensionista(Identificacion identificacion)
+        {
+            List<Componente> lista = new List<Componente>();
+            Componente componente = null;
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_Listar_ComponentesPorExtensionista]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodExtensionista", identificacion.iCodExtensionista);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                while (dr.Read())
+                                {
+                                    componente = new Componente();
+
+                                    componente.iCodComponente = dr.GetInt32(dr.GetOrdinal("iCodComponente"));
+                                    componente.vDescripcion = dr.GetString(dr.GetOrdinal("vDescripcion"));
+                                    lista.Add(componente);
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return lista;
+        }
+
+        public DataTable Listar_PlanCapa_Rpt(Actividad actividad)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[SP_Listar_PlanCapa_Rpt]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodExtensionista", actividad.iCodExtensionista);
+                        SqlDataAdapter da = new SqlDataAdapter(command);
+                        da.Fill(dataTable);
+
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return dataTable;
+        }
+
+        public DataTable SP_Listar_PlanCapa_Rpt2(PlanCapacitacion planCapacitacion)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[SP_Listar_PlanCapa_Rpt2]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodActividad", planCapacitacion.iCodActividad);
+                        SqlDataAdapter da = new SqlDataAdapter(command);
+                        da.Fill(dataTable);
+
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return dataTable;
+        }
+
+        public DataTable SP_Listar_PlanCapa_Rpt3(PlanSesion planSesion)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[SP_Listar_PlanCap_Rpt3]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodPlanCap", planSesion.iCodPlanCap);
+                        SqlDataAdapter da = new SqlDataAdapter(command);
+                        da.Fill(dataTable);
+
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return dataTable;
         }
     }
 }

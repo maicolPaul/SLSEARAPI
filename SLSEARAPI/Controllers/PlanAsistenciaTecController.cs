@@ -1,36 +1,34 @@
-﻿using OfficeOpenXml;
-using OfficeOpenXml.Style;
+﻿using OfficeOpenXml.Style;
+using OfficeOpenXml;
 using SLSEARAPI.DataLayer;
 using SLSEARAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Security.Cryptography;
 using System.Web.Http;
 
 namespace SLSEARAPI.Controllers
 {
-    public class PlanCapacitacionController : ApiController
+    public class PlanAsistenciaTecController : ApiController
     {
-        PlanCapacitacionDL capacitacionDL;
-        public PlanCapacitacionController()
+        PlanAsistenciaTecDL asistenciaTecDL;
+        public PlanAsistenciaTecController()
         {
-            capacitacionDL = new PlanCapacitacionDL();
+            asistenciaTecDL = new PlanAsistenciaTecDL();
         }
 
         [HttpPost]
-        [ActionName("ListarPlanCapacitacion")]
-        public List<PlanCapacitacion> ListarPlanCapacitacion(PlanCapacitacion planCapacitacion)
+        [ActionName("ListarPlanAsistenciaTec")]
+        public List<PlanAsistenciaTec> ListarPlanAsistenciaTec(PlanAsistenciaTec planAsistenciaTec)
         {
             try
             {
-                return capacitacionDL.ListarPlanCapacitacion(planCapacitacion);
+                return asistenciaTecDL.ListarPlanAsistenciaTec(planAsistenciaTec);
             }
             catch (Exception ex)
             {
@@ -39,12 +37,12 @@ namespace SLSEARAPI.Controllers
         }
 
         [HttpPost]
-        [ActionName("ListarPlanSesion")]
-        public List<PlanSesion> ListarPlanSesion(PlanSesion planSesion)
+        [ActionName("ListarPlanAsistenciaTecDet")]
+        public List<PlanAsistenciaTecDet> ListarPlanAsistenciaTecDet(PlanAsistenciaTecDet planAsistenciaTecDet)
         {
             try
             {
-                return capacitacionDL.ListarPlanSesion(planSesion);
+                return asistenciaTecDL.ListarPlanAsistenciaTecDet(planAsistenciaTecDet);
             }
             catch (Exception ex)
             {
@@ -53,12 +51,12 @@ namespace SLSEARAPI.Controllers
         }
 
         [HttpPost]
-        [ActionName("InsertarPlanCapacitacion")]
-        public PlanCapacitacion InsertarPlanCapacitacion(PlanCapacitacion planCapacitacion)
+        [ActionName("InsertarPlanAsistenciaTec")]
+        public PlanAsistenciaTec InsertarPlanAsistenciaTec(PlanAsistenciaTec planAsistenciaTec)
         {
             try
             {
-                return capacitacionDL.InsertarPlanCapacitacion(planCapacitacion);
+                return asistenciaTecDL.InsertarPlanAsistenciaTec(planAsistenciaTec);
             }
             catch (Exception ex)
             {
@@ -67,26 +65,12 @@ namespace SLSEARAPI.Controllers
         }
 
         [HttpPost]
-        [ActionName("InsertarPlanSesion")]
-        public PlanSesion InsertarPlanSesion(PlanSesion planSesion)
+        [ActionName("InsertarPlanAsistenciaTecDet")]
+        public PlanAsistenciaTecDet InsertarPlanAsistenciaTecDet(PlanAsistenciaTecDet planAsistenciaTecDet)
         {
             try
             {
-                return capacitacionDL.InsertarPlanSesion(planSesion);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        
-        [HttpPost]
-        [ActionName("ComponentesPorExtensionista")]
-        public List<Componente> PA_Listar_ComponentesPorExtensionista(Identificacion identificacion)
-        {
-            try
-            {
-                return capacitacionDL.PA_Listar_ComponentesPorExtensionista(identificacion);
+                return asistenciaTecDL.InsertarPlanAsistenciaTecDet(planAsistenciaTecDet);
             }
             catch (Exception ex)
             {
@@ -95,12 +79,12 @@ namespace SLSEARAPI.Controllers
         }
 
         [HttpPost]
-        [ActionName("ExportarPlanCapa")]
-        public HttpResponseMessage ExportarPlanCapa(Actividad actividad)
+        [ActionName("ExportarPlanAsistenciaTec")]
+        public HttpResponseMessage ExportarPlanAsistenciaTec(Actividad actividad)
         {
             try
             {
-                String NombreReporte = "PlanCapa";
+                String NombreReporte = "ExportarPlanAsistenciaTec";
 
                 using (var excelPackage = new ExcelPackage())
                 {
@@ -138,7 +122,7 @@ namespace SLSEARAPI.Controllers
                     //pintar componente 1
 
                     //List<Componente> componentes = cronogramaDL.ListarComponentes(cronograma);
-                    DataTable SearTab = capacitacionDL.Listar_PlanCapa_Rpt(actividad);
+                    DataTable SearTab = asistenciaTecDL.SP_Listar_PlanAsistenciaTecnica_Rpt(actividad);
                     int rowIndexComp = 1;
                     int colcomp = 2;
 
@@ -148,12 +132,12 @@ namespace SLSEARAPI.Controllers
                         {
                             _texto_row(_genericSheet, rowIndexComp, colcomp, "", "#72AEA5");
                             //colcomp =+ 7;
-                            _genericSheet.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp+6].Merge = true;
+                            _genericSheet.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Merge = true;
                             rowIndexComp++;
                             //colcomp =- 7;
 
 
-                            _texto_row(_genericSheet, rowIndexComp, colcomp, "PLAN DE CAPACITACIÓN", "#72AEA5");
+                            _texto_row(_genericSheet, rowIndexComp, colcomp, "PLAN DE ASISTENCIA TÉCNICA", "#72AEA5");
                             _genericSheet.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Merge = true;
                             _genericSheet.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Style.Font.Bold = true;
                             _genericSheet.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
@@ -175,44 +159,44 @@ namespace SLSEARAPI.Controllers
                             //colcomp--;
                             _texto_row(_genericSheet, rowIndexComp, colcomp, "Nombre de extensionista", "#ffffff");
                             _genericSheet.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
-                            _texto_row(_genericSheet, rowIndexComp, colcomp+2, SearTab.Rows[i][1], "#ffffff");
+                            _texto_row(_genericSheet, rowIndexComp, colcomp + 2, SearTab.Rows[i][1], "#ffffff");
                             _genericSheet.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
                             //colcomp = 2;
                             rowIndexComp++;
                             //colcomp--;
                             _texto_row(_genericSheet, rowIndexComp, colcomp, "Agencia Agraria", "#ffffff");
                             _genericSheet.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
-                            _texto_row(_genericSheet, rowIndexComp, colcomp+2, SearTab.Rows[i][3], "#ffffff");
+                            _texto_row(_genericSheet, rowIndexComp, colcomp + 2, SearTab.Rows[i][3], "#ffffff");
                             _genericSheet.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
                             //colcomp = 2;
                             rowIndexComp++;
                             //colcomp--;
                             _texto_row(_genericSheet, rowIndexComp, colcomp, "Dirección Zonal", "#ffffff");
                             _genericSheet.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
-                            _texto_row(_genericSheet, rowIndexComp, colcomp+2, SearTab.Rows[i][4], "#ffffff");
+                            _texto_row(_genericSheet, rowIndexComp, colcomp + 2, SearTab.Rows[i][4], "#ffffff");
                             _genericSheet.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
                             //colcomp = 2;
                             rowIndexComp++;
                             //colcomp--;
                             _texto_row(_genericSheet, rowIndexComp, colcomp, SearTab.Rows[i][8], "#72AEA5");
                             _genericSheet.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
-                            _texto_row(_genericSheet, rowIndexComp, colcomp+2, SearTab.Rows[i][9], "#72AEA5");
+                            _texto_row(_genericSheet, rowIndexComp, colcomp + 2, SearTab.Rows[i][9], "#72AEA5");
                             _genericSheet.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
 
 
                             /*****************************************************************************************/
-                            PlanCapacitacion planCapacitacion = new PlanCapacitacion();
-                            planCapacitacion.iCodActividad = Convert.ToInt32(SearTab.Rows[i][7]);
-                            DataTable Modulotab = capacitacionDL.SP_Listar_PlanCapa_Rpt2(planCapacitacion);
+                            PlanAsistenciaTec planAsistenciaTec = new PlanAsistenciaTec();
+                            planAsistenciaTec.iCodActividad = Convert.ToInt32(SearTab.Rows[i][7]);
+                            DataTable Modulotab = asistenciaTecDL.SP_Listar_PlanAsistenciaTecnica_Rpt2(planAsistenciaTec);
                             //rowIndexComp = 1;
                             //colcomp = 2;
                             for (int j = 0; j < Modulotab.Rows.Count; j++)
                             {
-                                rowIndexComp++;
-                                _texto_row(_genericSheet, rowIndexComp, colcomp, "Modulo o tema", "#ffffff");
-                                _genericSheet.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
-                                _texto_row(_genericSheet, rowIndexComp, colcomp + 2, Modulotab.Rows[j][0], "#E2EFDA");
-                                _genericSheet.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+                                //rowIndexComp++;
+                                //_texto_row(_genericSheet, rowIndexComp, colcomp, "Modulo o tema", "#ffffff");
+                                //_genericSheet.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                                //_texto_row(_genericSheet, rowIndexComp, colcomp + 2, Modulotab.Rows[j][0], "#E2EFDA");
+                                //_genericSheet.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
 
                                 rowIndexComp++;
                                 _texto_row(_genericSheet, rowIndexComp, colcomp, "Objetivo de la sesión", "#ffffff");
@@ -259,69 +243,37 @@ namespace SLSEARAPI.Controllers
 
                                 rowIndexComp++;
                                 _texto_row(_genericSheet, rowIndexComp, colcomp, "Duración", "#ffffff");
-                                _texto_row(_genericSheet, rowIndexComp, colcomp + 1, "Tematica / Pasos", "#ffffff");
-                                _genericSheet.Cells[rowIndexComp, colcomp + 1, rowIndexComp, colcomp + 2].Merge = true;
-                                _texto_row(_genericSheet, rowIndexComp, colcomp + 3, "Descripción de la Metodología", "#ffffff");
-                                _genericSheet.Cells[rowIndexComp, colcomp + 3, rowIndexComp, colcomp + 5].Merge = true;
-                                _texto_row(_genericSheet, rowIndexComp, colcomp + 6, "Materiales", "#ffffff");
-                                _genericSheet.Cells[rowIndexComp, colcomp + 6, rowIndexComp, colcomp + 6].Merge = true;
+                                //_texto_row(_genericSheet, rowIndexComp, colcomp + 1, "Tematica / Pasos", "#ffffff");
+                                //_genericSheet.Cells[rowIndexComp, colcomp + 1, rowIndexComp, colcomp + 2].Merge = true;
+                                _texto_row(_genericSheet, rowIndexComp, colcomp + 1, "Descripción de la Metodología", "#ffffff");
+                                _genericSheet.Cells[rowIndexComp, colcomp + 1, rowIndexComp, colcomp + 4].Merge = true;
+                                _texto_row(_genericSheet, rowIndexComp, colcomp + 5, "Instrumentos", "#ffffff");
+                                _genericSheet.Cells[rowIndexComp, colcomp + 5, rowIndexComp, colcomp + 6].Merge = true;
 
                                 /*****************************************************************************************/
-                                PlanSesion planSesion = new PlanSesion();
-                                planSesion.iCodPlanCap = Convert.ToInt32(Modulotab.Rows[j][9]);
-                                DataTable SessionModtab = capacitacionDL.SP_Listar_PlanCapa_Rpt3(planSesion);
+                                PlanAsistenciaTecDet planPlanAsistenciaTecDet = new PlanAsistenciaTecDet();
+                                planPlanAsistenciaTecDet.iCodPlanAsistenciaTec = Convert.ToInt32(Modulotab.Rows[j][9]);
+                                DataTable SessionModtab = asistenciaTecDL.SP_Listar_PlanAsistenciaTecnica_Rpt3(planPlanAsistenciaTecDet);
                                 for (int k = 0; k < SessionModtab.Rows.Count; k++)
                                 {
                                     rowIndexComp++;
                                     _texto_row(_genericSheet, rowIndexComp, colcomp, SessionModtab.Rows[k][0], "#E2EFDA");
-                                    _texto_row(_genericSheet, rowIndexComp, colcomp + 1, SessionModtab.Rows[k][1], "#E2EFDA");
-                                    _genericSheet.Cells[rowIndexComp, colcomp + 1, rowIndexComp, colcomp + 2].Merge = true;
-                                    _texto_row(_genericSheet, rowIndexComp, colcomp + 3, SessionModtab.Rows[k][2], "#E2EFDA");
-                                    _genericSheet.Cells[rowIndexComp, colcomp + 3, rowIndexComp, colcomp + 5].Merge = true;
-                                    _texto_row(_genericSheet, rowIndexComp, colcomp + 6, SessionModtab.Rows[k][3], "#E2EFDA");
-                                    _genericSheet.Cells[rowIndexComp, colcomp + 6, rowIndexComp, colcomp + 6].Merge = true;
+                                    //_texto_row(_genericSheet, rowIndexComp, colcomp + 1, SessionModtab.Rows[k][1], "#E2EFDA");
+                                    //_genericSheet.Cells[rowIndexComp, colcomp + 1, rowIndexComp, colcomp + 2].Merge = true;
+                                    _texto_row(_genericSheet, rowIndexComp, colcomp + 1, SessionModtab.Rows[k][2], "#E2EFDA");
+                                    _genericSheet.Cells[rowIndexComp, colcomp + 1, rowIndexComp, colcomp + 4].Merge = true;
+                                    _texto_row(_genericSheet, rowIndexComp, colcomp + 5, SessionModtab.Rows[k][3], "#E2EFDA");
+                                    _genericSheet.Cells[rowIndexComp, colcomp + 5, rowIndexComp, colcomp + 6].Merge = true;
                                 }
                             }
 
                             rowIndexComp = 1;
-                            colcomp = colcomp + 8; 
-                            //rowIndexComp++;
-                            //colcomp = 1;
-                            //------------------------------------------------------------------------------------------------------------------------------------------------------
-                            // Actividades
-                            //PlanCapacitacion planCapa = new PlanCapacitacion();
-                            //planCapa.iCodActividad = Convert.ToInt32(SearTab.Rows[i][9].ToString());
-                            //DataTable listaPlanCapas = capacitacionDL.SP_Listar_PlanCapa_Rpt2(planCapa);
-                            //for (int k = 0; k < listaPlanCapas.Rows.Count; k++)
-                            //{
-                            //    _texto_row(_genericSheet, rowIndexComp, colcomp++, (i + 1).ToString() + "." + (k + 1).ToString(), "#FFFFFF");
-                            //    _texto_row(_genericSheet, rowIndexComp, colcomp++, listaPlanCapas.Rows[k][3], "#FFFFFF");
-                            //    _texto_row(_genericSheet, rowIndexComp, colcomp++, listaPlanCapas.Rows[k][4], "#FFFFFF");
-                            //    _texto_row(_genericSheet, rowIndexComp, colcomp++, listaPlanCapas.Rows[k][5], "#FFFFFF");
-                            //    _texto_row(_genericSheet, rowIndexComp, colcomp++, int.Parse(listaPlanCapas.Rows[k][6].ToString()), "#FFFFFF");
-                            //    //for (int z = 7; z < listaactividades.Columns.Count; z++)
-                            //    //{
-                            //    //    //_texto_row_fecha(_genericSheet, 6, colcomp, Convert.ToDateTime(componentes.Columns[j].ColumnName), "#b4c6e7");
-                            //    //    //_genericSheet.Rows[6].Height = 40;
-                            //    //    //_texto_row1(_genericSheet, 7, colcomp, j - 8, "#b4c6e7");
-                            //    //    if (listaactividades.Rows[k][z].ToString() == "")
-                            //    //    {
-                            //    //        _texto_row(_genericSheet, rowIndexComp, colcomp, listaactividades.Rows[k][z].ToString(), "#E2EFDA");
-                            //    //    }
-                            //    //    else
-                            //    //    {
-                            //    //        _texto_row(_genericSheet, rowIndexComp, colcomp, listaactividades.Rows[k][z].ToString(), "#00B050");
-                            //    //    }
-
-                            //    //    colcomp++;
-                            //    //}
-                            //    rowIndexComp++;
-                            //    colcomp = 1;
-                            //}
+                            colcomp = colcomp + 8;
+                            
                         }
                         int totalmetas = 0;
                     }
-                    
+
                     var x = excelPackage.GetAsByteArray();
                     string nombre = NombreReporte + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".xlsx";
                     var stream = new MemoryStream(x);
@@ -421,6 +373,5 @@ namespace SLSEARAPI.Controllers
             _sheet.Cells[_range].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
             _sheet.Cells[_range].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
         }
-
     }
 }
