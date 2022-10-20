@@ -181,6 +181,7 @@
     <Compile Include="Controllers\ArchibobaseExperienciaController.cs" />
     <Compile Include="Controllers\ArchivoController.cs" />
     <Compile Include="Controllers\ArchivosbaseController.cs" />
+    <Compile Include="Controllers\ComiteEvaluadorController.cs" />
     <Compile Include="Controllers\CostoController.cs" />
     <Compile Include="Controllers\CronogramaController.cs" />
     <Compile Include="Controllers\CurriculumVitaeController.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="DataLayer\ActaAlianzaEstrategicaDL.cs" />
     <Compile Include="DataLayer\AgenciaAgrariaDL.cs" />
     <Compile Include="DataLayer\ArchivoDL.cs" />
+    <Compile Include="DataLayer\ComiteEvaluadorDL.cs" />
     <Compile Include="DataLayer\CostoDL.cs" />
     <Compile Include="DataLayer\CronogramaDL.cs" />
     <Compile Include="DataLayer\CurriculumVitaeDL.cs" />
@@ -232,8 +234,10 @@
     <Compile Include="Models\AgenciaAgraria.cs" />
     <Compile Include="Models\Archivo.cs" />
     <Compile Include="Models\CadenaProductivaAgraria.cs" />
+    <Compile Include="Models\Cargo.cs" />
     <Compile Include="Models\CausasDirectas.cs" />
     <Compile Include="Models\CausasIndirectas.cs" />
+    <Compile Include="Models\ComiteEvaluador.cs" />
     <Compile Include="Models\Componente.cs" />
     <Compile Include="Models\ComponenteCronograma.cs" />
     <Compile Include="Models\Costo.cs" />
