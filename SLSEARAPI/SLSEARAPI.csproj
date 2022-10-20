@@ -239,11 +239,8 @@
     <Compile Include="Models\Cargo.cs" />
     <Compile Include="Models\CausasDirectas.cs" />
     <Compile Include="Models\CausasIndirectas.cs" />
-<<<<<<< HEAD
     <Compile Include="Models\ComiteEvaluador.cs" />
-=======
     <Compile Include="Models\ComiteIdentificacion.cs" />
->>>>>>> 9a1235244b12ff1ec0db0c34aa7ca56073c04c94
     <Compile Include="Models\Componente.cs" />
     <Compile Include="Models\ComponenteCronograma.cs" />
     <Compile Include="Models\Costo.cs" />
