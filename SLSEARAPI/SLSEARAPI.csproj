@@ -188,6 +188,7 @@
     <Compile Include="Controllers\DireccionGerenciaRegionalAgrariaController.cs" />
     <Compile Include="Controllers\ExperienciaController.cs" />
     <Compile Include="Controllers\ExtensionistaController.cs" />
+    <Compile Include="Controllers\FichaEvaluacionController.cs" />
     <Compile Include="Controllers\FichaTecnicaController.cs" />
     <Compile Include="Controllers\FormacionAcademicaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="DataLayer\DireccionGerenciaRegionalAgrariaDL.cs" />
     <Compile Include="DataLayer\ExperienciaDL.cs" />
     <Compile Include="DataLayer\ExtensionistaDL.cs" />
+    <Compile Include="DataLayer\FichaEvaluacionDL.cs" />
     <Compile Include="DataLayer\FichaTecnicaDL.cs" />
     <Compile Include="DataLayer\FormacionAcademicaDL.cs" />
     <Compile Include="DataLayer\IdentificacionDL.cs" />
@@ -237,7 +239,11 @@
     <Compile Include="Models\Cargo.cs" />
     <Compile Include="Models\CausasDirectas.cs" />
     <Compile Include="Models\CausasIndirectas.cs" />
+<<<<<<< HEAD
     <Compile Include="Models\ComiteEvaluador.cs" />
+=======
+    <Compile Include="Models\ComiteIdentificacion.cs" />
+>>>>>>> 9a1235244b12ff1ec0db0c34aa7ca56073c04c94
     <Compile Include="Models\Componente.cs" />
     <Compile Include="Models\ComponenteCronograma.cs" />
     <Compile Include="Models\Costo.cs" />
@@ -249,6 +255,7 @@
     <Compile Include="Models\EfectoIndirecto.cs" />
     <Compile Include="Models\Experiencia.cs" />
     <Compile Include="Models\Extensionista.cs" />
+    <Compile Include="Models\FichaEvaluacion.cs" />
     <Compile Include="Models\FichaTecnica.cs" />
     <Compile Include="Models\FormacionAcademica.cs" />
     <Compile Include="Models\Identificacion.cs" />
