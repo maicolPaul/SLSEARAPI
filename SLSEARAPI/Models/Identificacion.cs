@@ -53,5 +53,18 @@ namespace SLSEARAPI.Models
 
         public string vDescComponente1 { get; set; }
         public string vDescComponente2 { get; set; }
+
+        public int piPageSize { get; set; }
+
+        public int piCurrentPage { get; set; }
+
+        public string pvSortColumn { get; set; }
+
+        public string pvSortOrder { get; set; }
+
+        public int totalRegistros { get; set; }
+        public string vNombreSearT1 { get; set; }
+        public string iCodUbigeoT1 { get; set; }
+        public string vEstado { get; set; }
     }
 }
