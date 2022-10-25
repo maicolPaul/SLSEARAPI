@@ -81,6 +81,7 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@piCurrentPage", fichaEvaluacion.piCurrentPage);
                         command.Parameters.AddWithValue("@pvSortColumn", fichaEvaluacion.pvSortColumn);
                         command.Parameters.AddWithValue("@pvSortOrder", fichaEvaluacion.pvSortOrder);
+                        command.Parameters.AddWithValue("@iCodIdentificacion", fichaEvaluacion.iCodIdentificacion);
                         command.Parameters.AddWithValue("@iCodComiteEvaluador", fichaEvaluacion.iCodComiteEvaluador);
 
                         using (SqlDataReader dr = command.ExecuteReader())
@@ -97,6 +98,7 @@ namespace SLSEARAPI.DataLayer
                                     fichaEvaluacion.vCategoria = dr.GetString(dr.GetOrdinal("vCategoria"));
                                     fichaEvaluacion.iCodCriterio = dr.GetInt32(dr.GetOrdinal("iCodCriterio"));
                                     fichaEvaluacion.vCriterio = dr.GetString(dr.GetOrdinal("vCriterio"));
+                                    fichaEvaluacion.vCriterio1 = dr.GetString(dr.GetOrdinal("vCriterio1"));
                                     fichaEvaluacion.PuntajeMaximo = dr.GetDecimal(dr.GetOrdinal("PuntajeMaximo"));
                                     fichaEvaluacion.dPuntajeEvaluacion = dr.GetDecimal(dr.GetOrdinal("dPuntajeEvaluacion"));
                                     fichaEvaluacion.vJustificacion = dr.GetString(dr.GetOrdinal("vJustificacion")); 

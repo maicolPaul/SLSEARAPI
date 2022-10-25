@@ -18,6 +18,7 @@ namespace SLSEARAPI.Models
         public string vCategoria { get; set; }
         public int iCodCriterio { get; set; }
         public string vCriterio { get; set; }
+        public string vCriterio1 { get; set; }
         public decimal PuntajeMaximo { get; set; }
         public decimal dPuntajeEvaluacion { get; set; }
         public string vJustificacion { get; set; }

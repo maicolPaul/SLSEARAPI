@@ -46,8 +46,8 @@ namespace SLSEARAPI.Controllers
         }
 
         [HttpPost]
-        [ActionName("InsertarPlanAsistenciaTec")]
-        public FichaEvaluacion InsertarPlanAsistenciaTec(FichaEvaluacion fichaEvaluacion)
+        [ActionName("InsertarFichaEvaluacion")]
+        public FichaEvaluacion InsertarFichaEvaluacion(FichaEvaluacion fichaEvaluacion)
         {
             try
             {
