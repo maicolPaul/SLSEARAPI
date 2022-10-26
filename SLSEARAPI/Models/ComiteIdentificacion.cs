@@ -24,5 +24,8 @@ namespace SLSEARAPI.Models
         public string vNomDistrito { get; set; }
         public int iRecordCount { get; set; }
 
+        public string vMensaje { get; set; }
+
+
     }
 }

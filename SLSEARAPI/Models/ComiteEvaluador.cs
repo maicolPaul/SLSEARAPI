@@ -9,6 +9,8 @@ namespace SLSEARAPI.Models
     {
         public int iCodComiteEvaluador { get; set; }
 
+        public int iCodIdentificacion { get; set; }
+
         public string vNombres { get; set; }
 
         public string vApellidoPat { get; set; }

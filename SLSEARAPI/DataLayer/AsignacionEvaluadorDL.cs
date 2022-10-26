@@ -56,5 +56,123 @@ namespace SLSEARAPI.DataLayer
 
             return lista;
         }
+        public ComiteIdentificacion AsignacionEvaluador(ComiteIdentificacion comiteIdentificacion)
+        {
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_Insertar_ComiteIdentificacion]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@vCodUbigeo", comiteIdentificacion.iCodUbigeoT1);
+                        command.Parameters.AddWithValue("@iCodIdentificacion", comiteIdentificacion.iCodIdentificacion);                        
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                if (dr.Read())
+                                {
+                                    comiteIdentificacion = new ComiteIdentificacion();
+
+                                    comiteIdentificacion.iCodComiteIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodComiteIdentificacion"));
+                                    comiteIdentificacion.vMensaje = dr.GetString(dr.GetOrdinal("vMensaje"));                                    
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return comiteIdentificacion;
+        }
+        public ComiteEvaluador EliminarComiteEvaluadorPorIdentificacion(ComiteEvaluador comiteEvaluador)
+        {
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_Eliminar_ComiteEvaluadorPorIdentificacion]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        //command.Parameters.AddWithValue("@vCodUbigeo", comiteIdentificacion.iCodUbigeoT1);
+                        command.Parameters.AddWithValue("@iCodIdentificacion", comiteEvaluador.iCodIdentificacion);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                if (dr.Read())
+                                {
+                                    comiteEvaluador = new ComiteEvaluador();
+
+                                    comiteEvaluador.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
+                                    comiteEvaluador.vMensaje = dr.GetString(dr.GetOrdinal("vMensaje"));
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return comiteEvaluador;
+        }
+        public List<ComiteEvaluador> ListarComiteEvaluadorPorIdentificacion(ComiteEvaluador comiteEvaluador)
+        {
+            List<ComiteEvaluador> lista = new List<ComiteEvaluador>();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_Listar_ComiteEvaluadorPorIdentificacion]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;                        
+                        command.Parameters.AddWithValue("@iCodIdentificacion", comiteEvaluador.iCodIdentificacion);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                while (dr.Read())
+                                {
+                                    comiteEvaluador = new ComiteEvaluador();
+
+                                    comiteEvaluador.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
+                                    comiteEvaluador.iCodComiteEvaluador = dr.GetInt32(dr.GetOrdinal("iCodComiteEvaluador"));
+                                    comiteEvaluador.vNombres = dr.GetString(dr.GetOrdinal("vNombres"));
+                                    comiteEvaluador.vApellidoPat = dr.GetString(dr.GetOrdinal("vApellidoPat"));
+                                    comiteEvaluador.vApellidoMat = dr.GetString(dr.GetOrdinal("vApellidoMat"));                                    
+                                    comiteEvaluador.vCorreo = dr.GetString(dr.GetOrdinal("vCorreo"));
+                                    lista.Add(comiteEvaluador);
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return lista;
+        }
     }
 }

@@ -30,5 +30,47 @@ namespace SLSEARAPI.Controllers
                 throw ex;
             }
         }
+
+        [HttpPost]
+        [ActionName("AsignacionEvaluador")]
+        public ComiteIdentificacion AsignacionEvaluador(ComiteIdentificacion comiteIdentificacion)
+        {
+            try
+            {
+                return asignacionEvaluadorDL.AsignacionEvaluador(comiteIdentificacion);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ActionName("ListarComiteEvaluadorPorIdentificacion")]
+        public List<ComiteEvaluador> ListarComiteEvaluadorPorIdentificacion(ComiteEvaluador comiteEvaluador)
+        {
+            try
+            {
+                return asignacionEvaluadorDL.ListarComiteEvaluadorPorIdentificacion(comiteEvaluador);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ActionName("EliminarComiteEvaluadorPorIdentificacion")]
+        public ComiteEvaluador EliminarComiteEvaluadorPorIdentificacion(ComiteEvaluador comiteEvaluador)
+        {
+            try
+            {
+                return asignacionEvaluadorDL.EliminarComiteEvaluadorPorIdentificacion(comiteEvaluador);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
