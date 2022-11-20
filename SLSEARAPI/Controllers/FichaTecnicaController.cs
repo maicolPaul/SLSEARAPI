@@ -112,5 +112,19 @@ namespace SLSEARAPI.Controllers
                 throw ex;
             }
         }
+
+        [HttpPost]
+        [ActionName("RetornarDiferenciaMeses")]
+        public int RetornarDiferenciaMeses(FichaTecnica fichaTecnica)
+        {
+            try
+            {
+                return fichaTecnicaDL.RetornarDiferenciaMeses(fichaTecnica);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

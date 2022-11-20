@@ -273,6 +273,43 @@ namespace SLSEARAPI.DataLayer
             }
             return lista;
         }
+        public int RetornarDiferenciaMeses(FichaTecnica fichaTecnica)
+        {
+            int meses = 0;
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_Calculardiferenciameses]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                                                
+                        command.Parameters.AddWithValue("@dFechaInicioServicioT1", fichaTecnica.dFechaInicioServicioT1);
+                        command.Parameters.AddWithValue("@dFechaFinServicioT1", fichaTecnica.dFechaFinServicioT1);                    
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                if (dr.Read())
+                                {
+                                    meses = dr.GetInt32(dr.GetOrdinal("meses"));                               
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+                return meses;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public FichaTecnica InsertarFichaTecnica(FichaTecnica fichaTecnica)
         {
             try

@@ -1,4 +1,5 @@
-﻿using SLSEARAPI.Models;
+﻿using Org.BouncyCastle.Cmp;
+using SLSEARAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -131,8 +132,15 @@ namespace SLSEARAPI.DataLayer
                                     productor.vCelularOrg = dr.GetString(dr.GetOrdinal("vCelularOrg"));
                                     productor.vDireccionOrg = dr.GetString(dr.GetOrdinal("vDireccionOrg"));
                                     productor.vCorreoElectronicoOrg = dr.GetString(dr.GetOrdinal("vCorreoElectronicoOrg"));
-                                    productor.iCodTipoOrg = dr.GetInt32(dr.GetOrdinal("iCodTipoOrg"));                                   
-
+                                    productor.iCodTipoOrg = dr.GetInt32(dr.GetOrdinal("iCodTipoOrg")); 
+                                    productor.cantidadmasculino= dr.GetInt32(dr.GetOrdinal("cantidadmasculino"));
+                                    productor.cantidadfemenino = dr.GetInt32(dr.GetOrdinal("cantidadfemenino"));
+                                    productor.promedio = dr.GetDecimal(dr.GetOrdinal("promedio"));
+                                    productor.jovenes = dr.GetInt32(dr.GetOrdinal("jovenes"));
+                                    productor.recibiocapacitacion = dr.GetInt32(dr.GetOrdinal("recibiocapacitacion"));
+                                    productor.porfemenino = dr.GetDecimal(dr.GetOrdinal("porfemenino"));
+                                    productor.porjovenes = dr.GetDecimal(dr.GetOrdinal("porjovenes"));
+                                    productor.porrecibiocapacitacion = dr.GetDecimal(dr.GetOrdinal("porrecibiocapacitacion"));
                                     lista.Add(productor);
                                 }
                             }

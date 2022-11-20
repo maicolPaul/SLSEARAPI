@@ -183,6 +183,7 @@
     <Compile Include="Controllers\ArchivosbaseController.cs" />
     <Compile Include="Controllers\AsignacionEvaluadorController.cs" />
     <Compile Include="Controllers\ComiteEvaluadorController.cs" />
+    <Compile Include="Controllers\CortesController.cs" />
     <Compile Include="Controllers\CostoController.cs" />
     <Compile Include="Controllers\CronogramaController.cs" />
     <Compile Include="Controllers\CurriculumVitaeController.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="DataLayer\ArchivoDL.cs" />
     <Compile Include="DataLayer\AsignacionEvaluadorDL.cs" />
     <Compile Include="DataLayer\ComiteEvaluadorDL.cs" />
+    <Compile Include="DataLayer\CortesDL.cs" />
     <Compile Include="DataLayer\CostoDL.cs" />
     <Compile Include="DataLayer\CronogramaDL.cs" />
     <Compile Include="DataLayer\CurriculumVitaeDL.cs" />
@@ -245,6 +247,8 @@
     <Compile Include="Models\ComiteIdentificacion.cs" />
     <Compile Include="Models\Componente.cs" />
     <Compile Include="Models\ComponenteCronograma.cs" />
+    <Compile Include="Models\CortesCabecera.cs" />
+    <Compile Include="Models\CortesDetalle.cs" />
     <Compile Include="Models\Costo.cs" />
     <Compile Include="Models\Cronograma.cs" />
     <Compile Include="Models\CurriculumVitae.cs" />

@@ -48,6 +48,23 @@ namespace SLSEARAPI.Models
         public int iCodTipoOrg { get; set; }
         public string vOrganizacion { get; set; }
 
+        public int cantidadmasculino { get; set; }
+
+        public int cantidadfemenino { get; set; }
+
+        public decimal promedio { get; set; }
+
+        public int jovenes { get; set; }
+
+        public int recibiocapacitacion { get; set; }
+
+        public decimal porfemenino { get; set; }
+
+        public decimal porjovenes { get; set; }
+
+        public decimal porrecibiocapacitacion { get; set; }
+
+
     }
 }
 
