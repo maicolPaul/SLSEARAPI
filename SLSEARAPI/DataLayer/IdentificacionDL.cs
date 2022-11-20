@@ -526,6 +526,7 @@ namespace SLSEARAPI.DataLayer
                                     componente.vUnidadMedida = dr.GetString(dr.GetOrdinal("vUnidadMedida"));
                                     componente.vMeta = dr.GetString(dr.GetOrdinal("vMeta"));
                                     componente.vMedio = dr.GetString(dr.GetOrdinal("vMedio"));
+                                    componente.vMedio_ = dr.GetString(dr.GetOrdinal("vMedio_"));
                                     componente.nTipoComponente = dr.GetInt32(dr.GetOrdinal("nTipoComponente"));
                                     componente.vCorrelativo = dr.GetString(dr.GetOrdinal("CorrelativoComponente"));
                                     componente.vDescripcionCorta = dr.GetString(dr.GetOrdinal("vDescripcionCorta"));
@@ -854,6 +855,45 @@ namespace SLSEARAPI.DataLayer
 
             return actividad;
         }
+
+        public Actividad ActividadCorrelativo(Actividad actividad)
+        {
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_Obtener_ActividadCorrelativo]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodComponente", actividad.iCodIdentificacion);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                if (dr.Read())
+                                {
+                                    actividad = new Actividad();
+
+                                    actividad.vActividadCorrelativo = dr.GetString(dr.GetOrdinal("vActividadCorrelativo"));
+                                }
+                            }
+                        }
+
+                    }
+
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return actividad;
+        }
         public Tecnologias InsertarTecnologia(Tecnologias tecnologias)
         {
             try
@@ -1015,6 +1055,9 @@ namespace SLSEARAPI.DataLayer
                                     tecnologia.vtecnologia1 = dr.GetString(dr.GetOrdinal("vTecnologia1"));
                                     tecnologia.vtecnologia2 = dr.GetString(dr.GetOrdinal("vTecnologia2"));
                                     tecnologia.vtecnologia3 = dr.GetString(dr.GetOrdinal("vTecnologia3"));
+                                    tecnologia.vtecnologia1Corta = dr.GetString(dr.GetOrdinal("vtecnologia1Corta"));
+                                    tecnologia.vtecnologia2Corta = dr.GetString(dr.GetOrdinal("vtecnologia2Corta"));
+                                    tecnologia.vtecnologia3Corta = dr.GetString(dr.GetOrdinal("vtecnologia3Corta"));
                                     lista.Add(tecnologia);
                                 }
                             }
@@ -1808,6 +1851,47 @@ namespace SLSEARAPI.DataLayer
 
             return indicadores;
         }
+        
+        public Componente InsertarCompDescrip(Componente componente)
+        {
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_InsertarCompDescrip]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodComponenteDesc", componente.iCodComponenteDesc);
+                        command.Parameters.AddWithValue("@iCodIdentificacion", componente.iCodIdentificacion);
+                        command.Parameters.AddWithValue("@vDescripcion", componente.vDescripcion);
+                        command.Parameters.AddWithValue("@iOpcion", componente.iOpcion);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                if (dr.Read())
+                                {
+                                    componente = new Componente();
+
+                                    componente.iCodComponenteDesc = dr.GetInt32(dr.GetOrdinal("iCodComponenteDesc"));
+                                    componente.vMensaje = dr.GetString(dr.GetOrdinal("vMensaje"));
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return componente;
+        }
         public List<Indicadores> ListarIndicadoresPaginado(Indicadores indicadores)
         {
             List<Indicadores> lista = new List<Indicadores>();
@@ -1844,6 +1928,47 @@ namespace SLSEARAPI.DataLayer
                                     indicadores.vMedioVerificacion = dr.GetString(dr.GetOrdinal("vMedioVerificacion"));
                                     indicadores.vDescIdentificador = dr.GetString(dr.GetOrdinal("vdescIdentificador"));
                                     lista.Add(indicadores);
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return lista;
+        }
+
+        public List<Componente> ListarComponentesSelect(Componente component)
+        {
+            List<Componente> lista = new List<Componente>();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_ListarComponentesSelect]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@iCodIdentificacion", component.iCodIdentificacion);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                while (dr.Read())
+                                {
+                                    component = new Componente();
+                                    component.iCodComponenteDesc = dr.GetInt32(dr.GetOrdinal("iCodComponenteDesc"));
+                                    component.vDescripcion = dr.GetString(dr.GetOrdinal("vDescripcion"));
+                                    lista.Add(component);
                                 }
                             }
                         }

@@ -13,6 +13,10 @@ namespace SLSEARAPI.Models
         public string vtecnologia2 { get; set; }
         public string vtecnologia3 { get; set; }
 
+        public string vtecnologia1Corta { get; set; }
+        public string vtecnologia2Corta { get; set; }
+        public string vtecnologia3Corta { get; set; }
+
         public string vMensaje { get; set; }
 
         public int piPageSize { get; set; }

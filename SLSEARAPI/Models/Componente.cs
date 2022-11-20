@@ -18,6 +18,7 @@ namespace SLSEARAPI.Models
         public string vMeta { get; set; } 
 
         public string vMedio { get; set; }
+        public string vMedio_ { get; set; }
 
         public int nTipoComponente { get; set; }
 
@@ -39,5 +40,8 @@ namespace SLSEARAPI.Models
         public int totalRegistros { get; set; }
 
         public string vMensaje { get; set; }
+
+        public int iOpcion { get; set; }
+        public int iCodComponenteDesc { get; set; }
     }
 }

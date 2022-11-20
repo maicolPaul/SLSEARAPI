@@ -286,6 +286,20 @@ namespace SLSEARAPI.Controllers
         }
 
         [HttpPost]
+        [ActionName("ActividadCorrelativo")]
+        public Actividad ActividadCorrelativo(Actividad actividad)
+        {
+            try
+            {
+                return identificacionDL.ActividadCorrelativo(actividad);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
         [ActionName("EditarCausasDirectas")]
         public CausasDirectas EditarCausasDirectas(CausasDirectas causasDirectas)
         {
@@ -530,6 +544,34 @@ namespace SLSEARAPI.Controllers
             try
             {
                 return identificacionDL.EliminarIndicador(indicadores);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
+        [HttpPost]
+        [ActionName("InsertarCompDescrip")]
+        public Componente InsertarCompDescrip(Componente componente)
+        {
+            try
+            {
+                return identificacionDL.InsertarCompDescrip(componente);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ActionName("ListarComponentesSelect")]
+        public List<Componente> ListarComponentesSelect(Componente componente)
+        {
+            try
+            {
+                return identificacionDL.ListarComponentesSelect(componente);
             }
             catch (Exception ex)
             {

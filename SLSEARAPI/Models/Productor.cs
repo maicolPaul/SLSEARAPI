@@ -8,11 +8,14 @@ namespace SLSEARAPI.Models
     public class Productor
     {
         public int iCodProductor { get; set; }
+        public Int64 Nro { get; set; }
         public string vApellidosNombres { get; set; }
         public string vDni { get; set; }
         public string vCelular { get; set; }
         public int iEdad { get; set; }
         public int iSexo { get; set; }
+        public string vSexo { get; set; }
+        public string vRecibioCapacitacion { get; set; }
         public int iPerteneceOrganizacion { get; set; }
         public string vNombreOrganizacion { get; set; }
         public int iRecibioCapacitacion { get; set; }
@@ -43,6 +46,7 @@ namespace SLSEARAPI.Models
         public string vCorreoElectronicoOrg { get; set; }
 
         public int iCodTipoOrg { get; set; }
+        public string vOrganizacion { get; set; }
 
     }
 }

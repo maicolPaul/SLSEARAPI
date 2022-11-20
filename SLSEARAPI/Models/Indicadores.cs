@@ -15,6 +15,7 @@ namespace SLSEARAPI.Models
         public string vDescIdentificador { get; set; }
 
         public string vUnidadMedida { get; set; }
+        public string TipoIndicador { get; set; }
 
         public string vMeta { get; set; }
 

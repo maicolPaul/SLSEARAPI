@@ -28,6 +28,7 @@ namespace SLSEARAPI.Models
         public bool bActivo { get; set; }
         public int iRecordCount { get; set; }
         public int totalRegistros { get; set; }
+        public string vActividadCorrelativo { get; set; }
 
     }
 }

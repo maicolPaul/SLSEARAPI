@@ -28,6 +28,10 @@ namespace SLSEARAPI.Models
 
         public string iCodUbigeoT1 { get; set; }
 
+        public string vNomDepartamento { get; set; }
+        public string vNomProvincia { get; set; }
+        public string vNomDistrito { get; set; }
+
         public string vLocalidadT1 { get; set; }
 
         public string vZonaUTMT1 { get; set; }
@@ -39,6 +43,7 @@ namespace SLSEARAPI.Models
         public string dFechaInicioServicioT1 { get; set; }
 
         public string dFechaFinServicioT1 { get; set; }
+        public int TotalDias { get; set; }
 
         public int iDuracionT1 { get; set; }
 
@@ -54,6 +59,7 @@ namespace SLSEARAPI.Models
         public string vDireccionT2 { get; set; }
 
         public string vTelefonoT2 { get; set; }
+        public string TipoPersoneriaT3 { get; set; }
 
         public string vCorreoElectronicoT2 { get; set; }
 
@@ -83,6 +89,7 @@ namespace SLSEARAPI.Models
         public string vPaginaWebT3 { get; set; }
         public string vEpecialidadProveedorT3 { get; set; }
         public int iCodTipoProveedorT3 { get; set; }
+        public string vProveedor { get; set; }
         public int iCodConvocatoria { get; set; }
 
         public int iCodExtensionista { get; set; }
