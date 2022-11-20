@@ -11,6 +11,8 @@ namespace SLSEARAPI.Models
         public int iCodIdentificacion { get; set; }
         public int iCodEfectoDirecto { get; set; }
         public string vDescEfectoIndirecto { get; set; }
+
+        public string vDescEfectoIndirectoCorta { get; set; }
         public string vDescEfectoDirecto { get; set; }
         public string vMensaje { get; set; }
 

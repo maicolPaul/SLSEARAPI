@@ -14,6 +14,7 @@ namespace SLSEARAPI.Models
         public string vUnidadMedida { get; set; }
         public string vMeta { get; set; }
         public string vMedio { get; set; }
+        public string vMedioCorta { get; set; }
         public int nTipoActividad { get; set; }
         public string vDescripcionCorta { get; set; }
         public int Correlativo { get; set; }

@@ -579,6 +579,7 @@ namespace SLSEARAPI.DataLayer
                                     actividad.vUnidadMedida = dr.GetString(dr.GetOrdinal("vUnidadMedida"));
                                     actividad.vMeta = dr.GetString(dr.GetOrdinal("vMeta"));
                                     actividad.vMedio = dr.GetString(dr.GetOrdinal("vMedio"));
+                                    actividad.vMedioCorta = dr.GetString(dr.GetOrdinal("vMedioCorta"));
                                     actividad.nTipoActividad = dr.GetInt32(dr.GetOrdinal("nTipoActividad"));
                                     actividad.vDescripcionCorta = dr.GetString(dr.GetOrdinal("vDescripcionCorta"));
                                     actividad.Correlativo = dr.GetInt32(dr.GetOrdinal("Correlativo"));
@@ -1214,7 +1215,8 @@ namespace SLSEARAPI.DataLayer
                                     causasDirectas.totalRegistros = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
                                     causasDirectas.iCodCausaDirecta = dr.GetInt32(dr.GetOrdinal("iCodCausaDirecta"));
                                     causasDirectas.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
-                                    causasDirectas.vdescrcausadirecta = dr.GetString(dr.GetOrdinal("vDescrCausaDirecta"));                         
+                                    causasDirectas.vdescrcausadirecta = dr.GetString(dr.GetOrdinal("vDescrCausaDirecta"));
+                                    causasDirectas.vDescrCausaDirectaCorta = dr.GetString(dr.GetOrdinal("vDescrCausaDirectaCorta"));
                                     lista.Add(causasDirectas);
                                 }
                             }
@@ -1381,7 +1383,8 @@ namespace SLSEARAPI.DataLayer
                                     causasIndirectas.iCodCausaDirecta = dr.GetInt32(dr.GetOrdinal("iCodCausaDirecta"));
                                     causasIndirectas.iCodCausaIndirecta = dr.GetInt32(dr.GetOrdinal("iCodCausaIndirecta"));
                                     causasIndirectas.vDescrCausaInDirecta = dr.GetString(dr.GetOrdinal("vDescCausaIndirecta"));
-                                    
+                                    causasIndirectas.vDescCausaIndirectaCorta = dr.GetString(dr.GetOrdinal("vDescCausaIndirectaCorta"));
+
                                     lista.Add(causasIndirectas);
                                 }
                             }
@@ -1542,7 +1545,8 @@ namespace SLSEARAPI.DataLayer
                                     efectoDirecto.totalRegistros = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
                                     efectoDirecto.iCodEfecto = dr.GetInt32(dr.GetOrdinal("iCodEfecto"));
                                     efectoDirecto.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
-                                    efectoDirecto.vDescEfecto = dr.GetString(dr.GetOrdinal("vDescEfecto"));                                    
+                                    efectoDirecto.vDescEfecto = dr.GetString(dr.GetOrdinal("vDescEfecto"));
+                                    efectoDirecto.vDescEfectoCorta = dr.GetString(dr.GetOrdinal("vDescEfectoCorta"));
 
                                     lista.Add(efectoDirecto);
                                 }
@@ -1709,6 +1713,7 @@ namespace SLSEARAPI.DataLayer
                                     efectoIndirecto.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
                                     efectoIndirecto.iCodEfectoDirecto = dr.GetInt32(dr.GetOrdinal("iCodEfecto"));
                                     efectoIndirecto.vDescEfectoIndirecto = dr.GetString(dr.GetOrdinal("vDescEfectoIndirecto"));
+                                    efectoIndirecto.vDescEfectoIndirectoCorta = dr.GetString(dr.GetOrdinal("vDescEfectoIndirectoCorta"));
 
                                     lista.Add(efectoIndirecto);
                                 }

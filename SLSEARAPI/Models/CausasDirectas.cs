@@ -10,7 +10,7 @@ namespace SLSEARAPI.Models
         public int iCodCausaDirecta { get; set; }
 
         public string vdescrcausadirecta { get; set; }
-
+        public string vDescrCausaDirectaCorta { get; set; }
         public int iCodIdentificacion { get; set; }
 
         public string vMensaje { get; set; }
