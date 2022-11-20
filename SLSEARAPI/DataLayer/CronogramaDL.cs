@@ -234,7 +234,7 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@pvSortColumn", cronograma.pvSortColumn);
                         command.Parameters.AddWithValue("@pvSortOrder", cronograma.pvSortOrder);
                         command.Parameters.AddWithValue("@iCodExtensionista", cronograma.iCodExtensionista);
-
+                        command.Parameters.AddWithValue("@iCodComponente", cronograma.iCodComponente);
 
                         using (SqlDataReader dr = command.ExecuteReader())
                         {
