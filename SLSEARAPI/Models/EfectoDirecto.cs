@@ -14,6 +14,8 @@ namespace SLSEARAPI.Models
 
         public string vDescEfecto { get; set; }
 
+        public string vDescEfectoCorta { get; set; }
+
         public string vMensaje { get; set; }
 
         public int piPageSize { get; set; }

@@ -13,7 +13,7 @@ namespace SLSEARAPI.Models
         public int iCodCausaDirecta { get; set; }
 
         public string vDescrCausaInDirecta { get; set; }
-
+        public string vDescCausaIndirectaCorta { get; set; }
         public string vDescrCausaDirecta { get; set; }
 
         public string vProblemaCentral { get; set; }
