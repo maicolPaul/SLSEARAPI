@@ -59,5 +59,32 @@ namespace SLSEARAPI.Controllers
             }
         }
 
+        [HttpPost]
+        [ActionName("EliminarCorteDetalle")]
+        public CortesDetalle EliminarCorteDetalle(CortesDetalle cortesDetalle)
+        {
+            try
+            {
+                return cortesDL.EliminarCorteDetalle(cortesDetalle);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ActionName("ObtenerCorteCabecera")]
+        public CortesCabecera ObtenerCorteCabecera(CortesCabecera cortesCabecera)
+        {
+            try
+            {
+                return cortesDL.ObtenerCorteCabecera(cortesCabecera);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

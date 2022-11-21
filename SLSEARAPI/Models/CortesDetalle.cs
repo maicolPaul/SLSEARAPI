@@ -15,6 +15,21 @@ namespace SLSEARAPI.Models
 
         public string vMensaje { get; set; }
 
+        public int piPageSize { get; set; }
+
+        public int piCurrentPage { get; set; }
+
+        public string pvSortColumn { get; set; }
+
+        public string pvSortOrder { get; set; }
+
+        public int totalRegistros { get; set; }
+
+        public int totalPaginas { get; set; }
+
+        public int paginaActual { get; set; }
+
+        public string Entregable { get; set; }
 
     }
 }
