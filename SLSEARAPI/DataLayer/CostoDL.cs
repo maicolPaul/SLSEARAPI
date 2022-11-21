@@ -793,11 +793,10 @@ namespace SLSEARAPI.DataLayer
 
             return lista;
         }
-        
-        public List<Actividad> ListarActividades_Rpt(FichaTecnica fichaTecnica)
+
+        public List<Actividad> ListarActividadesRpt(FichaTecnica fichaTecnica)
         {
             List<Actividad> lista = new List<Actividad>();
-
             try
             {
                 using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
@@ -807,8 +806,8 @@ namespace SLSEARAPI.DataLayer
                     using (SqlCommand command = new SqlCommand("[PA_ListarActividades_Rpt]", conection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@iCodExtensionista", fichaTecnica.iCodExtensionista);
-                        command.Parameters.AddWithValue("@nTipoComponente", fichaTecnica.TotalDias);
+                        command.Parameters.AddWithValue("@iCodComponenteDesc", fichaTecnica.iCodConvocatoria);
+
                         using (SqlDataReader dr = command.ExecuteReader())
                         {
                             if (dr.HasRows)
@@ -816,6 +815,7 @@ namespace SLSEARAPI.DataLayer
                                 while (dr.Read())
                                 {
                                     Actividad actividad = new Actividad();
+
                                     actividad.vActividad = dr.GetString(dr.GetOrdinal("vActividad"));
                                     actividad.vDescripcion = dr.GetString(dr.GetOrdinal("vDescripcion"));
                                     actividad.vUnidadMedida = dr.GetString(dr.GetOrdinal("vUnidadMedida"));
@@ -825,7 +825,9 @@ namespace SLSEARAPI.DataLayer
                                 }
                             }
                         }
+
                     }
+
                     conection.Close();
                 }
             }
@@ -833,7 +835,6 @@ namespace SLSEARAPI.DataLayer
             {
                 throw ex;
             }
-
             return lista;
         }
 

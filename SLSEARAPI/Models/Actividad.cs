@@ -11,10 +11,11 @@ namespace SLSEARAPI.Models
         public int iCodIdentificacion { get; set; }
         public string vActividad { get; set; }
         public string vDescripcion { get; set; }
+        public string vDescripcion_ { get; set; }
         public string vUnidadMedida { get; set; }
         public string vMeta { get; set; }
         public string vMedio { get; set; }
-        public string vMedioCorta { get; set; }
+        public string vMedio_ { get; set; }
         public int nTipoActividad { get; set; }
         public string vDescripcionCorta { get; set; }
         public int Correlativo { get; set; }
@@ -31,6 +32,7 @@ namespace SLSEARAPI.Models
         public int totalRegistros { get; set; }
         public string vActividadCorrelativo { get; set; }
 
+        public int iCodComponenteDesc { get; set; }
     }
 }
 
