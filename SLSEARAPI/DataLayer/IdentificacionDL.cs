@@ -575,10 +575,12 @@ namespace SLSEARAPI.DataLayer
                                     actividad.iCodActividad = dr.GetInt32(dr.GetOrdinal("iCodActividad"));
                                     actividad.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
                                     actividad.vDescripcion = dr.GetString(dr.GetOrdinal("vDescripcion"));
+                                    actividad.vDescripcion_ = dr.GetString(dr.GetOrdinal("vDescripcion_"));
                                     actividad.vActividad = dr.GetString(dr.GetOrdinal("vActividad"));
                                     actividad.vUnidadMedida = dr.GetString(dr.GetOrdinal("vUnidadMedida"));
                                     actividad.vMeta = dr.GetString(dr.GetOrdinal("vMeta"));
                                     actividad.vMedio = dr.GetString(dr.GetOrdinal("vMedio"));
+                                    actividad.vMedio_ = dr.GetString(dr.GetOrdinal("vMedio_"));
                                     actividad.nTipoActividad = dr.GetInt32(dr.GetOrdinal("nTipoActividad"));
                                     actividad.vDescripcionCorta = dr.GetString(dr.GetOrdinal("vDescripcionCorta"));
                                     actividad.Correlativo = dr.GetInt32(dr.GetOrdinal("Correlativo"));

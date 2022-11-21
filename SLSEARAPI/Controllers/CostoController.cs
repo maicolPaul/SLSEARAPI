@@ -3735,6 +3735,7 @@ namespace SLSEARAPI.Controllers
                         #endregion
 
 
+
                         #region INDICADOR_COMPONENTE
                         rowObjCentralIni = rowIndexComp;
                         for (int j = 0; j < IndicadorPorComponente.Count; j++)
@@ -3998,7 +3999,8 @@ namespace SLSEARAPI.Controllers
                         #endregion
 
                         #region DATA_ACTIVIDADES
-                        List<Actividad> actividades = costoDL.ListarActividades_Rpt(fichaTecnica);
+                        fichaTecnica.iCodConvocatoria = componentesDistinct[i].nTipoComponente;
+                        List<Actividad> actividades = costoDL.ListarActividadesRpt(fichaTecnica);
                         for (int y = 0; y < actividades.Count; y++)
                         {
                             _genericSheet_.Cells["B" + rowIndexComp + ":B" + rowIndexComp].Value = actividades[y].vActividad;
