@@ -50,6 +50,7 @@ namespace SLSEARAPI.DataLayer
                                     planCapacitacion.iTotalPractica = dr.GetInt32(dr.GetOrdinal("iTotalPractica"));
                                     planCapacitacion.bActivo = dr.GetBoolean(dr.GetOrdinal("bActivo"));
                                     planCapacitacion.iRecordCount = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
+                                    planCapacitacion.iCodHito = dr.GetInt32(dr.GetOrdinal("iCodHito"));
                                     lista.Add(planCapacitacion);
                                 }
                             }

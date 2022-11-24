@@ -106,6 +106,7 @@ namespace SLSEARAPI.DataLayer
                                     costo.Estado = dr.GetString(dr.GetOrdinal("Estado"));
                                     costo.bActivo = dr.GetBoolean(dr.GetOrdinal("bActivo"));
                                     costo.iRecordCount = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
+                                    costo.iCodHito = dr.GetInt32(dr.GetOrdinal("iCodHito"));
                                     lista.Add(costo);
                                 }
                             }
