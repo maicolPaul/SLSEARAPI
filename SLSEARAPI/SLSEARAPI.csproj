@@ -193,6 +193,7 @@
     <Compile Include="Controllers\FichaEvaluacionController.cs" />
     <Compile Include="Controllers\FichaTecnicaController.cs" />
     <Compile Include="Controllers\FormacionAcademicaController.cs" />
+    <Compile Include="Controllers\HitoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IdentificacionController.cs" />
     <Compile Include="Controllers\ListaChequeoRequisitosController.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="DataLayer\FichaEvaluacionDL.cs" />
     <Compile Include="DataLayer\FichaTecnicaDL.cs" />
     <Compile Include="DataLayer\FormacionAcademicaDL.cs" />
+    <Compile Include="DataLayer\HitosDL.cs" />
     <Compile Include="DataLayer\IdentificacionDL.cs" />
     <Compile Include="DataLayer\ListaChequeoRequisitosDL.cs" />
     <Compile Include="DataLayer\NivelDeInstruccionDL.cs" />
@@ -261,6 +263,7 @@
     <Compile Include="Models\FichaEvaluacion.cs" />
     <Compile Include="Models\FichaTecnica.cs" />
     <Compile Include="Models\FormacionAcademica.cs" />
+    <Compile Include="Models\Hito.cs" />
     <Compile Include="Models\Identificacion.cs" />
     <Compile Include="Models\Indicadores.cs" />
     <Compile Include="Models\LineaPrioritaria.cs" />

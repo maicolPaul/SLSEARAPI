@@ -34,5 +34,7 @@ namespace SLSEARAPI.Models
         public string Estado { get; set; }
         public int iRecordCount { get; set; }
 
+        public int iCodHito { get; set; }
+
     }
 }
