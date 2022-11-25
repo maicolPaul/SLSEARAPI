@@ -234,6 +234,7 @@
     <Compile Include="DataLayer\ProcedenciaDL.cs" />
     <Compile Include="DataLayer\RegimenDL.cs" />
     <Compile Include="DataLayer\RequisitosDL.cs" />
+    <Compile Include="DataLayer\SuperVisionCabCapDL.cs" />
     <Compile Include="DataLayer\TipoEntidadDL.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -280,6 +281,7 @@
     <Compile Include="Models\Regimen.cs" />
     <Compile Include="Models\Requisitos.cs" />
     <Compile Include="Models\Sector.cs" />
+    <Compile Include="Models\SupervisionCapCab.cs" />
     <Compile Include="Models\Tecnologias.cs" />
     <Compile Include="Models\TipoEntidad.cs" />
     <Compile Include="Models\TipoOrganizacion.cs" />
