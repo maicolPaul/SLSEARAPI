@@ -33,6 +33,10 @@ namespace SLSEARAPI.Models
         public string vActividadCorrelativo { get; set; }
 
         public int iCodComponenteDesc { get; set; }
+
+        public string vUnidadMedidaCorta { get; set; }
+        public string vMetaCorta { get; set; }
+        public string vMedioCorta { get; set; }
     }
 }
 

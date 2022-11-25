@@ -20,9 +20,15 @@ namespace SLSEARAPI.Controllers
     public class CostoController : ApiController
     {
         CostoDL costoDL;
+        CronogramaDL cronogramaDL;
+        PlanCapacitacionDL capacitacionDL;
+        PlanAsistenciaTecDL asistenciaTecDL;
         public CostoController()
         {
             costoDL = new CostoDL();
+            cronogramaDL = new CronogramaDL();
+            capacitacionDL = new PlanCapacitacionDL();
+            asistenciaTecDL = new PlanAsistenciaTecDL();
         }
 
         [HttpPost]
@@ -560,6 +566,9 @@ namespace SLSEARAPI.Controllers
                     _genericSheet.View.PageBreakView = true;
                     #endregion
 
+                    /***********************************************************************************/
+
+                    #region InformacionGeneral
 
                     /*****************************************************************************************/
 
@@ -2338,7 +2347,6 @@ namespace SLSEARAPI.Controllers
                     /*****************************************************************************************/
 
 
-
                     /*****************************************************************************************/
 
                     #region TABLA LISTA PRODUCTORES
@@ -2418,7 +2426,9 @@ namespace SLSEARAPI.Controllers
                     #endregion
 
                     /****************************************************************************************/
+                    #endregion
 
+                    #region Identificación
                     NombreReporte = "Identificación";
                     var _genericSheet_ = excelPackage.Workbook.Worksheets.Add(NombreReporte);
                     _genericSheet_.View.ShowGridLines = false;
@@ -2427,11 +2437,6 @@ namespace SLSEARAPI.Controllers
                     _genericSheet_.PrinterSettings.FitToPage = true;
                     _genericSheet_.PrinterSettings.Orientation = eOrientation.Landscape;
                     _genericSheet_.View.PageBreakView = true;
-
-
-
-
-
 
                     #region CABECERA
 
@@ -4140,7 +4145,738 @@ namespace SLSEARAPI.Controllers
 
                     #endregion
 
+                    #endregion
 
+                    #region Cronograma
+                    NombreReporte = "Cronograma";
+                    var _genericSheet___ = excelPackage.Workbook.Worksheets.Add(NombreReporte);
+                    _genericSheet___.View.ShowGridLines = false;
+                    _genericSheet___.View.ZoomScale = 100;
+                    _genericSheet___.PrinterSettings.PaperSize = ePaperSize.A4;
+                    _genericSheet___.PrinterSettings.FitToPage = true;
+                    _genericSheet___.PrinterSettings.Orientation = eOrientation.Landscape;
+                    _genericSheet___.View.PageBreakView = true;
+
+
+                    List<string> _cabecera = new List<string>();
+
+                    _cabecera.Add("Nro");
+                    _cabecera.Add("Actividades");
+                    _cabecera.Add("Descripcion");
+                    _cabecera.Add("Unidad Medida");
+                    _cabecera.Add("Meta");
+
+                    int finish = pintarcabeceras(_cabecera, _genericSheet___, "CRONOGRAMA DETALLADO");
+
+                    _genericSheet___.Cells["A3:D3"].Value = "3.1 CRONOGRAMA DE EJECUCIÓN";
+                    _genericSheet___.Cells["A3:D3"].Merge = true;
+                    _genericSheet___.Cells["A3:D3"].Style.Locked = true;
+                    System.Drawing.Color colFromHex_cro = System.Drawing.ColorTranslator.FromHtml("#72aea5");
+                    _genericSheet___.Cells["A3:D3"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    _genericSheet___.Cells["A3:D3"].Style.Fill.BackgroundColor.SetColor(colFromHex_cro);
+                    _genericSheet___.Column(1).Style.Locked = true;
+                    _genericSheet___.Workbook.Protection.LockWindows = true;
+                    _genericSheet___.Workbook.Protection.LockStructure = true;
+
+                    //pintar componente 1
+
+                    //List<Componente> componentes = cronogramaDL.ListarComponentes(cronograma);
+                    Cronograma cronograma1 = new Cronograma();
+                    cronograma1.iCodExtensionista = fichaTecnica.iCodExtensionista;
+                    DataTable componente_cro = cronogramaDL.ListarComponentesRpt(cronograma1);
+                    rowIndexComp = 8;
+                    colcomp = 1;
+
+                    if (componente_cro.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < componente_cro.Rows.Count; i++)
+                        {
+                            // Componentes
+                            _texto_row(_genericSheet___, rowIndexComp, colcomp++, (i + 1).ToString(), "#fff2cc");
+                            _texto_row(_genericSheet___, rowIndexComp, colcomp++, componente_cro.Rows[i][2], "#fff2cc");
+                            _texto_row(_genericSheet___, rowIndexComp, colcomp++, componente_cro.Rows[i][5], "#fff2cc");
+                            _texto_row(_genericSheet___, rowIndexComp, colcomp++, componente_cro.Rows[i][3], "#fff2cc");
+                            _texto_row(_genericSheet___, rowIndexComp, colcomp++, int.Parse(componente_cro.Rows[i][6].ToString()), "#fff2cc");
+
+                            for (int j = 9; j < componente_cro.Columns.Count; j++)
+                            {
+                                _texto_row_fecha(_genericSheet___, 6, colcomp, Convert.ToDateTime(componente_cro.Columns[j].ColumnName), "#b4c6e7");
+                                _genericSheet___.Rows[6].Height = 40;
+                                _texto_row1(_genericSheet___, 7, colcomp, j - 8, "#b4c6e7");
+                                _texto_row1(_genericSheet___, rowIndexComp, colcomp, componente_cro.Rows[i][j].ToString() == "" ? "-" : componente_cro.Rows[i][j].ToString(), "#fff2cc");
+                                colcomp++;
+                            }
+                            rowIndexComp++;
+                            colcomp = 1;
+                            //------------------------------------------------------------------------------------------------------------------------------------------------------
+                            // Actividades
+                            Actividad actividad_cro = new Actividad();
+                            actividad_cro.iCodIdentificacion = Convert.ToInt32(componente_cro.Rows[i][0].ToString());
+                            actividad_cro.iCodExtensionista = cronograma1.iCodExtensionista;
+                            DataTable listaactividades = cronogramaDL.ListarActividadesPorComponente(actividad_cro);
+                            for (int k = 0; k < listaactividades.Rows.Count; k++)
+                            {
+                                _texto_row(_genericSheet___, rowIndexComp, colcomp++, (i + 1).ToString() + "." + (k + 1).ToString(), "#FFFFFF");
+                                _texto_row(_genericSheet___, rowIndexComp, colcomp++, listaactividades.Rows[k][3], "#FFFFFF");
+                                _texto_row(_genericSheet___, rowIndexComp, colcomp++, listaactividades.Rows[k][4], "#FFFFFF");
+                                _texto_row(_genericSheet___, rowIndexComp, colcomp++, listaactividades.Rows[k][5], "#FFFFFF");
+                                _texto_row(_genericSheet___, rowIndexComp, colcomp++, int.Parse(listaactividades.Rows[k][6].ToString()), "#FFFFFF");
+                                for (int z = 7; z < listaactividades.Columns.Count; z++)
+                                {
+                                    if (listaactividades.Rows[k][z].ToString() == "")
+                                    {
+                                        _texto_row1(_genericSheet___, rowIndexComp, colcomp, listaactividades.Rows[k][z].ToString(), "#E2EFDA");
+                                    }
+                                    else
+                                    {
+                                        _texto_row1(_genericSheet___, rowIndexComp, colcomp, listaactividades.Rows[k][z].ToString(), "#00B050");
+                                    }
+
+                                    colcomp++;
+                                }
+                                rowIndexComp++;
+                                colcomp = 1;
+                            }
+                        }
+                        int totalmetas = 0;
+                    }
+
+                    #endregion
+
+                    #region Costos
+                    /*************************************************************************************/
+                    NombreReporte = "Costos";
+                    var _genericSheet__ = excelPackage.Workbook.Worksheets.Add(NombreReporte);
+                    _genericSheet__.View.ShowGridLines = false;
+                    _genericSheet__.View.ZoomScale = 100;
+                    _genericSheet__.PrinterSettings.PaperSize = ePaperSize.A4;
+                    _genericSheet__.PrinterSettings.FitToPage = true;
+                    _genericSheet__.PrinterSettings.Orientation = eOrientation.Landscape;
+                    _genericSheet__.View.PageBreakView = true;
+
+
+                    List<string> _cabecera__ = new List<string>();
+
+                    _cabecera__.Add("Nro");
+                    _cabecera__.Add("Actividades");
+                    _cabecera__.Add("Descripcion");
+                    _cabecera__.Add("Unidad Medida");
+                    _cabecera__.Add("Cantidad");
+                    _cabecera__.Add("Costo Unitario");
+                    _cabecera__.Add("SubTotal");
+
+                    finish = pintarcabeceras(_cabecera__, _genericSheet__, "COSTO");
+
+                    _genericSheet__.Cells["A3:D3"].Value = "3.1 COSTO DE INVERSIÓN POR COMPONENTE / ACTIVIDAD / GASTO ELEGIBLE";
+                    _genericSheet__.Cells["A3:D3"].Merge = true;
+                    _genericSheet__.Cells["A3:D3"].Style.Locked = true;
+                    System.Drawing.Color colFromHex_Costo = System.Drawing.ColorTranslator.FromHtml("#72aea5");
+                    _genericSheet__.Cells["A3:D3"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                    _genericSheet__.Cells["A3:D3"].Style.Fill.BackgroundColor.SetColor(colFromHex_Costo);
+                    _genericSheet__.Column(1).Style.Locked = true;
+                    _genericSheet__.Workbook.Protection.LockWindows = true;
+                    _genericSheet__.Workbook.Protection.LockStructure = true;
+
+                    //pintar componente 1
+
+                    //List<Componente> componentes = cronogramaDL.ListarComponentes(cronograma);
+                    Cronograma cronograma = new Cronograma();
+                    cronograma.iCodExtensionista = fichaTecnica.iCodExtensionista;
+                    DataTable componentes_ = costoDL.ListarComponentesRpt(cronograma);
+                    rowIndexComp = 8;
+                    colcomp = 1;
+
+                    if (componentes_.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < componentes_.Rows.Count; i++)
+                        {
+                            //------------------------------------------------------------------------------------------------------------------------------------------------------
+                            // Componentes
+                            _texto_row(_genericSheet__, rowIndexComp, colcomp++, (i + 1).ToString(), "#fff2cc");
+                            _texto_row(_genericSheet__, rowIndexComp, colcomp++, componentes_.Rows[i][2], "#fff2cc");
+                            _texto_row(_genericSheet__, rowIndexComp, colcomp++, componentes_.Rows[i][6], "#fff2cc");
+                            _texto_row(_genericSheet__, rowIndexComp, colcomp++, "", "#fff2cc");
+                            _texto_row(_genericSheet__, rowIndexComp, colcomp++, "", "#fff2cc");
+                            _texto_row(_genericSheet__, rowIndexComp, colcomp++, "", "#fff2cc");
+                            _texto_row(_genericSheet__, rowIndexComp, colcomp++, componentes_.Rows[i][5], "#fff2cc");
+
+                            for (int j = 10; j < componentes_.Columns.Count; j++)
+                            {
+                                _texto_row_fecha(_genericSheet__, 6, colcomp, Convert.ToDateTime(componentes_.Columns[j].ColumnName), "#b4c6e7");
+                                //_genericSheet.Rows[6].Height = 40;
+                                _texto_row1(_genericSheet__, 7, colcomp, j - 9, "#b4c6e7");
+                                _texto_row1(_genericSheet__, rowIndexComp, colcomp, componentes_.Rows[i][j].ToString() == "" ? "-" : componentes_.Rows[i][j].ToString(), "#fff2cc");
+                                colcomp++;
+                            }
+                            rowIndexComp++;
+                            colcomp = 1;
+                            //------------------------------------------------------------------------------------------------------------------------------------------------------
+                            // Actividades
+                            Actividad actividad_costo = new Actividad();
+                            actividad_costo.iCodIdentificacion = Convert.ToInt32(componentes_.Rows[i][0].ToString());
+                            actividad_costo.iCodExtensionista = cronograma.iCodExtensionista;
+                            DataTable listaactividades = costoDL.ListarActividadesPorComponente(actividad_costo);
+                            for (int k = 0; k < listaactividades.Rows.Count; k++)
+                            {
+                                _texto_row(_genericSheet__, rowIndexComp, colcomp++, (i + 1).ToString() + "." + (k + 1).ToString(), "#FFFFFF");
+                                _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaactividades.Rows[k][2], "#FFFFFF");
+                                _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaactividades.Rows[k][3], "#FFFFFF");
+                                _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaactividades.Rows[k][4], "#FFFFFF");
+                                _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaactividades.Rows[k][5], "#FFFFFF");
+                                _texto_row(_genericSheet__, rowIndexComp, colcomp++, "", "#FFFFFF");
+                                _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaactividades.Rows[k][6], "#FFFFFF");
+                                for (int z = 7; z < listaactividades.Columns.Count; z++)
+                                {
+                                    //_texto_row_fecha(_genericSheet, 6, colcomp, Convert.ToDateTime(componentes.Columns[j].ColumnName), "#b4c6e7");
+                                    //_genericSheet.Rows[6].Height = 40;
+                                    //_texto_row1(_genericSheet, 7, colcomp, j - 8, "#b4c6e7");
+                                    if (listaactividades.Rows[k][z].ToString() == "")
+                                    {
+                                        _texto_row1(_genericSheet__, rowIndexComp, colcomp, listaactividades.Rows[k][z].ToString(), "#E2EFDA");
+                                    }
+                                    else
+                                    {
+                                        _texto_row1(_genericSheet__, rowIndexComp, colcomp, listaactividades.Rows[k][z].ToString(), "#00B050");
+                                    }
+
+                                    colcomp++;
+                                }
+                                rowIndexComp++;
+                                colcomp = 1;
+                                //------------------------------------------------------------------------------------------------------------------------------------------------------
+                                //Costos Por Actividad
+                                Actividad actividad_costo1 = new Actividad();
+                                actividad_costo1.iCodActividad = Convert.ToInt32(listaactividades.Rows[k][0].ToString());
+                                actividad_costo1.iCodExtensionista = cronograma.iCodExtensionista;
+                                DataTable listaCostos = costoDL.ListarCostosPorActividad(actividad_costo1);
+                                for (int m = 0; m < listaCostos.Rows.Count; m++)
+                                {
+                                    _texto_row(_genericSheet__, rowIndexComp, colcomp++, (i + 1).ToString() + "." + (k + 1).ToString() + "." + (m + 1).ToString(), "#FFFFFF");
+                                    _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaCostos.Rows[m][1], "#FFFFFF");
+                                    _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaCostos.Rows[m][2], "#FFFFFF");
+                                    _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaCostos.Rows[m][3], "#FFFFFF");
+                                    _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaCostos.Rows[m][4], "#FFFFFF");
+                                    _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaCostos.Rows[m][5], "#FFFFFF");
+                                    _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaCostos.Rows[m][6], "#FFFFFF");
+                                    //_texto_row(_genericSheet, rowIndexComp, colcomp++, listaCostos.Rows[m][6], "#FFFFFF");
+                                    for (int n = 7; n < listaCostos.Columns.Count; n++)
+                                    {
+                                        //_texto_row_fecha(_genericSheet, 6, colcomp, Convert.ToDateTime(componentes.Columns[j].ColumnName), "#b4c6e7");
+                                        //_genericSheet.Rows[6].Height = 40;
+                                        //_texto_row1(_genericSheet, 7, colcomp, j - 8, "#b4c6e7");
+                                        if (listaCostos.Rows[m][n].ToString() == "")
+                                        {
+                                            _texto_row1(_genericSheet__, rowIndexComp, colcomp, listaCostos.Rows[m][n].ToString(), "#E2EFDA");
+                                        }
+                                        else
+                                        {
+                                            _texto_row1(_genericSheet__, rowIndexComp, colcomp, listaCostos.Rows[m][n].ToString(), "#00B050");
+                                        }
+
+                                        colcomp++;
+                                    }
+                                    rowIndexComp++;
+                                    colcomp = 1;
+                                }
+
+                            }
+
+                        }
+
+
+                        // Suma de Totales de Meta de Compromisos
+                        int totalmetas = 0;
+
+                        //foreach (Componente item in componentes)
+                        //{
+                        //    totalmetas = totalmetas + int.Parse(item.vMeta);
+                        //}
+                    }
+
+                    rowIndexComp++;
+                    rowIndexComp++;
+                    int indCabecera = 0;
+
+                    if (componentes_.Rows.Count > 0)
+                    {
+                        //_cabecera = new List<string>();
+
+                        //_cabecera.Add("Nro");
+                        //_cabecera.Add("Gasto elegible");
+                        //_cabecera.Add("Subtotal");
+                        ////b4c6e7
+                        //finish = pintarcabeceras(_cabecera, _genericSheet, "COSTO");
+
+                        _texto_row(_genericSheet__, rowIndexComp, colcomp++, "Nro", "#b4c6e7");
+                        _texto_row(_genericSheet__, rowIndexComp, colcomp++, "Gasto elegible", "#b4c6e7");
+                        _texto_row(_genericSheet__, rowIndexComp, colcomp++, "", "#b4c6e7");
+                        _texto_row(_genericSheet__, rowIndexComp, colcomp++, "", "#b4c6e7");
+                        _texto_row(_genericSheet__, rowIndexComp, colcomp++, "", "#b4c6e7");
+                        _texto_row(_genericSheet__, rowIndexComp, colcomp++, "", "#b4c6e7");
+                        _genericSheet__.Cells["B" + rowIndexComp.ToString() + ":F" + rowIndexComp.ToString()].Merge = true;
+                        _texto_row(_genericSheet__, rowIndexComp, colcomp++, "Subtotal", "#b4c6e7");
+                        rowIndexComp++;
+                        colcomp = 1;
+                        for (int i = 0; i < componentes_.Rows.Count; i++)
+                        {
+
+                            _texto_row(_genericSheet__, rowIndexComp, colcomp++, (i + 1).ToString(), "#fff2cc");
+                            _texto_row(_genericSheet__, rowIndexComp, colcomp++, componentes_.Rows[i][6], "#fff2cc");
+                            _genericSheet__.Cells["B" + rowIndexComp.ToString() + ":F" + rowIndexComp.ToString()].Merge = true;
+                            colcomp = 7;
+                            _texto_row(_genericSheet__, rowIndexComp, colcomp++, componentes_.Rows[i][5], "#fff2cc");
+
+
+                            for (int j = 10; j < componentes_.Columns.Count; j++)
+                            {
+                                if (indCabecera == 0)
+                                {
+                                    _texto_row_fecha(_genericSheet__, rowIndexComp - 1, colcomp, Convert.ToDateTime(componentes_.Columns[j].ColumnName), "#b4c6e7");
+                                }
+                                _texto_row1(_genericSheet__, rowIndexComp, colcomp, componentes_.Rows[i][j].ToString() == "" ? "-" : componentes_.Rows[i][j].ToString(), "#fff2cc");
+                                colcomp++;
+                            }
+                            indCabecera = 1;
+                            rowIndexComp++;
+                            colcomp = 1;
+
+                            //------------------------------------------------------------------------------------------------------------------------------------------------------
+                            // Gastos elegibles
+
+                            for (int k = 1; k < 4; k++)
+                            {
+                                Actividad actividad_costo1 = new Actividad();
+                                actividad_costo1.iCodIdentificacion = Convert.ToInt32(componentes_.Rows[i][0].ToString());
+                                actividad_costo1.iopcion = k;
+                                actividad_costo1.iCodExtensionista = cronograma.iCodExtensionista;
+                                DataTable listaGastosElegibles = costoDL.ListarCostosResumenPorComponente(actividad_costo1);
+                                _texto_row(_genericSheet__, rowIndexComp, colcomp++, componentes_.Rows[i][6], "#FFFFFF");
+                                _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaGastosElegibles.Rows[0][0], "#FFFFFF");
+                                _genericSheet__.Cells["B" + rowIndexComp.ToString() + ":F" + rowIndexComp.ToString()].Merge = true;
+                                colcomp = 7;
+                                _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaGastosElegibles.Rows[0][1], "#FFFFFF");
+
+                                for (int z = 2; z < listaGastosElegibles.Columns.Count; z++)
+                                {
+                                    //_texto_row_fecha(_genericSheet, 6, colcomp, Convert.ToDateTime(componentes.Columns[j].ColumnName), "#b4c6e7");
+                                    //_genericSheet.Rows[6].Height = 40;
+                                    //_texto_row1(_genericSheet, 7, colcomp, j - 8, "#b4c6e7");
+                                    if (listaGastosElegibles.Rows[0][z].ToString() == "" || listaGastosElegibles.Rows[0][z].ToString() == "0")
+                                    {
+                                        _texto_row1(_genericSheet__, rowIndexComp, colcomp, "-", "#E2EFDA");
+                                    }
+                                    else
+                                    {
+                                        _texto_row1(_genericSheet__, rowIndexComp, colcomp, listaGastosElegibles.Rows[0][z].ToString(), "#00B050");
+                                    }
+
+                                    colcomp++;
+                                }
+                                rowIndexComp++;
+                                colcomp = 1;
+
+                            }
+
+
+
+                        }
+                    }
+
+                    rowIndexComp++;
+                    rowIndexComp++;
+                    indCabecera = 0;
+
+                    if (componentes_.Rows.Count > 0)
+                    {
+                        _texto_row(_genericSheet__, rowIndexComp, colcomp++, "Nro", "#b4c6e7");
+                        _texto_row(_genericSheet__, rowIndexComp, colcomp++, "Gasto elegible", "#b4c6e7");
+                        _texto_row(_genericSheet__, rowIndexComp, colcomp++, "", "#b4c6e7");
+                        _texto_row(_genericSheet__, rowIndexComp, colcomp++, "", "#b4c6e7");
+                        _texto_row(_genericSheet__, rowIndexComp, colcomp++, "", "#b4c6e7");
+                        _texto_row(_genericSheet__, rowIndexComp, colcomp++, "", "#b4c6e7");
+                        _genericSheet__.Cells["B" + rowIndexComp.ToString() + ":F" + rowIndexComp.ToString()].Merge = true;
+                        _texto_row(_genericSheet__, rowIndexComp, colcomp++, "Subtotal", "#b4c6e7");
+                        rowIndexComp++;
+                        //colcomp = 1;
+                        for (int i = 0; i < 1; i++)
+                        {
+
+
+                            for (int j = 10; j < componentes_.Columns.Count; j++)
+                            {
+                                if (indCabecera == 0)
+                                {
+                                    _texto_row_fecha(_genericSheet__, rowIndexComp - 1, colcomp, Convert.ToDateTime(componentes_.Columns[j].ColumnName), "#b4c6e7");
+                                }
+                                colcomp++;
+                            }
+                            indCabecera = 1;
+                            colcomp = 1;
+
+                            //------------------------------------------------------------------------------------------------------------------------------------------------------
+                            // Gastos elegibles
+
+                            for (int k = 1; k < 4; k++)
+                            {
+                                Actividad actividad_costo3 = new Actividad();
+                                actividad_costo3.iopcion = k;
+                                actividad_costo3.iCodExtensionista = cronograma.iCodExtensionista;
+                                DataTable listaGastosElegibles = costoDL.ListarCostosResumenGeneral(actividad_costo3);
+                                _texto_row(_genericSheet__, rowIndexComp, colcomp++, k, "#FFFFFF");
+                                _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaGastosElegibles.Rows[0][0], "#FFFFFF");
+                                _genericSheet__.Cells["B" + rowIndexComp.ToString() + ":F" + rowIndexComp.ToString()].Merge = true;
+                                colcomp = 7;
+                                _texto_row(_genericSheet__, rowIndexComp, colcomp++, listaGastosElegibles.Rows[0][1], "#FFFFFF");
+
+                                for (int z = 2; z < listaGastosElegibles.Columns.Count; z++)
+                                {
+                                    if (listaGastosElegibles.Rows[0][z].ToString() == "" || listaGastosElegibles.Rows[0][z].ToString() == "0")
+                                    {
+                                        _texto_row1(_genericSheet__, rowIndexComp, colcomp, "-", "#E2EFDA");
+                                    }
+                                    else
+                                    {
+                                        _texto_row1(_genericSheet__, rowIndexComp, colcomp, listaGastosElegibles.Rows[0][z].ToString(), "#00B050");
+                                    }
+
+                                    colcomp++;
+                                }
+                                rowIndexComp++;
+                                colcomp = 1;
+
+                            }
+
+
+
+                        }
+                    }
+
+                    /******************************************************************************************/
+
+                    #endregion
+
+                    #region PlanCapacitacion
+                    NombreReporte = "Plan Capacitacion";
+                    var _genericSheet_PlaCapa = excelPackage.Workbook.Worksheets.Add(NombreReporte);
+                    _genericSheet_PlaCapa.View.ShowGridLines = false;
+                    _genericSheet_PlaCapa.View.ZoomScale = 100;
+                    _genericSheet_PlaCapa.PrinterSettings.PaperSize = ePaperSize.A4;
+                    _genericSheet_PlaCapa.PrinterSettings.FitToPage = true;
+                    _genericSheet_PlaCapa.PrinterSettings.Orientation = eOrientation.Landscape;
+                    _genericSheet_PlaCapa.View.PageBreakView = true;
+
+                    Actividad actividad = new Actividad();
+                    actividad.iCodExtensionista = fichaTecnica.iCodExtensionista;
+                    DataTable SearTab = capacitacionDL.Listar_PlanCapa_Rpt(actividad);
+                    rowIndexComp = 1;
+                    colcomp = 2;
+
+                    if (SearTab.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < SearTab.Rows.Count; i++)
+                        {
+                            _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, "", "#72AEA5");
+                            //colcomp =+ 7;
+                            _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Merge = true;
+                            rowIndexComp++;
+                            //colcomp =- 7;
+
+
+                            _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, "PLAN DE CAPACITACIÓN", "#72AEA5");
+                           _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Merge = true;
+                           _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Style.Font.Bold = true;
+                            _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                            rowIndexComp++;
+                            //colcomp = -7;
+
+                            _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, "", "#72AEA5");
+                            _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Merge = true;
+                            rowIndexComp++;
+                            //colcomp = -7;
+
+                            // Cabecera de Plan Capacitación
+                            _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, "Nombre del SEAR", "#ffffff");
+                            _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                            _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 2, SearTab.Rows[i][0], "#ffffff");
+                            _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+                            //colcomp = 2;
+                            rowIndexComp++;
+                            //colcomp--;
+                            _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, "Nombre de extensionista", "#ffffff");
+                            _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                            _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 2, SearTab.Rows[i][1], "#ffffff");
+                            _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+                            //colcomp = 2;
+                            rowIndexComp++;
+                            //colcomp--;
+                            _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, "Agencia Agraria", "#ffffff");
+                            _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                            _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 2, SearTab.Rows[i][3], "#ffffff");
+                            _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+                            //colcomp = 2;
+                            rowIndexComp++;
+                            //colcomp--;
+                            _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, "Dirección Zonal", "#ffffff");
+                            _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                            _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 2, SearTab.Rows[i][4], "#ffffff");
+                            _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+                            //colcomp = 2;
+                            rowIndexComp++;
+                            //colcomp--;
+                            _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, SearTab.Rows[i][8], "#72AEA5");
+                            _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                            _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 2, SearTab.Rows[i][9], "#72AEA5");
+                            _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+
+
+                            /*****************************************************************************************/
+                            PlanCapacitacion planCapacitacion = new PlanCapacitacion();
+                            planCapacitacion.iCodActividad = Convert.ToInt32(SearTab.Rows[i][7]);
+                            DataTable Modulotab = capacitacionDL.SP_Listar_PlanCapa_Rpt2(planCapacitacion);
+                            //rowIndexComp = 1;
+                            //colcomp = 2;
+                            for (int j = 0; j < Modulotab.Rows.Count; j++)
+                            {
+                                rowIndexComp++;
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, "Modulo o tema", "#ffffff");
+                                _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 2, Modulotab.Rows[j][0], "#E2EFDA");
+                                _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+
+                                rowIndexComp++;
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, "Objetivo de la sesión", "#ffffff");
+                                _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 2, Modulotab.Rows[j][1], "#E2EFDA");
+                                _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+
+                                //Salto de Linea
+                                rowIndexComp++;
+
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, "Meta (productores)", "#ffffff");
+                                _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 2, Modulotab.Rows[j][2], "#E2EFDA");
+                                //_genericSheet.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 3, "Beneficiarios", "#ffffff");
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 4, Modulotab.Rows[j][3], "#E2EFDA");
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 5, "Fecha", "#ffffff");
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 6, Modulotab.Rows[j][3], "#E2EFDA");
+
+                                //Salto de Linea
+                                rowIndexComp++;
+
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, "Duración Total (horas)", "#ffffff");
+                                _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 2, Modulotab.Rows[j][7], "#E2EFDA");
+                                //_genericSheet.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 3, "Teoria", "#ffffff");
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 4, Modulotab.Rows[j][5], "#E2EFDA");
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 5, "Práctica", "#ffffff");
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 6, Modulotab.Rows[j][6], "#E2EFDA");
+
+                                rowIndexComp++;
+
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, "Lugar de ejecución", "#ffffff");
+                                _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 2, Modulotab.Rows[j][8], "#E2EFDA");
+                                _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+
+                                rowIndexComp++;
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, "Plan de sesión", "#ffffff");
+                                _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Merge = true;
+                                _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Style.Font.Bold = true;
+                                _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+                                rowIndexComp++;
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, "Duración", "#ffffff");
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 1, "Tematica / Pasos", "#ffffff");
+                                _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp + 1, rowIndexComp, colcomp + 2].Merge = true;
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 3, "Descripción de la Metodología", "#ffffff");
+                                _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp + 3, rowIndexComp, colcomp + 5].Merge = true;
+                                _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 6, "Materiales", "#ffffff");
+                                _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp + 6, rowIndexComp, colcomp + 6].Merge = true;
+
+                                /*****************************************************************************************/
+                                PlanSesion planSesion = new PlanSesion();
+                                planSesion.iCodPlanCap = Convert.ToInt32(Modulotab.Rows[j][9]);
+                                DataTable SessionModtab = capacitacionDL.SP_Listar_PlanCapa_Rpt3(planSesion);
+                                for (int k = 0; k < SessionModtab.Rows.Count; k++)
+                                {
+                                    rowIndexComp++;
+                                    _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp, SessionModtab.Rows[k][0], "#E2EFDA");
+                                    _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 1, SessionModtab.Rows[k][1], "#E2EFDA");
+                                    _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp + 1, rowIndexComp, colcomp + 2].Merge = true;
+                                    _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 3, SessionModtab.Rows[k][2], "#E2EFDA");
+                                    _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp + 3, rowIndexComp, colcomp + 5].Merge = true;
+                                    _texto_row(_genericSheet_PlaCapa, rowIndexComp, colcomp + 6, SessionModtab.Rows[k][3], "#E2EFDA");
+                                    _genericSheet_PlaCapa.Cells[rowIndexComp, colcomp + 6, rowIndexComp, colcomp + 6].Merge = true;
+                                }
+                            }
+
+                            rowIndexComp = 1;
+                            colcomp = colcomp + 8;
+                            
+                        }
+                        int totalmetas = 0;
+                    }
+                    #endregion
+
+                    #region PlanAsistenciaTecnica
+                    NombreReporte = "Plan AT";
+                    var _genericSheet_PlanAT = excelPackage.Workbook.Worksheets.Add(NombreReporte);
+                    _genericSheet_PlanAT.View.ShowGridLines = false;
+                    _genericSheet_PlanAT.View.ZoomScale = 100;
+                    _genericSheet_PlanAT.PrinterSettings.PaperSize = ePaperSize.A4;
+                    _genericSheet_PlanAT.PrinterSettings.FitToPage = true;
+                    _genericSheet_PlanAT.PrinterSettings.Orientation = eOrientation.Landscape;
+                    _genericSheet_PlanAT.View.PageBreakView = true;
+
+
+                    SearTab = asistenciaTecDL.SP_Listar_PlanAsistenciaTecnica_Rpt(actividad);
+                    rowIndexComp = 1;
+                    colcomp = 2;
+
+                    if (SearTab.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < SearTab.Rows.Count; i++)
+                        {
+                            _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, "", "#72AEA5");
+                            //colcomp =+ 7;
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Merge = true;
+                            rowIndexComp++;
+                            //colcomp =- 7;
+
+
+                            _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, "PLAN DE ASISTENCIA TÉCNICA", "#72AEA5");
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Merge = true;
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Style.Font.Bold = true;
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                            rowIndexComp++;
+                            //colcomp = -7;
+
+                            _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, "", "#72AEA5");
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Merge = true;
+                            rowIndexComp++;
+                            //colcomp = -7;
+
+                            // Cabecera de Plan Capacitación
+                            _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, "Nombre del SEAR", "#ffffff");
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                            _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 2, SearTab.Rows[i][0], "#ffffff");
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+                            //colcomp = 2;
+                            rowIndexComp++;
+                            //colcomp--;
+                            _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, "Nombre de extensionista", "#ffffff");
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                            _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 2, SearTab.Rows[i][1], "#ffffff");
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+                            //colcomp = 2;
+                            rowIndexComp++;
+                            //colcomp--;
+                            _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, "Agencia Agraria", "#ffffff");
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                            _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 2, SearTab.Rows[i][3], "#ffffff");
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+                            //colcomp = 2;
+                            rowIndexComp++;
+                            //colcomp--;
+                            _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, "Dirección Zonal", "#ffffff");
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                            _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 2, SearTab.Rows[i][4], "#ffffff");
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+                            //colcomp = 2;
+                            rowIndexComp++;
+                            //colcomp--;
+                            _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, SearTab.Rows[i][8], "#72AEA5");
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                            _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 2, SearTab.Rows[i][9], "#72AEA5");
+                            _genericSheet_PlanAT.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+
+
+                            /*****************************************************************************************/
+                            PlanAsistenciaTec planAsistenciaTec = new PlanAsistenciaTec();
+                            planAsistenciaTec.iCodActividad = Convert.ToInt32(SearTab.Rows[i][7]);
+                            DataTable Modulotab = asistenciaTecDL.SP_Listar_PlanAsistenciaTecnica_Rpt2(planAsistenciaTec);
+                            for (int j = 0; j < Modulotab.Rows.Count; j++)
+                            {
+                                rowIndexComp++;
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, "Objetivo de la sesión", "#ffffff");
+                                _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 2, Modulotab.Rows[j][1], "#E2EFDA");
+                                _genericSheet_PlanAT.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+
+                                //Salto de Linea
+                                rowIndexComp++;
+
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, "Meta (productores)", "#ffffff");
+                                _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 2, Modulotab.Rows[j][2], "#E2EFDA");
+                                //_genericSheet.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 3, "Beneficiarios", "#ffffff");
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 4, Modulotab.Rows[j][3], "#E2EFDA");
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 5, "Fecha", "#ffffff");
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 6, Modulotab.Rows[j][3], "#E2EFDA");
+
+                                //Salto de Linea
+                                rowIndexComp++;
+
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, "Duración Total (horas)", "#ffffff");
+                                _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 2, Modulotab.Rows[j][7], "#E2EFDA");
+                                //_genericSheet.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 3, "Teoria", "#ffffff");
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 4, Modulotab.Rows[j][5], "#E2EFDA");
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 5, "Práctica", "#ffffff");
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 6, Modulotab.Rows[j][6], "#E2EFDA");
+
+                                rowIndexComp++;
+
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, "Lugar de ejecución", "#ffffff");
+                                _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 1].Merge = true;
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 2, Modulotab.Rows[j][8], "#E2EFDA");
+                                _genericSheet_PlanAT.Cells[rowIndexComp, colcomp + 2, rowIndexComp, colcomp + 6].Merge = true;
+
+                                rowIndexComp++;
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, "Plan de sesión", "#ffffff");
+                                _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Merge = true;
+                                _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Style.Font.Bold = true;
+                                _genericSheet_PlanAT.Cells[rowIndexComp, colcomp, rowIndexComp, colcomp + 6].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+                                rowIndexComp++;
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, "Duración", "#ffffff");
+                                //_texto_row(_genericSheet, rowIndexComp, colcomp + 1, "Tematica / Pasos", "#ffffff");
+                                //_genericSheet.Cells[rowIndexComp, colcomp + 1, rowIndexComp, colcomp + 2].Merge = true;
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 1, "Descripción de la Metodología", "#ffffff");
+                                _genericSheet_PlanAT.Cells[rowIndexComp, colcomp + 1, rowIndexComp, colcomp + 4].Merge = true;
+                                _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 5, "Instrumentos", "#ffffff");
+                                _genericSheet_PlanAT.Cells[rowIndexComp, colcomp + 5, rowIndexComp, colcomp + 6].Merge = true;
+
+                                /*****************************************************************************************/
+                                PlanAsistenciaTecDet planPlanAsistenciaTecDet = new PlanAsistenciaTecDet();
+                                planPlanAsistenciaTecDet.iCodPlanAsistenciaTec = Convert.ToInt32(Modulotab.Rows[j][9]);
+                                DataTable SessionModtab = asistenciaTecDL.SP_Listar_PlanAsistenciaTecnica_Rpt3(planPlanAsistenciaTecDet);
+                                for (int k = 0; k < SessionModtab.Rows.Count; k++)
+                                {
+                                    rowIndexComp++;
+                                    _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp, SessionModtab.Rows[k][0], "#E2EFDA");
+                                    //_texto_row(_genericSheet, rowIndexComp, colcomp + 1, SessionModtab.Rows[k][1], "#E2EFDA");
+                                    //_genericSheet.Cells[rowIndexComp, colcomp + 1, rowIndexComp, colcomp + 2].Merge = true;
+                                    _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 1, SessionModtab.Rows[k][2], "#E2EFDA");
+                                    _genericSheet_PlanAT.Cells[rowIndexComp, colcomp + 1, rowIndexComp, colcomp + 4].Merge = true;
+                                    _texto_row(_genericSheet_PlanAT, rowIndexComp, colcomp + 5, SessionModtab.Rows[k][3], "#E2EFDA");
+                                    _genericSheet_PlanAT.Cells[rowIndexComp, colcomp + 5, rowIndexComp, colcomp + 6].Merge = true;
+                                }
+                            }
+
+                            rowIndexComp = 1;
+                            colcomp = colcomp + 8;
+
+                        }
+                        int totalmetas = 0;
+                    }
+                    #endregion
+
+                    // Informacion General
                     #region AnchoColumnas
                     _genericSheet.Columns[1].Width = 0.38;
                     _genericSheet.Columns[2].Width = 11.89;
@@ -4153,7 +4889,7 @@ namespace SLSEARAPI.Controllers
                     _genericSheet.Columns[9].Width = 16.56;
                     _genericSheet.Columns[10].Width = 10.56;
                     #endregion
-
+                    // Identificacion
                     #region AnchoColumnas
                     _genericSheet_.Columns[1].Width = 1.11;
                     _genericSheet_.Columns[2].Width = 13.56;
@@ -4166,9 +4902,8 @@ namespace SLSEARAPI.Controllers
                     _genericSheet_.Columns[9].Width = 16.22;
                     #endregion
 
-
-
                     var x = excelPackage.GetAsByteArray();
+                    NombreReporte = "Resumen_Ficha_Tecnica";
                     string nombre = NombreReporte + DateTime.Now.ToString("ddMMyyyy_HHmmss") + ".xlsx";
                     var stream = new MemoryStream(x);
                     var result = Request.CreateResponse(HttpStatusCode.OK);

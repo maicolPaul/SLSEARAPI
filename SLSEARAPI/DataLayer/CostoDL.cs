@@ -49,6 +49,10 @@ namespace SLSEARAPI.DataLayer
                                     actividad.nTipoActividad = dr.GetInt32(dr.GetOrdinal("nTipoActividad"));
                                     actividad.bActivo = dr.GetBoolean(dr.GetOrdinal("bActivo"));
                                     actividad.iRecordCount = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
+                                    actividad.vDescripcionCorta = dr.GetString(dr.GetOrdinal("vDescripcionCorta"));
+                                    actividad.vUnidadMedidaCorta = dr.GetString(dr.GetOrdinal("vUnidadMedidaCorta"));
+                                    actividad.vMetaCorta = dr.GetString(dr.GetOrdinal("vMetaCorta"));
+                                    actividad.vMedioCorta = dr.GetString(dr.GetOrdinal("vMedioCorta"));
                                     lista.Add(actividad);
                                 }
                             }
