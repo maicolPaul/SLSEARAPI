@@ -206,6 +206,7 @@
     <Compile Include="Controllers\ProcedenciaController.cs" />
     <Compile Include="Controllers\RegimenController.cs" />
     <Compile Include="Controllers\RequisitosController.cs" />
+    <Compile Include="Controllers\SuperVisionCapaController.cs" />
     <Compile Include="Controllers\TipoEntidadController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DataLayer\ActaAlianzaEstrategicaDL.cs" />
@@ -234,6 +235,7 @@
     <Compile Include="DataLayer\ProcedenciaDL.cs" />
     <Compile Include="DataLayer\RegimenDL.cs" />
     <Compile Include="DataLayer\RequisitosDL.cs" />
+    <Compile Include="DataLayer\SuperVisionCabCapDL.cs" />
     <Compile Include="DataLayer\TipoEntidadDL.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -242,6 +244,7 @@
     <Compile Include="Models\AgenciaAgraria.cs" />
     <Compile Include="Models\Archivo.cs" />
     <Compile Include="Models\CadenaProductivaAgraria.cs" />
+    <Compile Include="Models\Calificacion.cs" />
     <Compile Include="Models\Cargo.cs" />
     <Compile Include="Models\CausasDirectas.cs" />
     <Compile Include="Models\CausasIndirectas.cs" />
@@ -252,6 +255,7 @@
     <Compile Include="Models\CortesCabecera.cs" />
     <Compile Include="Models\CortesDetalle.cs" />
     <Compile Include="Models\Costo.cs" />
+    <Compile Include="Models\Criterio.cs" />
     <Compile Include="Models\Cronograma.cs" />
     <Compile Include="Models\CurriculumVitae.cs" />
     <Compile Include="Models\DireccionGerenciaRegionalAgraria.cs" />
@@ -279,7 +283,11 @@
     <Compile Include="Models\Productor.cs" />
     <Compile Include="Models\Regimen.cs" />
     <Compile Include="Models\Requisitos.cs" />
+    <Compile Include="Models\Rubro.cs" />
     <Compile Include="Models\Sector.cs" />
+    <Compile Include="Models\SupervisionCapCab.cs" />
+    <Compile Include="Models\SupervisionCapDet.cs" />
+    <Compile Include="Models\SupervisionCapDet2.cs" />
     <Compile Include="Models\Tecnologias.cs" />
     <Compile Include="Models\TipoEntidad.cs" />
     <Compile Include="Models\TipoOrganizacion.cs" />
@@ -347,6 +355,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Costo\" />
+    <Folder Include="Views\SuperVisionCapa\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
