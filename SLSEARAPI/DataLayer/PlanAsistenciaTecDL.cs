@@ -42,6 +42,7 @@ namespace SLSEARAPI.DataLayer
                                     planAsistenciaTec.iCodActividad = dr.GetInt32(dr.GetOrdinal("iCodActividad"));
                                     //planAsistenciaTec.vModuloTema = dr.GetString(dr.GetOrdinal("vModuloTema"));
                                     planAsistenciaTec.vObjetivo = dr.GetString(dr.GetOrdinal("vObjetivo"));
+                                    planAsistenciaTec.vObjetivoCorta = dr.GetString(dr.GetOrdinal("vObjetivoCorta"));
                                     planAsistenciaTec.iMeta = dr.GetInt32(dr.GetOrdinal("iMeta"));
                                     planAsistenciaTec.iBeneficiario = dr.GetInt32(dr.GetOrdinal("iBeneficiario"));
                                     planAsistenciaTec.dFechaActividad = dr.GetString(dr.GetOrdinal("dFechaActividad"));
@@ -99,6 +100,7 @@ namespace SLSEARAPI.DataLayer
                                     planAsistenciaTecDet.iDuracion = dr.GetInt32(dr.GetOrdinal("iDuracion"));
                                    // planAsistenciaTecDet.vTematica = dr.GetString(dr.GetOrdinal("vTematica"));
                                     planAsistenciaTecDet.vDescripMetodologia = dr.GetString(dr.GetOrdinal("vDescripMetodologia"));
+                                    planAsistenciaTecDet.vDescripMetodologiaCorta = dr.GetString(dr.GetOrdinal("vDescripMetodologiaCorta"));
                                     planAsistenciaTecDet.vMateriales = dr.GetString(dr.GetOrdinal("vMateriales"));
                                     planAsistenciaTecDet.bActivo = dr.GetBoolean(dr.GetOrdinal("bActivo"));
                                     planAsistenciaTecDet.iRecordCount = dr.GetInt32(dr.GetOrdinal("iRecordCount"));

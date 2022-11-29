@@ -578,6 +578,20 @@ namespace SLSEARAPI.Controllers
                 throw ex;
             }
         }
+        
+        [HttpPost]
+        [ActionName("ListarComponentesSelectPlanCapa")]
+        public List<Componente> ListarComponentesSelectPlanCapa(Componente componente)
+        {
+            try
+            {
+                return identificacionDL.ListarComponentesSelectPlanCapa(componente);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         [HttpPost]
         [ActionName("ListarIndicadoresPaginado")]
@@ -586,6 +600,20 @@ namespace SLSEARAPI.Controllers
             try
             {
                 return identificacionDL.ListarIndicadoresPaginado(indicadores);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ActionName("EnviarRegistroEvaluacion")]
+        public Componente EnviarRegistroEvaluacion(Componente componente)
+        {
+            try
+            {
+                return identificacionDL.EnviarRegistroEvaluacion(componente);
             }
             catch (Exception ex)
             {

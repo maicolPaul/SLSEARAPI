@@ -97,8 +97,8 @@ namespace SLSEARAPI.Controllers
                     List<string> _cabecera = new List<string>();
 
                     _cabecera.Add("Nro");
-                    _cabecera.Add("Actividades");
-                    _cabecera.Add("Descripcion");
+                    _cabecera.Add("Gasto Elegible");
+                    _cabecera.Add("Descripción");
                     _cabecera.Add("Unidad Medida");
                     _cabecera.Add("Cantidad");
                     _cabecera.Add("Costo Unitario");
@@ -131,12 +131,13 @@ namespace SLSEARAPI.Controllers
                             // Componentes
                             _texto_row(_genericSheet, rowIndexComp, colcomp++, (i + 1).ToString(), "#fff2cc");
                             _texto_row(_genericSheet, rowIndexComp, colcomp++, componentes.Rows[i][2], "#fff2cc");
-                            _texto_row(_genericSheet, rowIndexComp, colcomp++, componentes.Rows[i][6], "#fff2cc");
-                            _texto_row(_genericSheet, rowIndexComp, colcomp++, "", "#fff2cc");
-                            _texto_row(_genericSheet, rowIndexComp, colcomp++, "", "#fff2cc");
-                            _texto_row(_genericSheet, rowIndexComp, colcomp++, "", "#fff2cc");
+                            //_texto_row(_genericSheet, rowIndexComp, colcomp++, componentes.Rows[i][6], "#fff2cc");
+                            //_texto_row(_genericSheet, rowIndexComp, colcomp++, "", "#fff2cc");
+                            //_texto_row(_genericSheet, rowIndexComp, colcomp++, "", "#fff2cc");
+                            //_texto_row(_genericSheet, rowIndexComp, colcomp++, "", "#fff2cc");
                             _texto_row(_genericSheet, rowIndexComp, colcomp++, componentes.Rows[i][5], "#fff2cc");
-
+                            _genericSheet.Cells["C" + rowIndexComp.ToString() + ":F" + rowIndexComp.ToString()].Merge = true;
+                            _texto_row(_genericSheet, rowIndexComp, 7, componentes.Rows[i][4], "#fff2cc");
                             for (int j = 10; j < componentes.Columns.Count; j++)
                             {
                                 _texto_row_fecha(_genericSheet, 6, colcomp, Convert.ToDateTime(componentes.Columns[j].ColumnName), "#b4c6e7");
@@ -264,7 +265,8 @@ namespace SLSEARAPI.Controllers
                             _texto_row(_genericSheet, rowIndexComp, colcomp++, componentes.Rows[i][5], "#fff2cc");
 
 
-                            for (int j = 10; j < componentes.Columns.Count; j++)
+                            //for (int j = 10; j < componentes.Columns.Count; j++)
+                            for (int j = 8; j < componentes.Columns.Count; j++)
                             {
                                 if (indCabecera == 0)
                                 {
@@ -338,8 +340,9 @@ namespace SLSEARAPI.Controllers
                         for (int i = 0; i < 1; i++)
                         {
 
-                            
-                            for (int j = 10; j < componentes.Columns.Count; j++)
+
+                            //for (int j = 10; j < componentes.Columns.Count; j++)
+                            for (int j = 8; j < componentes.Columns.Count; j++)
                             {
                                 if (indCabecera == 0)
                                 {

@@ -18,6 +18,7 @@ namespace SLSEARAPI.Models
         public int iCodActividad { get; set; }
         //public string vModuloTema { get; set; }
         public string vObjetivo { get; set; }
+        public string vObjetivoCorta { get; set; }
         public int iMeta { get; set; }
         public int iBeneficiario { get; set; }
         public string dFechaActividad { get; set; }

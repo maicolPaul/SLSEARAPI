@@ -19,6 +19,7 @@ namespace SLSEARAPI.Models
         public int iDuracion { get; set; }
         //public string vTematica { get; set; }
         public string vDescripMetodologia { get; set; }
+        public string vDescripMetodologiaCorta { get; set; }
         public string vMateriales { get; set; }
         public bool bActivo { get; set; }
         public int iRecordCount { get; set; }

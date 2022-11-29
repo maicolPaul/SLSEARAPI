@@ -11,6 +11,8 @@ namespace SLSEARAPI.Models
         public int iCodComponente { get; set; }
 
         public string vDescripcion { get; set; }
+
+        public int iTipo { get; set; }
         public string vIndicador { get; set; }
 
         public string vUnidadMedida { get; set; }

@@ -1872,6 +1872,7 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@iCodComponenteDesc", componente.iCodComponenteDesc);
                         command.Parameters.AddWithValue("@iCodIdentificacion", componente.iCodIdentificacion);
                         command.Parameters.AddWithValue("@vDescripcion", componente.vDescripcion);
+                        command.Parameters.AddWithValue("@iTipo", componente.iTipo);
                         command.Parameters.AddWithValue("@iOpcion", componente.iOpcion);
 
                         using (SqlDataReader dr = command.ExecuteReader())
@@ -1883,6 +1884,43 @@ namespace SLSEARAPI.DataLayer
                                     componente = new Componente();
 
                                     componente.iCodComponenteDesc = dr.GetInt32(dr.GetOrdinal("iCodComponenteDesc"));
+                                    componente.vMensaje = dr.GetString(dr.GetOrdinal("vMensaje"));
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return componente;
+        }
+        
+        public Componente EnviarRegistroEvaluacion(Componente componente)
+        {
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_EnviarRegistroEvaluacion]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodExtensionista", componente.iCodComponente);
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                if (dr.Read())
+                                {
+                                    componente = new Componente();
+
+                                    componente.iCodComponente = dr.GetInt32(dr.GetOrdinal("iCodExtensionista"));
                                     componente.vMensaje = dr.GetString(dr.GetOrdinal("vMensaje"));
                                 }
                             }
@@ -1965,6 +2003,47 @@ namespace SLSEARAPI.DataLayer
 
                         command.Parameters.AddWithValue("@iCodIdentificacion", component.iCodIdentificacion);
 
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                while (dr.Read())
+                                {
+                                    component = new Componente();
+                                    component.iCodComponenteDesc = dr.GetInt32(dr.GetOrdinal("iCodComponenteDesc"));
+                                    component.vDescripcion = dr.GetString(dr.GetOrdinal("vDescripcion"));
+                                    lista.Add(component);
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return lista;
+        }
+
+        public List<Componente> ListarComponentesSelectPlanCapa(Componente component)
+        {
+            List<Componente> lista = new List<Componente>();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_ListarComponentesSelectPlan]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@iCodIdentificacion", component.iCodIdentificacion);
+                        command.Parameters.AddWithValue("@iTipo", component.iTipo);
                         using (SqlDataReader dr = command.ExecuteReader())
                         {
                             if (dr.HasRows)
