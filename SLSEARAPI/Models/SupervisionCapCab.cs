@@ -31,5 +31,7 @@ namespace SLSEARAPI.Models
 
         public string vMensaje { get; set; }
 
+         public string dFechaSupervisor { get; set; }
+
     }
 }
