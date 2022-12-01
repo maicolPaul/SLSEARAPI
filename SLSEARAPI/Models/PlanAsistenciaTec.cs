@@ -27,7 +27,9 @@ namespace SLSEARAPI.Models
         public decimal iTotalPractica { get; set; }
         public bool bActivo { get; set; }
         public int iRecordCount { get; set; }
-
         public int iCodHito { get; set; }
+        public int iCodExtensionista { get; set; }
+
+        public string porcentaje { get; set; }
     }
 }

@@ -86,7 +86,7 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@piCurrentPage", costo.piCurrentPage);
                         command.Parameters.AddWithValue("@pvSortColumn", costo.pvSortColumn);
                         command.Parameters.AddWithValue("@pvSortOrder", costo.pvSortOrder);
-                        command.Parameters.AddWithValue("@iCodActividad", costo.iCodActividad);
+                        command.Parameters.AddWithValue("@iCodActividad", costo.iCodActividad);                   
 
                         using (SqlDataReader dr = command.ExecuteReader())
                         {
@@ -111,6 +111,7 @@ namespace SLSEARAPI.DataLayer
                                     costo.bActivo = dr.GetBoolean(dr.GetOrdinal("bActivo"));
                                     costo.iRecordCount = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
                                     costo.iCodHito = dr.GetInt32(dr.GetOrdinal("iCodHito"));
+                                
                                     lista.Add(costo);
                                 }
                             }

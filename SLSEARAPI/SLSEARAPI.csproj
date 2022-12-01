@@ -279,6 +279,7 @@
     <Compile Include="Models\PlanCapacitacion.cs" />
     <Compile Include="Models\PlanAsistenciaTecDet.cs" />
     <Compile Include="Models\PlanSesion.cs" />
+    <Compile Include="Models\PorductorEjecucionTecnica.cs" />
     <Compile Include="Models\Procedencia.cs" />
     <Compile Include="Models\Productor.cs" />
     <Compile Include="Models\Regimen.cs" />

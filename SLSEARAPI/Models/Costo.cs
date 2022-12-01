@@ -33,8 +33,9 @@ namespace SLSEARAPI.Models
         public bool bActivo { get; set; }
         public string Estado { get; set; }
         public int iRecordCount { get; set; }
-
         public int iCodHito { get; set; }
+
+        public string porcentaje { get; set; }
 
     }
 }
