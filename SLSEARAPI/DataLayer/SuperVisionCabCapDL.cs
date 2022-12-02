@@ -60,6 +60,48 @@ namespace SLSEARAPI.DataLayer
                 throw ex;
             }
         }
+        public SupervisionCapDet2 InsertarSuperVisionDet2Cap(SupervisionCapDet2 entidad)
+        {
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+
+                    using (SqlCommand command = new SqlCommand("[PA_InsertarSuperVisionDet2Capa]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@iCodSuperCab", entidad.iCodSuperCab);
+                        command.Parameters.AddWithValue("@iCodRubro", entidad.iCodRubro);
+                        command.Parameters.AddWithValue("@iCodCriterio", entidad.iCodCrtierio);
+                        command.Parameters.AddWithValue("@iCodCalificacion", entidad.iCodCalificacion);
+                
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                if (dr.Read())
+                                {
+
+                                    entidad.iCodSuperDet = dr.GetInt32(dr.GetOrdinal("iCodSuperDet"));
+
+                                    entidad.vMensaje = dr.GetString(dr.GetOrdinal("vMensaje"));
+                                }
+                            }
+                        }
+
+                    }
+                    conection.Close();
+                }
+                return entidad;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public SupervisionCapDet InsertarSuperVisionDetCap(SupervisionCapDet entidad)
         {
             try

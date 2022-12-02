@@ -64,7 +64,9 @@ namespace SLSEARAPI.Models
 
         public decimal porrecibiocapacitacion { get; set; }
 
+        public string vTipo { get; set; }
 
+        public int iCodProEje { get; set; }
     }
 }
 

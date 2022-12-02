@@ -30,6 +30,7 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@pvSortColumn", planCapacitacion.pvSortColumn);
                         command.Parameters.AddWithValue("@pvSortOrder", planCapacitacion.pvSortOrder);
                         command.Parameters.AddWithValue("@iCodActividad", planCapacitacion.iCodActividad);
+                        command.Parameters.AddWithValue("@iCodExtensionista", planCapacitacion.iCodExtensionista);
 
                         using (SqlDataReader dr = command.ExecuteReader())
                         {
@@ -51,6 +52,8 @@ namespace SLSEARAPI.DataLayer
                                     planCapacitacion.bActivo = dr.GetBoolean(dr.GetOrdinal("bActivo"));
                                     planCapacitacion.iRecordCount = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
                                     planCapacitacion.iCodHito = dr.GetInt32(dr.GetOrdinal("iCodHito"));
+                                    planCapacitacion.porcentaje = dr.GetString(dr.GetOrdinal("porcentaje"));
+                                    
                                     lista.Add(planCapacitacion);
                                 }
                             }

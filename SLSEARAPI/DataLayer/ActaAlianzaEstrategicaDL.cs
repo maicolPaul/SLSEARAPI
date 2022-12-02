@@ -92,7 +92,7 @@ namespace SLSEARAPI.DataLayer
 
                         command.Parameters.AddWithValue("@iCodExtensionista", entidad.iCodExtensionista);
                         command.Parameters.AddWithValue("@iPerteneceOrganizacion", entidad.iPerteneceOrganizacion);
-                        
+                        command.Parameters.AddWithValue("@Vtipo", entidad.vTipo);
 
                         using (SqlDataReader dr = command.ExecuteReader())
                         {
@@ -141,6 +141,7 @@ namespace SLSEARAPI.DataLayer
                                     productor.porfemenino = dr.GetDecimal(dr.GetOrdinal("porfemenino"));
                                     productor.porjovenes = dr.GetDecimal(dr.GetOrdinal("porjovenes"));
                                     productor.porrecibiocapacitacion = dr.GetDecimal(dr.GetOrdinal("porrecibiocapacitacion"));
+                                    productor.iCodProEje = dr.GetInt32(dr.GetOrdinal("iCodProEje"));
                                     lista.Add(productor);
                                 }
                             }

@@ -32,6 +32,20 @@ namespace SLSEARAPI.Controllers
             {
                 throw;
             }
+
+        }
+        [HttpPost]
+        [ActionName("InsertarProductorEje")]
+        public PorductorEjecucionTecnica InsertarProductorEje(PorductorEjecucionTecnica porductorEjecucionTecnica)
+        {
+            try
+            {
+                return hitosDL.InsertarProductorEje(porductorEjecucionTecnica);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
