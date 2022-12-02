@@ -87,5 +87,19 @@ namespace SLSEARAPI.Controllers
                 throw ex;
             }
         }
+
+        [HttpPost]
+        [ActionName("InsertarSuperVisionDet2Cap")]
+        public SupervisionCapDet2 InsertarSuperVisionDet2Cap(SupervisionCapDet2 entidad)
+        {
+            try
+            {
+                return superVisionCabCapDL.InsertarSuperVisionDet2Cap(entidad);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
