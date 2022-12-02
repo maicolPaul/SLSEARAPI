@@ -58,5 +58,6 @@ namespace SLSEARAPI.Models
         public int totalRegistros { get; set; }
 
         public string Estado { get; set; }
+        public string vContrasena { get; set; }
     }
 }

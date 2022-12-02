@@ -47,6 +47,7 @@ namespace SLSEARAPI.DataLayer
                                     comiteIdentificacion.vNomProvincia = dr.GetString(dr.GetOrdinal("vNomProvincia"));
                                     comiteIdentificacion.vNomDistrito = dr.GetString(dr.GetOrdinal("vNomDistrito"));
                                     comiteIdentificacion.iRecordCount = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
+                                    comiteIdentificacion.iCodExtensionista = dr.GetInt32(dr.GetOrdinal("iCodExtensionista"));
                                     //iRecordCount
                                     lista.Add(comiteIdentificacion);
                                 }
@@ -101,7 +102,7 @@ namespace SLSEARAPI.DataLayer
                                     fichaEvaluacion.vCriterio1 = dr.GetString(dr.GetOrdinal("vCriterio1"));
                                     fichaEvaluacion.PuntajeMaximo = dr.GetDecimal(dr.GetOrdinal("PuntajeMaximo"));
                                     fichaEvaluacion.dPuntajeEvaluacion = dr.GetDecimal(dr.GetOrdinal("dPuntajeEvaluacion"));
-                                    fichaEvaluacion.vJustificacion = dr.GetString(dr.GetOrdinal("vJustificacion")); 
+                                    fichaEvaluacion.vJustificacion = dr.GetString(dr.GetOrdinal("vJustificacion"));  
                                     fichaEvaluacion.iRecordCount = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
                                     //iRecordCount
                                     lista.Add(fichaEvaluacion);

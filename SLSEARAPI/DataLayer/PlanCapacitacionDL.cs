@@ -44,8 +44,8 @@ namespace SLSEARAPI.DataLayer
                                     planCapacitacion.vModuloTema = dr.GetString(dr.GetOrdinal("vModuloTema"));
                                     planCapacitacion.vObjetivo = dr.GetString(dr.GetOrdinal("vObjetivo"));
                                     planCapacitacion.iMeta = dr.GetInt32(dr.GetOrdinal("iMeta"));
-                                    planCapacitacion.iBeneficiario = dr.GetInt32(dr.GetOrdinal("iBeneficiario"));
-                                    planCapacitacion.dFechaActividad = dr.GetString(dr.GetOrdinal("dFechaActividad"));
+                                    //planCapacitacion.iBeneficiario = dr.GetInt32(dr.GetOrdinal("iBeneficiario"));
+                                    //planCapacitacion.dFechaActividad = dr.GetString(dr.GetOrdinal("dFechaActividad"));
                                     planCapacitacion.iTotalTeoria = dr.GetInt32(dr.GetOrdinal("iTotalTeoria"));
                                     planCapacitacion.iTotalPractica = dr.GetInt32(dr.GetOrdinal("iTotalPractica"));
                                     planCapacitacion.bActivo = dr.GetBoolean(dr.GetOrdinal("bActivo"));
@@ -134,8 +134,8 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@vModuloTema", planCapacitacion.vModuloTema);
                         command.Parameters.AddWithValue("@vObjetivo", planCapacitacion.vObjetivo);
                         command.Parameters.AddWithValue("@iMeta", planCapacitacion.iMeta);
-                        command.Parameters.AddWithValue("@iBeneficiario", planCapacitacion.iBeneficiario);
-                        command.Parameters.AddWithValue("@dFechaActividad", Convert.ToDateTime(planCapacitacion.dFechaActividad));
+                        //command.Parameters.AddWithValue("@iBeneficiario", planCapacitacion.iBeneficiario);
+                        //command.Parameters.AddWithValue("@dFechaActividad", Convert.ToDateTime(planCapacitacion.dFechaActividad));
                         command.Parameters.AddWithValue("@iTotalTeoria", planCapacitacion.iTotalTeoria);
                         command.Parameters.AddWithValue("@iTotalPractica", planCapacitacion.iTotalPractica);
                         command.Parameters.AddWithValue("@iopcion", planCapacitacion.iopcion);

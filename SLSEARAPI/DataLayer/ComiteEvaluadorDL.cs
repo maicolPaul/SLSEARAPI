@@ -6,11 +6,23 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Linq;
 using System.Web;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SLSEARAPI.DataLayer
 {
     public class ComiteEvaluadorDL
     {
+        public static string GetSHA256(string str)
+        {
+            SHA256 sha256 = SHA256Managed.Create();
+            ASCIIEncoding encoding = new ASCIIEncoding();
+            byte[] stream = null;
+            StringBuilder sb = new StringBuilder();
+            stream = sha256.ComputeHash(encoding.GetBytes(str));
+            for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
+            return sb.ToString();
+        }
         public ComiteEvaluador InsertarComiteEvaluador(ComiteEvaluador comiteEvaluador)
         {
 			try
@@ -22,6 +34,7 @@ namespace SLSEARAPI.DataLayer
                     using (SqlCommand command = new SqlCommand("[PA_Insertar_ComiteEvaluador]", conection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
+                        comiteEvaluador.vContrasena = GetSHA256(comiteEvaluador.vContrasena);
                         command.Parameters.AddWithValue("@iCodComiteEvaluador", comiteEvaluador.iCodComiteEvaluador);                        
                         command.Parameters.AddWithValue("@vNombres", comiteEvaluador.vNombres);
                         command.Parameters.AddWithValue("@vApellidoPat", comiteEvaluador.vApellidoPat);
@@ -33,6 +46,7 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@vCelular", comiteEvaluador.vCelular);
                         command.Parameters.AddWithValue("@vCorreo", comiteEvaluador.vCorreo);
                         command.Parameters.AddWithValue("@iCodArchivos", comiteEvaluador.iCodArchivos);
+                        command.Parameters.AddWithValue("@vContrasena", comiteEvaluador.vContrasena);
                         command.Parameters.AddWithValue("@iopcion", comiteEvaluador.iopcion);
 
                         using (SqlDataReader dr = command.ExecuteReader())

@@ -18,6 +18,7 @@ namespace SLSEARAPI.Models
         public int iCantidad { get; set; }
 
         public string dFecha { get; set; }
+        public string dFechaFin { get; set; }
 
         public DateTime dfechacronograma { get; set; }
 

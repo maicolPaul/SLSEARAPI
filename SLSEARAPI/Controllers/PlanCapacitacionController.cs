@@ -114,30 +114,6 @@ namespace SLSEARAPI.Controllers
                     _genericSheet.PrinterSettings.Orientation = eOrientation.Landscape;
                     _genericSheet.View.PageBreakView = true;
 
-
-                    //List<string> _cabecera = new List<string>();
-
-                    //_cabecera.Add("Nro");
-                    //_cabecera.Add("Actividades");
-                    //_cabecera.Add("Descripcion");
-                    //_cabecera.Add("Unidad Medida");
-                    //_cabecera.Add("Meta");
-
-                    //int finish = pintarcabeceras(_cabecera, _genericSheet, "CRONOGRAMA DETALLADO");
-
-                    //_genericSheet.Cells["A3:D3"].Value = "3.1 CRONOGRAMA DE EJECUCIÓN";
-                    //_genericSheet.Cells["A3:D3"].Merge = true;
-                    //_genericSheet.Cells["A3:D3"].Style.Locked = true;
-                    //System.Drawing.Color colFromHex = System.Drawing.ColorTranslator.FromHtml("#72aea5");
-                    //_genericSheet.Cells["A3:D3"].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                    //_genericSheet.Cells["A3:D3"].Style.Fill.BackgroundColor.SetColor(colFromHex);
-                    //_genericSheet.Column(1).Style.Locked = true;
-                    //_genericSheet.Workbook.Protection.LockWindows = true;
-                    //_genericSheet.Workbook.Protection.LockStructure = true;
-
-                    //pintar componente 1
-
-                    //List<Componente> componentes = cronogramaDL.ListarComponentes(cronograma);
                     DataTable SearTab = capacitacionDL.Listar_PlanCapa_Rpt(actividad);
                     int rowIndexComp = 1;
                     int colcomp = 2;
@@ -230,7 +206,7 @@ namespace SLSEARAPI.Controllers
                                 _texto_row(_genericSheet, rowIndexComp, colcomp + 3, "Beneficiarios", "#ffffff");
                                 _texto_row(_genericSheet, rowIndexComp, colcomp + 4, Modulotab.Rows[j][3], "#E2EFDA");
                                 _texto_row(_genericSheet, rowIndexComp, colcomp + 5, "Fecha", "#ffffff");
-                                _texto_row(_genericSheet, rowIndexComp, colcomp + 6, Modulotab.Rows[j][3], "#E2EFDA");
+                                _texto_row(_genericSheet, rowIndexComp, colcomp + 6, Modulotab.Rows[j][4], "#E2EFDA");
 
                                 //Salto de Linea
                                 rowIndexComp++;

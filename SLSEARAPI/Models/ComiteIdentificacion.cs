@@ -25,6 +25,7 @@ namespace SLSEARAPI.Models
         public int iRecordCount { get; set; }
 
         public string vMensaje { get; set; }
+        public int iCodExtensionista { get; set; }
 
 
     }

@@ -53,6 +53,8 @@ namespace SLSEARAPI.DataLayer
                                     actividad.vUnidadMedidaCorta = dr.GetString(dr.GetOrdinal("vUnidadMedidaCorta"));
                                     actividad.vMetaCorta = dr.GetString(dr.GetOrdinal("vMetaCorta"));
                                     actividad.vMedioCorta = dr.GetString(dr.GetOrdinal("vMedioCorta"));
+                                    actividad.dFecha = dr.GetString(dr.GetOrdinal("dFecha"));
+                                    actividad.dFechaFin = dr.GetString(dr.GetOrdinal("dFechaFin"));
                                     lista.Add(actividad);
                                 }
                             }
@@ -106,7 +108,7 @@ namespace SLSEARAPI.DataLayer
                                     costo.vUnidadMedida = dr.GetString(dr.GetOrdinal("vUnidadMedida"));
                                     costo.iCantidad = dr.GetInt32(dr.GetOrdinal("iCantidad"));
                                     costo.dCostoUnitario = dr.GetDecimal(dr.GetOrdinal("dCostoUnitario"));
-                                    costo.dFecha = dr.GetString(dr.GetOrdinal("dFecha"));
+                                    //costo.dFecha = dr.GetString(dr.GetOrdinal("dFecha"));
                                     costo.Estado = dr.GetString(dr.GetOrdinal("Estado"));
                                     costo.bActivo = dr.GetBoolean(dr.GetOrdinal("bActivo"));
                                     costo.iRecordCount = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
@@ -147,7 +149,7 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@vUnidadMedida", costo.vUnidadMedida);
                         command.Parameters.AddWithValue("@iCantidad", costo.iCantidad);
                         command.Parameters.AddWithValue("@dCostoUnitario", costo.dCostoUnitario);
-                        command.Parameters.AddWithValue("@dFecha", costo.dFecha);
+                        //command.Parameters.AddWithValue("@dFecha", costo.dFecha);
                         command.Parameters.AddWithValue("@iopcion", costo.iopcion);
 
                         using (SqlDataReader dr = command.ExecuteReader())
