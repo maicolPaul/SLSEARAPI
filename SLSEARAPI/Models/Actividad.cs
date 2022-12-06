@@ -37,6 +37,8 @@ namespace SLSEARAPI.Models
         public string vUnidadMedidaCorta { get; set; }
         public string vMetaCorta { get; set; }
         public string vMedioCorta { get; set; }
+        public string dFecha { get; set; }
+        public string dFechaFin { get; set; }
     }
 }
 

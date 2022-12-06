@@ -46,8 +46,8 @@ namespace SLSEARAPI.DataLayer
                                     planAsistenciaTec.vObjetivoCorta = dr.GetString(dr.GetOrdinal("vObjetivoCorta"));
                                     planAsistenciaTec.iMeta = dr.GetInt32(dr.GetOrdinal("iMeta"));
                                     planAsistenciaTec.iBeneficiario = dr.GetInt32(dr.GetOrdinal("iBeneficiario"));
-                                    planAsistenciaTec.dFechaActividad = dr.GetString(dr.GetOrdinal("dFechaActividad"));
-                                    planAsistenciaTec.dFechaActividadFin = dr.GetString(dr.GetOrdinal("dFechaActividadFin"));
+                                    //planAsistenciaTec.dFechaActividad = dr.GetString(dr.GetOrdinal("dFechaActividad"));
+                                    //planAsistenciaTec.dFechaActividadFin = dr.GetString(dr.GetOrdinal("dFechaActividadFin"));
                                     planAsistenciaTec.iTotalTeoria = dr.GetDecimal(dr.GetOrdinal("iTotalTeoria"));
                                     planAsistenciaTec.iTotalPractica = dr.GetDecimal(dr.GetOrdinal("iTotalPractica"));
                                     planAsistenciaTec.bActivo = dr.GetBoolean(dr.GetOrdinal("bActivo"));
@@ -138,9 +138,9 @@ namespace SLSEARAPI.DataLayer
                         //command.Parameters.AddWithValue("@vModuloTema", planAsistenciaTec.vModuloTema);
                         command.Parameters.AddWithValue("@vObjetivo", planAsistenciaTec.vObjetivo);
                         command.Parameters.AddWithValue("@iMeta", planAsistenciaTec.iMeta);
-                        command.Parameters.AddWithValue("@iBeneficiario", planAsistenciaTec.iBeneficiario);
-                        command.Parameters.AddWithValue("@dFechaActividad", Convert.ToDateTime(planAsistenciaTec.dFechaActividad));
-                        command.Parameters.AddWithValue("@dFechaActividadFin", Convert.ToDateTime(planAsistenciaTec.dFechaActividadFin));
+                        //command.Parameters.AddWithValue("@iBeneficiario", planAsistenciaTec.iBeneficiario);
+                        //command.Parameters.AddWithValue("@dFechaActividad", Convert.ToDateTime(planAsistenciaTec.dFechaActividad));
+                        //command.Parameters.AddWithValue("@dFechaActividadFin", Convert.ToDateTime(planAsistenciaTec.dFechaActividadFin));
                         command.Parameters.AddWithValue("@iTotalTeoria", planAsistenciaTec.iTotalTeoria);
                         command.Parameters.AddWithValue("@iTotalPractica", planAsistenciaTec.iTotalPractica);
                         command.Parameters.AddWithValue("@iopcion", planAsistenciaTec.iopcion);

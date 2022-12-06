@@ -256,7 +256,7 @@ namespace SLSEARAPI.DataLayer
                                     cronograma.iCantidad = dr.GetInt32(dr.GetOrdinal("iCantidad"));
                                     cronograma.iCodComponente = dr.GetInt32(dr.GetOrdinal("nTipoActividad"));
                                     cronograma.dFecha = dr.GetString(dr.GetOrdinal("dFecha"));
-
+                                    cronograma.dFechaFin = dr.GetString(dr.GetOrdinal("dFechaFin"));
                                     lista.Add(cronograma);
                                 }
                             }
@@ -418,6 +418,7 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@iCodActividad", cronograma.iCodActividad);
                         command.Parameters.AddWithValue("@iCantidad", cronograma.iCantidad);
                         command.Parameters.AddWithValue("@dFecha", cronograma.dFecha);
+                        command.Parameters.AddWithValue("@dFechaFin", cronograma.dFechaFin);
                         command.Parameters.AddWithValue("@iopcion", cronograma.iopcion);
                         
                         using (SqlDataReader dr = command.ExecuteReader())
