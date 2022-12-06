@@ -18,5 +18,7 @@ namespace SLSEARAPI.Models
         public int iCodCalificacion { get; set; }
 
         public string vMensaje { get; set; }
+
+        public string vFundamento { get; set; }
     }
 }

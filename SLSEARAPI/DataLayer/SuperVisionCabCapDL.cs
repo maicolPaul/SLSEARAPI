@@ -23,7 +23,7 @@ namespace SLSEARAPI.DataLayer
                     using (SqlCommand command = new SqlCommand("[PA_InsertarSupervisionCapCab]", conection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-
+                        command.Parameters.AddWithValue("@iCodSuperCab", entidad.iCodSuperCab);
                         command.Parameters.AddWithValue("@iCodIdentificacion", entidad.iCodIdentificacion);
                         command.Parameters.AddWithValue("@iCodFichaTecnica", entidad.iCodFichaTecnica);
                         command.Parameters.AddWithValue("@iCodComponente", entidad.iCodComponente);
@@ -35,6 +35,7 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@vEntidadSupervisor", entidad.vEntidadSupervisor);
                         command.Parameters.AddWithValue("@dFechaSupervisor", entidad.dFechaSupervisor);
                         command.Parameters.AddWithValue("@iCodCalificacion", entidad.iCodCalificacion);
+                        command.Parameters.AddWithValue("@iCodProductor", entidad.iCodProductor);
 
                         using (SqlDataReader dr = command.ExecuteReader())
                         {
@@ -77,7 +78,8 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@iCodRubro", entidad.iCodRubro);
                         command.Parameters.AddWithValue("@iCodCriterio", entidad.iCodCrtierio);
                         command.Parameters.AddWithValue("@iCodCalificacion", entidad.iCodCalificacion);
-                
+                        command.Parameters.AddWithValue("@vFundamento", entidad.vFundamento);
+
                         using (SqlDataReader dr = command.ExecuteReader())
                         {
                             if (dr.HasRows)
@@ -129,6 +131,59 @@ namespace SLSEARAPI.DataLayer
                                     entidad.iCodSuperDet = dr.GetInt32(dr.GetOrdinal("iCodSuperDet"));
 
                                     entidad.vMensaje = dr.GetString(dr.GetOrdinal("vMensaje"));
+                                }
+                            }
+                        }
+
+                    }
+                    conection.Close();
+                }
+                return entidad;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public SupervisionCapCab ObtenerSupervisionCapCab(SupervisionCapCab entidad)
+        {
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+
+                    using (SqlCommand command = new SqlCommand("[PA_Obtener_Supervisio_CapCab]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@iCodIdentificacion", entidad.iCodIdentificacion);
+                        command.Parameters.AddWithValue("@iCodFichaTecnica", entidad.iCodFichaTecnica);
+                        command.Parameters.AddWithValue("@iCodComponente", entidad.iCodComponente);
+                        command.Parameters.AddWithValue("@iCodActividad", entidad.iCodActividad);               
+                        command.Parameters.AddWithValue("@iCodCalificacion", entidad.iCodCalificacion);
+                        command.Parameters.AddWithValue("@iCodProductor", entidad.iCodProductor);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                if (dr.Read())
+                                {
+
+                                    entidad.iCodSuperCab = dr.GetInt32(dr.GetOrdinal("iCodSuperCab"));
+
+                                    entidad.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
+                                    entidad.iCodFichaTecnica = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
+                                    entidad.vObservaciongeneral = dr.GetString(dr.GetOrdinal("vObservaciongeneral"));
+                                    entidad.vRecomendacion = dr.GetString(dr.GetOrdinal("vRecomendacion"));
+                                    entidad.vNombreSupervisor = dr.GetString(dr.GetOrdinal("vNombreSupervisor"));
+                                    entidad.vCargoSupervisor = dr.GetString(dr.GetOrdinal("vCargoSupervisor"));
+                                    entidad.vEntidadSupervisor = dr.GetString(dr.GetOrdinal("vEntidadSupervisor"));
+                                    entidad.dFechaSupervisor = dr.GetString(dr.GetOrdinal("dFechaSupervisor"));
+
+
                                 }
                             }
                         }

@@ -33,6 +33,20 @@ namespace SLSEARAPI.Controllers
         }
 
         [HttpPost]
+        [ActionName("ObtenerSupervisionCapCab")]
+        public SupervisionCapCab ObtenerSupervisionCapCab(SupervisionCapCab entidad)
+        {
+            try
+            {
+                return superVisionCabCapDL.ObtenerSupervisionCapCab(entidad);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
         [ActionName("InsertarSuperVisionDetCap")]
         public SupervisionCapDet InsertarSuperVisionDetCap(SupervisionCapDet entidad)
         {

@@ -29,6 +29,8 @@ namespace SLSEARAPI.Models
 
         public int iCodCalificacion { get; set; }
 
+        public int iCodProductor { get; set; }
+
         public string vMensaje { get; set; }
 
          public string dFechaSupervisor { get; set; }
