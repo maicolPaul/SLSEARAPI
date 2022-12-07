@@ -198,7 +198,7 @@ namespace SLSEARAPI.DataLayer
                 throw ex;
             }
         }
-        public List<Rubro> ListarRubros()
+        public List<Rubro> ListarRubros(Rubro rubro)
         {
             List<Rubro> lista = new List<Rubro>();
 
@@ -212,17 +212,19 @@ namespace SLSEARAPI.DataLayer
                     using (SqlCommand command = new SqlCommand("[PA_Listar_Rubros]", conection))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        
+                        command.Parameters.AddWithValue("@iCodSuperCab", rubro.iCodSuperCab);
+
                         using (SqlDataReader dr = command.ExecuteReader())
                         {
                             if (dr.HasRows)
-                            {
-                                Rubro rubro;
+                            {                           
                                 while (dr.Read())
                                 {
                                     rubro = new Rubro();
                                     rubro.iCodRubro = dr.GetInt32(dr.GetOrdinal("iCodRubro"));
                                     rubro.vDescripcion = dr.GetString(dr.GetOrdinal("vDescripcion"));
+                                    rubro.vFundamento = dr.GetString(dr.GetOrdinal("vFundamento"));
+                                    rubro.iRecordCount = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
                                     lista.Add(rubro);
                                 }
                             }

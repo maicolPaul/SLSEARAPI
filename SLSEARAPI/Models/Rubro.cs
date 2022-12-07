@@ -11,6 +11,11 @@ namespace SLSEARAPI.Models
 
         public string vDescripcion { get; set; }
 
+        public int iCodSuperCab { get; set; }
+
+        public string vFundamento { get; set; }
+
+        public int iRecordCount { get; set; }
 
     }
 }
