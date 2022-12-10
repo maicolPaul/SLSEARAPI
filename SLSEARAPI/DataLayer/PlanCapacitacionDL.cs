@@ -338,5 +338,63 @@ namespace SLSEARAPI.DataLayer
 
             return dataTable;
         }
+
+        public List<PlanCapacitacion> ListarPlanCapacitacion2(PlanCapacitacion planCapacitacion)
+        {
+            List<PlanCapacitacion> lista = new List<PlanCapacitacion>();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_ListarPlanCapcaticacion2]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@piPageSize", planCapacitacion.piPageSize);
+                        command.Parameters.AddWithValue("@piCurrentPage", planCapacitacion.piCurrentPage);
+                        command.Parameters.AddWithValue("@pvSortColumn", planCapacitacion.pvSortColumn);
+                        command.Parameters.AddWithValue("@pvSortOrder", planCapacitacion.pvSortOrder);
+                        command.Parameters.AddWithValue("@iCodActividad", planCapacitacion.iCodActividad);
+                        //command.Parameters.AddWithValue("@iCodExtensionista", planCapacitacion.iCodExtensionista);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                while (dr.Read())
+                                {
+                                    planCapacitacion = new PlanCapacitacion();
+
+                                    planCapacitacion.iCodPlanCap = dr.GetInt32(dr.GetOrdinal("iCodPlanCap"));
+                                    planCapacitacion.iCodActividad = dr.GetInt32(dr.GetOrdinal("iCodActividad"));
+                                    planCapacitacion.vModuloTema = dr.GetString(dr.GetOrdinal("vModuloTema"));
+                                    planCapacitacion.vObjetivo = dr.GetString(dr.GetOrdinal("vObjetivo"));
+                                    planCapacitacion.iMeta = dr.GetInt32(dr.GetOrdinal("iMeta"));
+                                    //planCapacitacion.iBeneficiario = dr.GetInt32(dr.GetOrdinal("iBeneficiario"));
+                                    //planCapacitacion.dFechaActividad = dr.GetString(dr.GetOrdinal("dFechaActividad"));
+                                    planCapacitacion.iTotalTeoria = dr.GetInt32(dr.GetOrdinal("iTotalTeoria"));
+                                    planCapacitacion.iTotalPractica = dr.GetInt32(dr.GetOrdinal("iTotalPractica"));
+                                    planCapacitacion.bActivo = dr.GetBoolean(dr.GetOrdinal("bActivo"));
+                                    planCapacitacion.iRecordCount = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
+                                    planCapacitacion.iCodHito = dr.GetInt32(dr.GetOrdinal("iCodHito"));
+                                    //planCapacitacion.porcentaje = dr.GetString(dr.GetOrdinal("porcentaje"));
+
+                                    lista.Add(planCapacitacion);
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return lista;
+        }
     }
 }

@@ -37,6 +37,20 @@ namespace SLSEARAPI.Controllers
         }
 
         [HttpPost]
+        [ActionName("ListarPlanAsistenciaTec2")]
+        public List<PlanAsistenciaTec> ListarPlanAsistenciaTec2(PlanAsistenciaTec planAsistenciaTec)
+        {
+            try
+            {
+                return asistenciaTecDL.ListarPlanAsistenciaTec2(planAsistenciaTec);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
         [ActionName("ListarPlanAsistenciaTecDet")]
         public List<PlanAsistenciaTecDet> ListarPlanAsistenciaTecDet(PlanAsistenciaTecDet planAsistenciaTecDet)
         {
@@ -214,7 +228,7 @@ namespace SLSEARAPI.Controllers
                                 _texto_row(_genericSheet, rowIndexComp, colcomp + 3, "Beneficiarios", "#ffffff");
                                 _texto_row(_genericSheet, rowIndexComp, colcomp + 4, Modulotab.Rows[j][3], "#E2EFDA");
                                 _texto_row(_genericSheet, rowIndexComp, colcomp + 5, "Fecha", "#ffffff");
-                                _texto_row(_genericSheet, rowIndexComp, colcomp + 6, Modulotab.Rows[j][3], "#E2EFDA");
+                                _texto_row(_genericSheet, rowIndexComp, colcomp + 6, Modulotab.Rows[j][4], "#E2EFDA");
 
                                 //Salto de Linea
                                 rowIndexComp++;

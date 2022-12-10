@@ -39,6 +39,20 @@ namespace SLSEARAPI.Controllers
         }
 
         [HttpPost]
+        [ActionName("ListarPlanCapacitacion2")]
+        public List<PlanCapacitacion> ListarPlanCapacitacion2(PlanCapacitacion planCapacitacion)
+        {
+            try
+            {
+                return capacitacionDL.ListarPlanCapacitacion2(planCapacitacion);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
         [ActionName("ListarPlanSesion")]
         public List<PlanSesion> ListarPlanSesion(PlanSesion planSesion)
         {
