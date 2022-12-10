@@ -2012,6 +2012,7 @@ namespace SLSEARAPI.DataLayer
                                     component = new Componente();
                                     component.iCodComponenteDesc = dr.GetInt32(dr.GetOrdinal("iCodComponenteDesc"));
                                     component.vDescripcion = dr.GetString(dr.GetOrdinal("vDescripcion"));
+                                    component.iTipo = dr.GetInt32(dr.GetOrdinal("iTipo"));
                                     lista.Add(component);
                                 }
                             }

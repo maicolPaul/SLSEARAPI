@@ -33,6 +33,20 @@ namespace SLSEARAPI.Controllers
         }
 
         [HttpPost]
+        [ActionName("ObtenerSupervisionCapCab")]
+        public SupervisionCapCab ObtenerSupervisionCapCab(SupervisionCapCab entidad)
+        {
+            try
+            {
+                return superVisionCabCapDL.ObtenerSupervisionCapCab(entidad);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
         [ActionName("InsertarSuperVisionDetCap")]
         public SupervisionCapDet InsertarSuperVisionDetCap(SupervisionCapDet entidad)
         {
@@ -48,11 +62,11 @@ namespace SLSEARAPI.Controllers
 
         [HttpPost]
         [ActionName("ListarRubros")]
-        public List<Rubro> ListarRubros()
+        public List<Rubro> ListarRubros(Rubro rubro)
         {
             try
             {
-                return superVisionCabCapDL.ListarRubros();
+                return superVisionCabCapDL.ListarRubros(rubro);
             }
             catch (Exception ex)
             {
