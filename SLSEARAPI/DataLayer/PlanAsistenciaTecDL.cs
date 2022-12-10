@@ -299,5 +299,64 @@ namespace SLSEARAPI.DataLayer
             return dataTable;
         }
 
+        public List<PlanAsistenciaTec> ListarPlanAsistenciaTec2(PlanAsistenciaTec planAsistenciaTec)
+        {
+            List<PlanAsistenciaTec> lista = new List<PlanAsistenciaTec>();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_ListarPlanAsistenciaTec2]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@piPageSize", planAsistenciaTec.piPageSize);
+                        command.Parameters.AddWithValue("@piCurrentPage", planAsistenciaTec.piCurrentPage);
+                        command.Parameters.AddWithValue("@pvSortColumn", planAsistenciaTec.pvSortColumn);
+                        command.Parameters.AddWithValue("@pvSortOrder", planAsistenciaTec.pvSortOrder);
+                        command.Parameters.AddWithValue("@iCodActividad", planAsistenciaTec.iCodActividad);
+                        //command.Parameters.AddWithValue("@iCodExtensionista", planAsistenciaTec.iCodExtensionista);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                while (dr.Read())
+                                {
+                                    planAsistenciaTec = new PlanAsistenciaTec();
+
+                                    planAsistenciaTec.iCodPlanAsistenciaTec = dr.GetInt32(dr.GetOrdinal("iCodPlanAsistenciaTec"));
+                                    planAsistenciaTec.iCodActividad = dr.GetInt32(dr.GetOrdinal("iCodActividad"));
+                                    //planAsistenciaTec.vModuloTema = dr.GetString(dr.GetOrdinal("vModuloTema"));
+                                    planAsistenciaTec.vObjetivo = dr.GetString(dr.GetOrdinal("vObjetivo"));
+                                    planAsistenciaTec.vObjetivoCorta = dr.GetString(dr.GetOrdinal("vObjetivoCorta"));
+                                    planAsistenciaTec.iMeta = dr.GetInt32(dr.GetOrdinal("iMeta"));
+                                    planAsistenciaTec.iBeneficiario = dr.GetInt32(dr.GetOrdinal("iBeneficiario"));
+                                    //planAsistenciaTec.dFechaActividad = dr.GetString(dr.GetOrdinal("dFechaActividad"));
+                                    //planAsistenciaTec.dFechaActividadFin = dr.GetString(dr.GetOrdinal("dFechaActividadFin"));
+                                    planAsistenciaTec.iTotalTeoria = dr.GetDecimal(dr.GetOrdinal("iTotalTeoria"));
+                                    planAsistenciaTec.iTotalPractica = dr.GetDecimal(dr.GetOrdinal("iTotalPractica"));
+                                    planAsistenciaTec.bActivo = dr.GetBoolean(dr.GetOrdinal("bActivo"));
+                                    planAsistenciaTec.iRecordCount = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
+                                    planAsistenciaTec.iCodHito = dr.GetInt32(dr.GetOrdinal("iCodHito"));
+                                    //planAsistenciaTec.porcentaje = dr.GetString(dr.GetOrdinal("porcentaje"));
+                                    lista.Add(planAsistenciaTec);
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return lista;
+        }
+
     }
 }
