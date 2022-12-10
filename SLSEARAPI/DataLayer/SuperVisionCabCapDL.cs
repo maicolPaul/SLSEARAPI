@@ -259,6 +259,7 @@ namespace SLSEARAPI.DataLayer
                         command.Parameters.AddWithValue("@pvSortColumn", criterio.pvSortColumn);
                         command.Parameters.AddWithValue("@pvSortOrder", criterio.pvSortOrder);
                         command.Parameters.AddWithValue("@iCodRubro", criterio.iCodRubro);
+                        command.Parameters.AddWithValue("@iCodSuperCab", criterio.iCodSuperCab);
 
                         using (SqlDataReader dr = command.ExecuteReader())
                         {

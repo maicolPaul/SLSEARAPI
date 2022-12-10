@@ -27,5 +27,7 @@ namespace SLSEARAPI.Models
 
         public string pvSortOrder { get; set; }
 
+        public int iCodSuperCab { get; set; }
+
     }
 }
