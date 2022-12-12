@@ -29,5 +29,11 @@ namespace SLSEARAPI.Models
 
         public int iCodSuperCab { get; set; }
 
+        public int iCodCalificacion { get; set; }
+
+        public string vFundamento { get; set; }
+
+        public string vDescripcionCal { get; set; }
+
     }
 }

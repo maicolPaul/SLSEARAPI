@@ -272,7 +272,10 @@ namespace SLSEARAPI.DataLayer
                                     criterio.iPageCount = dr.GetInt32(dr.GetOrdinal("iPageCount"));
                                     criterio.iCurrentPage = dr.GetInt32(dr.GetOrdinal("iCurrentPage"));
                                     criterio.iCodCriterio = dr.GetInt32(dr.GetOrdinal("iCodCriterio"));
-                                    criterio.vDescripcion = dr.GetString(dr.GetOrdinal("vDescripcion"));              
+                                    criterio.vDescripcion = dr.GetString(dr.GetOrdinal("vDescripcion"));
+                                    criterio.iCodCalificacion = dr.GetInt32(dr.GetOrdinal("iCodCalificacion"));
+                                    criterio.vFundamento = dr.GetString(dr.GetOrdinal("vFundamento"));
+                                    criterio.vDescripcionCal = dr.GetString(dr.GetOrdinal("vDescripcionCal"));
                                     lista.Add(criterio);
                                 }
                             }
