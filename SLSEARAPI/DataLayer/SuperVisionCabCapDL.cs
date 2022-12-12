@@ -171,9 +171,7 @@ namespace SLSEARAPI.DataLayer
                             {
                                 if (dr.Read())
                                 {
-
                                     entidad.iCodSuperCab = dr.GetInt32(dr.GetOrdinal("iCodSuperCab"));
-
                                     entidad.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
                                     entidad.iCodFichaTecnica = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
                                     entidad.vObservaciongeneral = dr.GetString(dr.GetOrdinal("vObservaciongeneral"));
@@ -182,12 +180,10 @@ namespace SLSEARAPI.DataLayer
                                     entidad.vCargoSupervisor = dr.GetString(dr.GetOrdinal("vCargoSupervisor"));
                                     entidad.vEntidadSupervisor = dr.GetString(dr.GetOrdinal("vEntidadSupervisor"));
                                     entidad.dFechaSupervisor = dr.GetString(dr.GetOrdinal("dFechaSupervisor"));
-
-
+                                    entidad.iCodCalificacion = dr.GetInt32(dr.GetOrdinal("iCodCalificacion"));
                                 }
                             }
                         }
-
                     }
                     conection.Close();
                 }
