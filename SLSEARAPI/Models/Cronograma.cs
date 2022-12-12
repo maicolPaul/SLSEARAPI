@@ -52,6 +52,9 @@ namespace SLSEARAPI.Models
 
         public int nTipoActividad { get; set; }
 
+        public string dFechaInicio2 { get; set; }
+
+        public string dFechaFin2 { get; set; }
 
     }
 }

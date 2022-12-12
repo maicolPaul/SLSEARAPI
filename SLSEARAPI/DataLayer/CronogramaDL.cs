@@ -257,6 +257,64 @@ namespace SLSEARAPI.DataLayer
                                     cronograma.iCodComponente = dr.GetInt32(dr.GetOrdinal("nTipoActividad"));
                                     cronograma.dFecha = dr.GetString(dr.GetOrdinal("dFecha"));
                                     cronograma.dFechaFin = dr.GetString(dr.GetOrdinal("dFechaFin"));
+                                    cronograma.dFechaInicio2 = dr.GetString(dr.GetOrdinal("dFechaInicio2"));
+                                    cronograma.dFechaFin2 = dr.GetString(dr.GetOrdinal("dFechaFin2"));
+                                    lista.Add(cronograma);
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return lista;
+        }
+        public List<Cronograma> ListarCronogramaCortes(Cronograma cronograma)
+        {
+            List<Cronograma> lista = new List<Cronograma>();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_ListarCronogramaCortes]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@piPageSize", cronograma.piPageSize);
+                        command.Parameters.AddWithValue("@piCurrentPage", cronograma.piCurrentPage);
+                        command.Parameters.AddWithValue("@pvSortColumn", cronograma.pvSortColumn);
+                        command.Parameters.AddWithValue("@pvSortOrder", cronograma.pvSortOrder);
+                        command.Parameters.AddWithValue("@iCodExtensionista", cronograma.iCodExtensionista);
+                        command.Parameters.AddWithValue("@iCodComponente", cronograma.iCodComponente);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                while (dr.Read())
+                                {
+                                    cronograma = new Cronograma();
+                                    cronograma.totalRegistros = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
+                                    cronograma.totalPaginas = dr.GetInt32(dr.GetOrdinal("iPageCount"));
+                                    cronograma.paginaActual = dr.GetInt32(dr.GetOrdinal("iCurrentPage"));
+                                    cronograma.iCodCronograma = dr.GetInt32(dr.GetOrdinal("iCodCronograma"));
+                                    cronograma.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
+                                    cronograma.iCodActividad = dr.GetInt32(dr.GetOrdinal("iCodActividad"));
+                                    cronograma.vDescripcionActividad = dr.GetString(dr.GetOrdinal("vDescripcion"));
+                                    cronograma.vActividad = dr.GetString(dr.GetOrdinal("vActividad"));
+                                    cronograma.vUnidadMedida = dr.GetString(dr.GetOrdinal("vUnidadMedida"));
+                                    cronograma.vMeta = dr.GetString(dr.GetOrdinal("vMeta"));
+                                    cronograma.iCantidad = dr.GetInt32(dr.GetOrdinal("iCantidad"));
+                                    cronograma.iCodComponente = dr.GetInt32(dr.GetOrdinal("nTipoActividad"));
+                                    cronograma.dFecha = dr.GetString(dr.GetOrdinal("dFecha"));
+                                    cronograma.dFechaFin = dr.GetString(dr.GetOrdinal("dFechaFin"));
                                     lista.Add(cronograma);
                                 }
                             }
@@ -493,6 +551,44 @@ namespace SLSEARAPI.DataLayer
             }
 
             return dataTable;
+        }
+
+        public Cronograma ActualizarCronogramaFechas(Cronograma cronograma)
+        {           
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_ActualizarCronogramaFechas]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;                        
+                        command.Parameters.AddWithValue("@iCodCronograma", cronograma.iCodCronograma);                        
+                        command.Parameters.AddWithValue("@dFechaInicio2", cronograma.dFechaInicio2);
+                        command.Parameters.AddWithValue("@dFechaFin2", cronograma.dFechaFin2);
+  
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                if (dr.Read())
+                                {
+                                    cronograma.iCodCronograma = dr.GetInt32(dr.GetOrdinal("iCodCronograma"));
+                                    cronograma.vMensaje = dr.GetString(dr.GetOrdinal("vMensaje"));
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return cronograma;
         }
     }
 }

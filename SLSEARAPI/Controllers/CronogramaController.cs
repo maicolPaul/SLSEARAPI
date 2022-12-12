@@ -79,6 +79,34 @@ namespace SLSEARAPI.Controllers
                 throw ex;
             }
         }
+        [HttpPost]
+        [ActionName("ListarCronogramaCortes")]
+        public List<Cronograma> ListarCronogramaCortes(Cronograma cronograma)
+        {
+            try
+            {
+                return cronogramaDL.ListarCronogramaCortes(cronograma);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ActionName("ActualizarCronogramaFechas")]
+
+        public Cronograma ActualizarCronogramaFechas(Cronograma cronograma)
+        {
+            try
+            {
+                return cronogramaDL.ActualizarCronogramaFechas(cronograma);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         [HttpPost]
         [ActionName("ExportarCronograma")]
