@@ -71,6 +71,20 @@ namespace SLSEARAPI.Controllers
             {
                 return extensionistaDL.ListarExtensionistaPorCodigo(entidad);
             }
+            catch (Exception) 
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [ActionName("ObtenerMenu")]
+        public List<Menu> ObtenerMenu(Menu menu)
+        {
+            try
+            {
+                return extensionistaDL.ObtenerMenu(menu);
+            }
             catch (Exception)
             {
                 throw;

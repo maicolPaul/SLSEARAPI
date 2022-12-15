@@ -61,5 +61,6 @@ namespace SLSEARAPI.Models
       [DataMember] public string vNomProvincia { get; set; }
       [DataMember] public string vNomDistrito { get; set; }
       [DataMember] public string vNombrePropuesta { get; set; }
+        [DataMember]  public int iEnvio { get; set; }
     }
 }

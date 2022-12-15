@@ -272,6 +272,7 @@
     <Compile Include="Models\Indicadores.cs" />
     <Compile Include="Models\LineaPrioritaria.cs" />
     <Compile Include="Models\ListaChequeoRequisitos.cs" />
+    <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\Nivel.cs" />
     <Compile Include="Models\NivelDeInstruccion.cs" />
     <Compile Include="Models\NombreArchivo.cs" />

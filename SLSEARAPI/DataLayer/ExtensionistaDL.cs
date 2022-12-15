@@ -184,6 +184,7 @@ namespace SLSEARAPI.DataLayer
                                     Entidad.dFechaUltimoAcceso = dr.GetString(dr.GetOrdinal("dFechaUltimoAcceso"));
                                     Entidad.iCodEmpresa = dr.GetInt32(dr.GetOrdinal("iCodEmpresa"));
                                     Entidad.vNombrePropuesta = dr.GetString(dr.GetOrdinal("vNombrePropuesta"));
+                                    Entidad.iEnvio = dr.GetInt32(dr.GetOrdinal("iEnvio"));
                                 }
                             }
                         }
@@ -253,6 +254,48 @@ namespace SLSEARAPI.DataLayer
                     conection.Close();
                 }
                 return Entidad;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<Menu> ObtenerMenu(Menu menu)
+        {
+            List<Menu> lista = new List<Menu>();
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_MenuAccesoPerfil]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.AddWithValue("@iTipoReg", menu.iTipoReg);                
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {                               
+                                while (dr.Read())
+                                {
+                                    menu = new Menu();
+                                    menu.iCodMenu = dr.GetInt32(dr.GetOrdinal("iCodMenu"));
+                                    menu.vTitulo = dr.GetString(dr.GetOrdinal("vTitulo"));
+                                    menu.vRuta = dr.GetString(dr.GetOrdinal("vRuta"));
+                                    menu.iPadre = dr.GetInt32(dr.GetOrdinal("iPadre"));
+                                    lista.Add(menu);
+
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+                return lista;
             }
             catch (Exception ex)
             {
