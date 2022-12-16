@@ -225,6 +225,7 @@ namespace SLSEARAPI.DataLayer
                                     identificacion.vObjetivoCentral = dr.GetString(dr.GetOrdinal("vObjetivoCentral"));
                                     identificacion.vDescComponente1 = dr.GetString(dr.GetOrdinal("vDescComponente1"));
                                     identificacion.vDescComponente2 = dr.GetString(dr.GetOrdinal("vDescComponente2"));
+                                    identificacion.cantidadproductores = dr.GetInt32(dr.GetOrdinal("cantidadproductores"));
                                     lista.Add(identificacion);
                                 }
                             }

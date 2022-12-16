@@ -66,5 +66,7 @@ namespace SLSEARAPI.Models
         public string vNombreSearT1 { get; set; }
         public string iCodUbigeoT1 { get; set; }
         public string vEstado { get; set; }
+
+        public int cantidadproductores { get; set; }
     }
 }
