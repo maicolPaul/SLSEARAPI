@@ -96,5 +96,91 @@ namespace SLSEARAPI.DataLayer
                 throw ex;
             }
         }
+
+        public DataTable ListarCortes(FichaTecnica fichaTecnica)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_EJECUCION_CORTES_RPT1]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodExtensionista", fichaTecnica.iCodExtensionista);
+                        SqlDataAdapter da = new SqlDataAdapter(command);
+                        da.Fill(dataTable);
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return dataTable;
+        }
+
+        public DataTable ListarComponentes(FichaTecnica fichaTecnica)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_EJECUCION_COMPONENTES_RPT1]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodExtensionista", fichaTecnica.iCodExtensionista);
+                        SqlDataAdapter da = new SqlDataAdapter(command);
+                        da.Fill(dataTable);
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return dataTable;
+        }
+
+        public DataTable ListarActividades(FichaTecnica fichaTecnica)
+        {
+            DataTable dataTable = new DataTable();
+
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_EJECUCION_ACTIVIDADES_COMPONENTE_RPT]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodComponente", fichaTecnica.iCodExtensionista);
+                        SqlDataAdapter da = new SqlDataAdapter(command);
+                        da.Fill(dataTable);
+                    }
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return dataTable;
+        }
+
+
     }
 }
