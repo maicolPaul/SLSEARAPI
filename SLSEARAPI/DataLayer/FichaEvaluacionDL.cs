@@ -32,8 +32,7 @@ namespace SLSEARAPI.DataLayer
                         using (SqlDataReader dr = command.ExecuteReader())
                         {
                             if (dr.HasRows)
-                            {
-                                FichaTecnica fichatecnica;
+                            {                                
                                 while (dr.Read())
                                 {
                                     comiteIdentificacion = new ComiteIdentificacion();
@@ -48,7 +47,7 @@ namespace SLSEARAPI.DataLayer
                                     comiteIdentificacion.vNomDistrito = dr.GetString(dr.GetOrdinal("vNomDistrito"));
                                     comiteIdentificacion.iRecordCount = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
                                     comiteIdentificacion.iCodExtensionista = dr.GetInt32(dr.GetOrdinal("iCodExtensionista"));
-                                    //iRecordCount
+                                    comiteIdentificacion.EvaluadoFinalizar = dr.GetInt32(dr.GetOrdinal("EvaluadoFinalizar"));                                    
                                     lista.Add(comiteIdentificacion);
                                 }
                             }
@@ -150,6 +149,42 @@ namespace SLSEARAPI.DataLayer
                                 while (dr.Read())
                                 {
                                     fichaEvaluacion.iCodFichaEvaluacion = dr.GetInt32(dr.GetOrdinal("iCodFichaEvaluacion"));
+                                    fichaEvaluacion.vMensaje = dr.GetString(dr.GetOrdinal("vmensaje"));
+                                }
+                            }
+                        }
+                    }
+                    conection.Close();
+                }
+                return fichaEvaluacion;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public FichaEvaluacion FinalizarEvaluacion(FichaEvaluacion fichaEvaluacion)
+        {
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[SP_FinalizarEvaluacion]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                                
+                        command.Parameters.AddWithValue("@iCodComiteIdentificacion", fichaEvaluacion.iCodIdentificacion);        
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                while (dr.Read())
+                                {
+                                    fichaEvaluacion.iCodComiteIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodComiteIdentificacion"));
                                     fichaEvaluacion.vMensaje = dr.GetString(dr.GetOrdinal("vmensaje"));
                                 }
                             }

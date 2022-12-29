@@ -59,5 +59,18 @@ namespace SLSEARAPI.Controllers
             }
         }
 
+        [HttpPost]
+        [ActionName("FinalizarEvaluacion")]
+        public FichaEvaluacion FinalizarEvaluacion(FichaEvaluacion fichaEvaluacion)
+        {
+            try
+            {
+                return fichaEvaluacionDL.FinalizarEvaluacion(fichaEvaluacion);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
