@@ -72,5 +72,47 @@ namespace SLSEARAPI.Controllers
                 throw ex;
             }
         }
+
+        [HttpPost]
+        [ActionName("ListarEvaluadoFinalizados")]
+        public List<ComiteIdentificacion> ListarEvaluadoFinalizados(ComiteIdentificacion comiteIdentificacion)
+        {
+            try
+            {
+                return fichaEvaluacionDL.ListarEvaluadoFinalizados(comiteIdentificacion);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ActionName("InsertarGanador")]
+        public Ganador InsertarGanador(Ganador ganador)
+        {
+            try
+            {
+                return fichaEvaluacionDL.InsertarGanador(ganador);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpPost]
+        [ActionName("InsertarGanadorDetalle")]
+        public GanadorDetalle InsertarGanadorDetalle(GanadorDetalle ganadordetalle)
+        {
+            try
+            {
+                return fichaEvaluacionDL.InsertarGanadorDetalle(ganadordetalle);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

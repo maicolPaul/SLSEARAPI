@@ -267,6 +267,8 @@
     <Compile Include="Models\FichaEvaluacion.cs" />
     <Compile Include="Models\FichaTecnica.cs" />
     <Compile Include="Models\FormacionAcademica.cs" />
+    <Compile Include="Models\Ganador.cs" />
+    <Compile Include="Models\GanadorDetalle.cs" />
     <Compile Include="Models\Hito.cs" />
     <Compile Include="Models\Identificacion.cs" />
     <Compile Include="Models\Indicadores.cs" />
