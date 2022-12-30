@@ -125,9 +125,9 @@ namespace SLSEARAPI.DataLayer
             return dataTable;
         }
 
-        public DataTable ListarComponentes(FichaTecnica fichaTecnica)
+        public DataSet ListarComponentes(FichaTecnica fichaTecnica)
         {
-            DataTable dataTable = new DataTable();
+            DataSet dataTable = new DataSet();
 
             try
             {
@@ -153,9 +153,9 @@ namespace SLSEARAPI.DataLayer
             return dataTable;
         }
 
-        public DataTable ListarActividades(FichaTecnica fichaTecnica)
+        public DataSet ListarActividades(FichaTecnica fichaTecnica)
         {
-            DataTable dataTable = new DataTable();
+            DataSet dataTable = new DataSet();
 
             try
             {
