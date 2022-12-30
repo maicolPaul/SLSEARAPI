@@ -26,7 +26,7 @@ namespace SLSEARAPI.Models
         public string vMensaje { get; set; }
         public int iCodExtensionista { get; set; }
         public int EvaluadoFinalizar { get; set; }
-
-
+        public string vCodDepartamento { get; set; }
+        public decimal dPuntajeEvaluacion { get; set; }
     }
 }

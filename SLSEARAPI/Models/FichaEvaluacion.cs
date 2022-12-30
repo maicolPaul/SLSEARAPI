@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Windows.Media;
 
 namespace SLSEARAPI.Models
 {
@@ -27,5 +28,7 @@ namespace SLSEARAPI.Models
         public string vMensaje { get; set; }
 
         public int iCodComiteIdentificacion { get; set; }
+
+        public string vCodDepartamento { get; set; }
     }
 }

@@ -199,5 +199,138 @@ namespace SLSEARAPI.DataLayer
                 throw ex;
             }
         }
+
+        public List<ComiteIdentificacion> ListarEvaluadoFinalizados(ComiteIdentificacion comiteIdentificacion)
+        {
+            List<ComiteIdentificacion> lista = new List<ComiteIdentificacion>();
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[SP_SEAR_Evaluados_Finalizados]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@piPageSize", comiteIdentificacion.piPageSize);
+                        command.Parameters.AddWithValue("@piCurrentPage", comiteIdentificacion.piCurrentPage);
+                        command.Parameters.AddWithValue("@pvSortColumn", comiteIdentificacion.pvSortColumn);
+                        command.Parameters.AddWithValue("@pvSortOrder", comiteIdentificacion.pvSortOrder);
+                        command.Parameters.AddWithValue("@iCodComiteEvaluador", comiteIdentificacion.iCodComiteEvaluador);
+                        command.Parameters.AddWithValue("@vCodDepartamento", comiteIdentificacion.vCodDepartamento);
+                        
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                while (dr.Read())
+                                {
+                                    comiteIdentificacion = new ComiteIdentificacion();
+                                    comiteIdentificacion.iCodComiteIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodComiteIdentificacion"));
+                                    comiteIdentificacion.iCodComiteEvaluador = dr.GetInt32(dr.GetOrdinal("iCodComiteEvaluador"));
+                                    comiteIdentificacion.iCodIdentificacion = dr.GetInt32(dr.GetOrdinal("iCodIdentificacion"));
+                                    comiteIdentificacion.vNombreSearT1 = dr.GetString(dr.GetOrdinal("vNombreSearT1"));
+                                    comiteIdentificacion.vDireccionT2 = dr.GetString(dr.GetOrdinal("vDireccionT2"));
+                                    comiteIdentificacion.iCodUbigeoT1 = dr.GetString(dr.GetOrdinal("iCodUbigeoT1"));
+                                    comiteIdentificacion.vNomDepartamento = dr.GetString(dr.GetOrdinal("vNomDepartamento"));
+                                    comiteIdentificacion.vNomProvincia = dr.GetString(dr.GetOrdinal("vNomProvincia"));
+                                    comiteIdentificacion.vNomDistrito = dr.GetString(dr.GetOrdinal("vNomDistrito"));
+                                    comiteIdentificacion.iRecordCount = dr.GetInt32(dr.GetOrdinal("iRecordCount"));
+                                    comiteIdentificacion.iCodExtensionista = dr.GetInt32(dr.GetOrdinal("iCodExtensionista"));
+                                    comiteIdentificacion.EvaluadoFinalizar = dr.GetInt32(dr.GetOrdinal("EvaluadoFinalizar"));
+                                    comiteIdentificacion.dPuntajeEvaluacion = dr.GetDecimal(dr.GetOrdinal("dPuntajeEvaluacion"));
+
+                                    lista.Add(comiteIdentificacion);
+                                }
+                            }
+                        }
+                    }
+
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return lista;
+        }
+
+        public Ganador InsertarGanador(Ganador ganador)
+        {
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_Insertar_GanadorCabecera]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodIdentificacion", ganador.iCodIdentificacion);                      
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                if (dr.Read())
+                                {
+                                    ganador = new Ganador();
+                                    ganador.iCodganador = dr.GetInt32(dr.GetOrdinal("iCodganador"));
+                                    ganador.vMensaje = dr.GetString(dr.GetOrdinal("vMensaje"));                                           
+                                }
+                            }
+                        }
+                    }
+
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return ganador;
+        }
+        public GanadorDetalle InsertarGanadorDetalle(GanadorDetalle ganadordetalle)
+        {
+            try
+            {
+                using (SqlConnection conection = new SqlConnection(ConfigurationManager.ConnectionStrings["cnx"].ConnectionString))
+                {
+                    conection.Open();
+
+                    using (SqlCommand command = new SqlCommand("[PA_Insertar_GanadorDetalle]", conection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@iCodganador", ganadordetalle.iCodganador);
+                        command.Parameters.AddWithValue("@iCodEvaluador", ganadordetalle.iCodEvaluador);
+
+                        using (SqlDataReader dr = command.ExecuteReader())
+                        {
+                            if (dr.HasRows)
+                            {
+                                if (dr.Read())
+                                {
+                                    ganadordetalle = new GanadorDetalle();
+                                    ganadordetalle.iCodganadordetalle = dr.GetInt32(dr.GetOrdinal("iCodganadorDetalle"));
+                                    ganadordetalle.vMensaje = dr.GetString(dr.GetOrdinal("vMensaje"));
+                                }
+                            }
+                        }
+                    }
+
+                    conection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return ganadordetalle;
+        }
     }
 }
